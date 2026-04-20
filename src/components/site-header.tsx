@@ -33,7 +33,7 @@ export function SiteHeader() {
             width={40}
             height={40}
             priority
-            className="size-10 shrink-0 object-contain"
+            className="size-10 shrink-0 rounded-md object-contain outline outline-1 -outline-offset-1 outline-white/10"
           />
           <span className="text-base">
             Radyo <span className="text-primary">Özü</span>
@@ -74,6 +74,7 @@ export function SiteHeader() {
                   variant="ghost"
                   size="icon"
                   aria-label="Menüyü aç"
+                  className="relative after:absolute after:left-1/2 after:top-1/2 after:size-10 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']"
                 />
               }
             >

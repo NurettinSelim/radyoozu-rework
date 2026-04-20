@@ -96,7 +96,7 @@ export function LivePlayer() {
   const isOnline = now?.status === "online";
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
+    <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
       <div
         aria-hidden
         className="absolute inset-0 -z-10 opacity-70"
@@ -108,7 +108,7 @@ export function LivePlayer() {
 
       <div className="flex items-center gap-4 sm:gap-5">
         <div className="relative shrink-0">
-          <div className="size-20 overflow-hidden rounded-2xl border border-white/10 bg-white/5 sm:size-24">
+          <div className="size-20 overflow-hidden rounded-lg bg-white/5 sm:size-24">
             {now?.artworkUrl ? (
               <Image
                 src={now.artworkUrl}
@@ -116,7 +116,7 @@ export function LivePlayer() {
                 width={200}
                 height={200}
                 unoptimized
-                className="h-full w-full object-cover"
+                className="h-full w-full rounded-lg object-cover outline outline-1 -outline-offset-1 outline-white/10"
               />
             ) : (
               <Image
@@ -124,14 +124,14 @@ export function LivePlayer() {
                 alt=""
                 width={200}
                 height={200}
-                className="h-full w-full object-contain opacity-90"
+                className="h-full w-full rounded-lg object-contain opacity-90 outline outline-1 -outline-offset-1 outline-white/10"
               />
             )}
           </div>
           {isPlaying && (
             <div
               aria-hidden
-              className="absolute -inset-1 -z-10 animate-pulse rounded-2xl bg-primary/30 blur-xl"
+              className="absolute -inset-1 -z-10 animate-pulse rounded-lg bg-primary/30 blur-xl"
             />
           )}
         </div>
@@ -174,22 +174,56 @@ export function LivePlayer() {
           onClick={toggle}
           disabled={isLoading}
           size="icon-lg"
-          className="size-14 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white hover:opacity-90 [&>svg]:size-6 sm:size-16 sm:[&>svg]:size-7"
+          className="size-14 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white sm:size-16"
           aria-label={isPlaying ? "Duraklat" : "Oynat"}
         >
-          {isPlaying ? <Pause /> : <Play className="translate-x-0.5" />}
+          <span className="relative flex size-6 items-center justify-center sm:size-7">
+            <Pause
+              className={cn(
+                "size-6 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)] sm:size-7",
+                isPlaying
+                  ? "scale-100 opacity-100 blur-0"
+                  : "scale-[0.25] opacity-0 blur-[4px]",
+              )}
+            />
+            <Play
+              className={cn(
+                "absolute size-6 translate-x-0.5 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)] sm:size-7",
+                isPlaying
+                  ? "scale-[0.25] opacity-0 blur-[4px]"
+                  : "scale-100 opacity-100 blur-0",
+              )}
+            />
+          </span>
         </Button>
       </div>
 
-      <div className="mt-5 flex items-center gap-3">
+      <div className="mt-5 flex items-center gap-3 py-1">
         <Button
           variant="ghost"
           size="icon-sm"
           onClick={() => setMuted((m) => !m)}
           aria-label={muted ? "Sesi aç" : "Sesi kapat"}
-          className="text-foreground/70 hover:text-foreground"
+          className="relative text-foreground/70 hover:text-foreground after:absolute after:left-1/2 after:top-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']"
         >
-          {muted || volume === 0 ? <VolumeX /> : <Volume2 />}
+          <span className="relative flex size-4 items-center justify-center">
+            <Volume2
+              className={cn(
+                "size-4 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
+                muted || volume === 0
+                  ? "scale-[0.25] opacity-0 blur-[4px]"
+                  : "scale-100 opacity-100 blur-0",
+              )}
+            />
+            <VolumeX
+              className={cn(
+                "absolute size-4 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
+                muted || volume === 0
+                  ? "scale-100 opacity-100 blur-0"
+                  : "scale-[0.25] opacity-0 blur-[4px]",
+              )}
+            />
+          </span>
         </Button>
         <input
           type="range"
@@ -203,7 +237,7 @@ export function LivePlayer() {
             setVolume(v);
           }}
           aria-label="Ses seviyesi"
-          className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d]"
+          className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#bb205d]"
         />
       </div>
 

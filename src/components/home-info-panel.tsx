@@ -1,0 +1,87 @@
+import Link from "next/link";
+import { ArrowUpRight, AtSign, Phone } from "lucide-react";
+
+import { site } from "@/lib/site";
+
+const INSTAGRAM_HANDLE = "radyozu";
+
+function AddressLines() {
+  const parts = site.address.split("·").map((p) => p.trim());
+  return (
+    <div className="mt-3 space-y-0.5 text-sm text-pretty text-foreground/60">
+      {parts.map((line) => (
+        <p key={line}>{line}</p>
+      ))}
+    </div>
+  );
+}
+
+export function HomeInfoPanel() {
+  return (
+    <section className="mt-24 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+      <div className="relative grid gap-8 md:grid-cols-2 md:gap-10">
+        <div className="md:pr-10">
+          <p className="text-xs uppercase tracking-widest text-foreground/50">
+            Stüdyo
+          </p>
+          <h2 className="mt-3 font-serif text-3xl font-semibold text-balance text-foreground sm:text-4xl">
+            Öğrenci Merkezi
+          </h2>
+          <AddressLines />
+        </div>
+
+        <div
+          aria-hidden
+          className="hidden md:absolute md:left-1/2 md:top-0 md:block md:h-full md:w-px md:-translate-x-1/2 md:bg-gradient-to-b md:from-transparent md:via-white/10 md:to-transparent"
+        />
+
+        <div className="border-t border-white/10 pt-8 md:border-t-0 md:pt-0 md:pl-10">
+          <p className="text-xs uppercase tracking-widest text-foreground/50">
+            Bize Ulaş
+          </p>
+          <ul className="mt-4 space-y-3 text-sm">
+            <li>
+              <Link
+                href={site.phoneHref}
+                className="inline-flex items-center gap-2 text-foreground/80 tabular-nums transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
+              >
+                <Phone className="size-3.5 opacity-70" />
+                {site.phone}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={site.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
+              >
+                <AtSign className="size-3.5 opacity-70" />
+                {INSTAGRAM_HANDLE}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={site.socials.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
+              >
+                Spotify
+              </Link>
+            </li>
+            <li className="pt-2">
+              <Link
+                href="/iletisim"
+                className="group inline-flex items-center gap-1.5 text-foreground transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
+              >
+                Mesaj gönder
+                <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}

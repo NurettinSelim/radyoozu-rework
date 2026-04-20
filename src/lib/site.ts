@@ -5,7 +5,7 @@ export const site = {
     "Özyeğin Üniversitesi öğrenci radyosu. Canlı yayın, haftalık programlar ve müzik.",
   phone: "0216 564 97 97",
   phoneHref: "tel:+902165649797",
-  address: "Özyeğin Üniversitesi Kampüsü, Öğrenci Merkezi giriş kat",
+  address: "Özyeğin Üniversitesi Kampüsü, Öğrenci Merkezi Giriş Katı",
   foundedYear: 2021,
   stream: {
     url: "https://s5.radio.co/s3ab6bdcb9/listen",
