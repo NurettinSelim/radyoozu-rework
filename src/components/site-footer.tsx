@@ -10,7 +10,7 @@ export function SiteFooter() {
       <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-8 px-4 py-10 md:flex-row md:items-center md:px-6">
         <div className="space-y-2">
           <p className="text-base font-medium">
-            Radyo <span className="text-amber-200">Özü</span>
+            Radyo <span className="text-primary">Özü</span>
           </p>
           <p className="max-w-sm text-sm text-foreground/60">
             {site.address}
@@ -18,7 +18,7 @@ export function SiteFooter() {
           <p className="text-sm text-foreground/60">
             <Link
               href={site.phoneHref}
-              className="hover:text-amber-200"
+              className="hover:text-primary"
             >
               {site.phone}
             </Link>

@@ -57,7 +57,7 @@ export function ContactForm() {
           <Label htmlFor="name">Adın</Label>
           <Input id="name" placeholder="Adını yaz" {...register("name")} />
           {errors.name && (
-            <p className="text-xs text-rose-300/90">{errors.name.message}</p>
+            <p className="text-xs text-destructive">{errors.name.message}</p>
           )}
         </div>
         <div className="space-y-1.5">
@@ -69,7 +69,7 @@ export function ContactForm() {
             {...register("email")}
           />
           {errors.email && (
-            <p className="text-xs text-rose-300/90">{errors.email.message}</p>
+            <p className="text-xs text-destructive">{errors.email.message}</p>
           )}
         </div>
       </div>
@@ -82,14 +82,14 @@ export function ContactForm() {
           {...register("message")}
         />
         {errors.message && (
-          <p className="text-xs text-rose-300/90">{errors.message.message}</p>
+          <p className="text-xs text-destructive">{errors.message.message}</p>
         )}
       </div>
       <Button
         type="submit"
         disabled={submitting}
         size="lg"
-        className="rounded-full bg-gradient-to-br from-amber-300 to-rose-400 px-6 text-background"
+        className="rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] px-6 text-white"
       >
         <Send className="size-4" />
         {submitting ? "Gönderiliyor…" : "Gönder"}

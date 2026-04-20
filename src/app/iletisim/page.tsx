@@ -17,7 +17,7 @@ export default function ContactPage() {
     <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6 md:py-24">
       <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,440px)]">
         <div>
-          <p className="text-xs uppercase tracking-widest text-amber-200/80">
+          <p className="text-xs uppercase tracking-widest text-primary">
             İletişim
           </p>
           <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
@@ -30,7 +30,7 @@ export default function ContactPage() {
 
           <dl className="mt-10 space-y-6">
             <div className="flex items-start gap-4">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-amber-200">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-primary/30 bg-primary/15 text-primary">
                 <Phone className="size-4" />
               </span>
               <div>
@@ -40,7 +40,7 @@ export default function ContactPage() {
                 <dd className="mt-1">
                   <Link
                     href={site.phoneHref}
-                    className="text-lg hover:text-amber-200"
+                    className="text-lg hover:text-primary"
                   >
                     {site.phone}
                   </Link>
@@ -48,7 +48,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-amber-200">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-primary/30 bg-primary/15 text-primary">
                 <MapPin className="size-4" />
               </span>
               <div>

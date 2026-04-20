@@ -15,7 +15,7 @@ export default function ProgramsPage() {
     <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6 md:py-24">
       <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.25em] text-amber-200/80">
+          <p className="text-xs uppercase tracking-[0.25em] text-primary">
             2025 – 26 Sezonu
           </p>
           <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight sm:text-5xl md:text-6xl">

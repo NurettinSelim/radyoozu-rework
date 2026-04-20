@@ -15,8 +15,7 @@ export default function HomePage() {
             Özyeğin Üniversitesi · Öğrenci Radyosu
           </span>
           <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-            Radyo <span className="text-amber-200">Özü</span>
-            <span className="block text-foreground/50">değişim.</span>
+            Radyo <span className="text-primary">Özü</span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/70 sm:text-lg">
             Ders aralarına, kütüphanede geçen gecelere, kampüste yürürken açık
@@ -26,7 +25,7 @@ export default function HomePage() {
             <Button
               size="lg"
               nativeButton={false}
-              className="rounded-full bg-gradient-to-br from-amber-300 to-rose-400 px-6 text-background"
+              className="rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] px-6 text-white"
               render={<Link href="/yayinlar" />}
             >
               Haftalık Yayınlar
@@ -83,7 +82,7 @@ function Stat({
   return (
     <div className="rounded-2xl bg-background/30 p-5">
       {href ? (
-        <Link href={href} className="block hover:text-amber-200">
+        <Link href={href} className="block hover:text-primary">
           {inner}
         </Link>
       ) : (

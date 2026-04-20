@@ -78,20 +78,20 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
               key={d.key}
               className={cn(
                 "flex items-center justify-between gap-2 border-l border-white/10 px-4 py-4",
-                isToday && "bg-amber-300/[0.06]",
+                isToday && "bg-primary/[0.08]",
               )}
             >
               <span
                 className={cn(
                   "font-serif text-base font-semibold tracking-tight",
-                  isToday ? "text-amber-100" : "text-foreground/80",
+                  isToday ? "text-[#f4eaca]" : "text-foreground/80",
                 )}
               >
                 {d.label}
               </span>
               {isToday && (
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-amber-200">
-                  <span className="size-1.5 animate-pulse rounded-full bg-amber-300" />
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-primary">
+                  <span className="size-1.5 animate-pulse rounded-full bg-primary" />
                   Bugün
                 </span>
               )}
@@ -112,7 +112,7 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
         {todayCol !== null && (
           <div
             aria-hidden
-            className="pointer-events-none bg-gradient-to-b from-amber-300/[0.04] to-transparent"
+            className="pointer-events-none bg-gradient-to-b from-primary/[0.08] to-transparent"
             style={{
               gridColumn: todayCol + 2,
               gridRow: `1 / span ${ROW_COUNT}`,
@@ -155,8 +155,8 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
             className="pointer-events-none absolute left-[76px] right-0 z-[5] flex items-center"
             style={{ top: (hourNow - START_HOUR) * ROW_HEIGHT }}
           >
-            <div className="-ml-[5px] size-2.5 rounded-full bg-amber-300 shadow-[0_0_12px_rgb(252_211_77_/_0.7)]" />
-            <div className="h-px flex-1 bg-gradient-to-r from-amber-300 via-amber-300/40 to-transparent" />
+            <div className="-ml-[5px] size-2.5 rounded-full bg-primary shadow-[0_0_12px_rgb(187_32_93_/_0.7)]" />
+            <div className="h-px flex-1 bg-gradient-to-r from-primary via-primary/40 to-transparent" />
           </div>
         )}
 
@@ -183,7 +183,7 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
                 "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] p-3.5 transition duration-200",
                 "hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.07] hover:shadow-xl hover:shadow-black/40",
                 isLive &&
-                  "border-amber-300/60 ring-1 ring-amber-300/40 ring-offset-0",
+                  "border-primary/60 ring-1 ring-primary/40 ring-offset-0",
               )}
               style={{
                 gridColumn: colIdx + 2,
@@ -203,8 +203,8 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
                     {formatRange(p)}
                   </span>
                   {isLive && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-300/20 px-1.5 py-[1px] text-[9px] font-bold uppercase tracking-widest text-amber-200">
-                      <span className="size-1 animate-pulse rounded-full bg-amber-300" />
+                    <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-1.5 py-[1px] text-[9px] font-bold uppercase tracking-widest text-primary">
+                      <span className="size-1 animate-pulse rounded-full bg-primary" />
                       Canlı
                     </span>
                   )}
@@ -228,7 +228,7 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-4 py-3 text-[11px] text-foreground/50">
         <div className="flex items-center gap-4">
           <span className="inline-flex items-center gap-1.5">
-            <span className="size-2 rounded-full bg-amber-300 shadow-[0_0_8px_rgb(252_211_77_/_0.7)]" />
+            <span className="size-2 rounded-full bg-primary shadow-[0_0_8px_rgb(187_32_93_/_0.7)]" />
             Şu an canlı
           </span>
           <span className="inline-flex items-center gap-1.5">

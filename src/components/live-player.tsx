@@ -102,7 +102,7 @@ export function LivePlayer() {
         className="absolute inset-0 -z-10 opacity-70"
         style={{
           background:
-            "radial-gradient(120% 100% at 0% 0%, rgba(251,191,36,0.18) 0%, transparent 55%), radial-gradient(120% 100% at 100% 100%, rgba(244,114,182,0.14) 0%, transparent 55%)",
+            "radial-gradient(120% 100% at 0% 0%, rgba(187,32,93,0.22) 0%, transparent 55%), radial-gradient(120% 100% at 100% 100%, rgba(70,33,85,0.35) 0%, transparent 55%)",
         }}
       />
 
@@ -120,19 +120,18 @@ export function LivePlayer() {
               />
             ) : (
               <Image
-                src={site.stream.logo}
+                src="/radyoozu-logo.png"
                 alt=""
                 width={200}
                 height={200}
-                unoptimized
-                className="h-full w-full object-cover opacity-90"
+                className="h-full w-full object-contain opacity-90"
               />
             )}
           </div>
           {isPlaying && (
             <div
               aria-hidden
-              className="absolute -inset-1 -z-10 animate-pulse rounded-2xl bg-amber-400/30 blur-xl"
+              className="absolute -inset-1 -z-10 animate-pulse rounded-2xl bg-primary/30 blur-xl"
             />
           )}
         </div>
@@ -142,7 +141,7 @@ export function LivePlayer() {
             <span
               className={cn(
                 "inline-flex h-2 w-2 rounded-full",
-                isOnline ? "bg-emerald-400" : "bg-amber-400",
+                isOnline ? "bg-emerald-400" : "bg-[#f4eaca]",
               )}
             >
               <span
@@ -175,7 +174,7 @@ export function LivePlayer() {
           onClick={toggle}
           disabled={isLoading}
           size="icon-lg"
-          className="size-14 shrink-0 rounded-full bg-gradient-to-br from-amber-300 to-rose-400 text-background hover:opacity-90 [&>svg]:size-6 sm:size-16 sm:[&>svg]:size-7"
+          className="size-14 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white hover:opacity-90 [&>svg]:size-6 sm:size-16 sm:[&>svg]:size-7"
           aria-label={isPlaying ? "Duraklat" : "Oynat"}
         >
           {isPlaying ? <Pause /> : <Play className="translate-x-0.5" />}
@@ -204,12 +203,12 @@ export function LivePlayer() {
             setVolume(v);
           }}
           aria-label="Ses seviyesi"
-          className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-amber-300 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-300"
+          className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d]"
         />
       </div>
 
       {error && (
-        <p role="alert" className="mt-3 text-sm text-rose-300/90">
+        <p role="alert" className="mt-3 text-sm text-destructive">
           {error}
         </p>
       )}
