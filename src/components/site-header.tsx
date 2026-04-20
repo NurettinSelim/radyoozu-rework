@@ -28,13 +28,12 @@ export function SiteHeader() {
           className="group flex items-center gap-2 font-semibold tracking-tight"
         >
           <Image
-            src={site.stream.logo}
+            src="/radyoozu-logo.png"
             alt=""
-            width={32}
-            height={32}
-            unoptimized
+            width={40}
+            height={40}
             priority
-            className="size-8 rounded-full object-cover shadow-lg shadow-[#bb205d]/30"
+            className="size-10 shrink-0 object-contain"
           />
           <span className="text-base">
             Radyo <span className="text-primary">Özü</span>

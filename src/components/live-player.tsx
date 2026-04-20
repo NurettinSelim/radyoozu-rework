@@ -120,12 +120,11 @@ export function LivePlayer() {
               />
             ) : (
               <Image
-                src={site.stream.logo}
+                src="/radyoozu-logo.png"
                 alt=""
                 width={200}
                 height={200}
-                unoptimized
-                className="h-full w-full object-cover opacity-90"
+                className="h-full w-full object-contain opacity-90"
               />
             )}
           </div>

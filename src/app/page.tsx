@@ -16,7 +16,6 @@ export default function HomePage() {
           </span>
           <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
             Radyo <span className="text-primary">Özü</span>
-            <span className="block text-foreground/50">değişim.</span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/70 sm:text-lg">
             Ders aralarına, kütüphanede geçen gecelere, kampüste yürürken açık
