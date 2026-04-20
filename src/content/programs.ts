@@ -21,7 +21,7 @@ export const programs: Program[] = [
     startHour: 19,
     endHour: 20,
     hosts: ["Arda Birkal"],
-    accent: "from-sky-400/80 to-cyan-400/70",
+    accent: "from-[#bb205d]/80 to-[#f4eaca]/70",
   },
   {
     slug: "pazartesi-sendromu-old-school",
@@ -38,7 +38,7 @@ export const programs: Program[] = [
       "Bilge Kaan Tekin",
       "Mehmet Ali Bahur",
     ],
-    accent: "from-amber-400/80 to-orange-500/70",
+    accent: "from-[#bb205d]/80 to-[#94205a]/70",
   },
   {
     slug: "hayali-arkadas",
@@ -50,7 +50,7 @@ export const programs: Program[] = [
     startHour: 18,
     endHour: 19,
     hosts: ["Ayselif Kaya", "Betül Bozkurt"],
-    accent: "from-violet-400/80 to-fuchsia-500/70",
+    accent: "from-[#462155]/80 to-[#6d2158]/70",
   },
   {
     slug: "romantik-komedi",
@@ -62,7 +62,7 @@ export const programs: Program[] = [
     startHour: 19,
     endHour: 20,
     hosts: ["Elif Dicle Yılmaz", "Sera Letisya Ustabaşı"],
-    accent: "from-rose-400/80 to-pink-500/70",
+    accent: "from-[#94205a]/80 to-[#bb205d]/70",
   },
   {
     slug: "jacket-radio",
@@ -74,7 +74,7 @@ export const programs: Program[] = [
     startHour: 19,
     endHour: 20,
     hosts: ["Ali Naci Feyzioğlu"],
-    accent: "from-indigo-400/80 to-blue-500/70",
+    accent: "from-[#1f2152]/80 to-[#462155]/70",
   },
   {
     slug: "neler-oluyor-hayatta",
@@ -86,7 +86,7 @@ export const programs: Program[] = [
     startHour: 20,
     endHour: 22,
     hosts: ["Simo Açar", "Toprak Avcı", "Ege Dönmez"],
-    accent: "from-yellow-400/80 to-amber-500/70",
+    accent: "from-[#f4eaca]/70 to-[#bb205d]/70",
   },
   {
     slug: "developer-log",
@@ -98,7 +98,7 @@ export const programs: Program[] = [
     startHour: 19,
     endHour: 20,
     hosts: ["Selim Özyılmaz"],
-    accent: "from-emerald-400/80 to-teal-500/70",
+    accent: "from-[#6d2158]/80 to-[#94205a]/70",
   },
   {
     slug: "yan-komsu",
@@ -110,6 +110,6 @@ export const programs: Program[] = [
     startHour: 20,
     endHour: 21,
     hosts: ["Lâl Aker"],
-    accent: "from-lime-400/80 to-green-500/70",
+    accent: "from-[#f4eaca]/70 to-[#94205a]/70",
   },
 ];

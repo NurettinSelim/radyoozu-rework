@@ -34,7 +34,7 @@ export function ScheduleList({ programs }: { programs: Program[] }) {
       {grouped.map(({ day, items }) => (
         <section key={day}>
           <div className="mb-4 flex items-baseline justify-between border-b border-white/10 pb-2">
-            <h2 className="font-serif text-xl font-semibold tracking-tight text-amber-200">
+            <h2 className="font-serif text-xl font-semibold tracking-tight text-primary">
               {day}
             </h2>
             <span className="text-[11px] uppercase tracking-widest text-foreground/50">

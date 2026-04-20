@@ -50,10 +50,10 @@ export default function RootLayout({
       <body className="relative flex min-h-full flex-col bg-background font-sans text-foreground">
         <div
           aria-hidden
-          className="pointer-events-none fixed inset-0 -z-10 opacity-60"
+          className="pointer-events-none fixed inset-0 -z-10 opacity-40"
           style={{
             background:
-              "radial-gradient(60% 40% at 15% 0%, rgba(251,191,36,0.12) 0%, transparent 60%), radial-gradient(50% 40% at 100% 100%, rgba(244,114,182,0.10) 0%, transparent 55%)",
+              "radial-gradient(60% 40% at 15% 0%, rgba(187,32,93,0.14) 0%, transparent 60%), radial-gradient(50% 40% at 100% 100%, rgba(70,33,85,0.22) 0%, transparent 55%)",
           }}
         />
         <SiteHeader />

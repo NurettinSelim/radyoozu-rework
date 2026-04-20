@@ -13,7 +13,7 @@ export default function SpotifyPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-16 md:px-6 md:py-24">
       <header>
-        <p className="text-xs uppercase tracking-widest text-amber-200/80">
+        <p className="text-xs uppercase tracking-widest text-primary">
           Çalma listeleri
         </p>
         <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">

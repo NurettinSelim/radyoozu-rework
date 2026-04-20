@@ -68,7 +68,7 @@ export function SocialLinks({ className, iconClassName }: Props) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={l.label}
-          className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/5 text-foreground/70 transition hover:border-amber-300/40 hover:bg-amber-300/10 hover:text-amber-200"
+          className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/5 text-foreground/70 transition hover:border-primary/50 hover:bg-primary/15 hover:text-primary"
         >
           {l.icon}
         </Link>

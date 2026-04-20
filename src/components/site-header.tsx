@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
@@ -26,11 +27,17 @@ export function SiteHeader() {
           href="/"
           className="group flex items-center gap-2 font-semibold tracking-tight"
         >
-          <span className="grid size-8 place-items-center rounded-full bg-gradient-to-br from-amber-300 to-rose-400 text-background shadow-lg shadow-amber-500/20">
-            <span className="font-serif text-sm font-bold leading-none">Ö</span>
-          </span>
+          <Image
+            src={site.stream.logo}
+            alt=""
+            width={32}
+            height={32}
+            unoptimized
+            priority
+            className="size-8 rounded-full object-cover shadow-lg shadow-[#bb205d]/30"
+          />
           <span className="text-base">
-            Radyo <span className="text-amber-200">Özü</span>
+            Radyo <span className="text-primary">Özü</span>
           </span>
         </Link>
 
@@ -49,7 +56,7 @@ export function SiteHeader() {
                     className={cn(
                       "rounded-full px-3.5 py-2 text-sm text-foreground/70 transition hover:bg-white/5 hover:text-foreground",
                       active &&
-                        "bg-white/10 text-amber-200 hover:text-amber-100",
+                        "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground",
                     )}
                   >
                     {item.label}
@@ -92,7 +99,7 @@ export function SiteHeader() {
                             aria-current={active ? "page" : undefined}
                             className={cn(
                               "flex items-center rounded-lg px-3 py-2.5 text-sm text-foreground/80 transition hover:bg-white/5",
-                              active && "bg-white/10 text-amber-200",
+                              active && "bg-primary text-primary-foreground",
                             )}
                           >
                             {item.label}
