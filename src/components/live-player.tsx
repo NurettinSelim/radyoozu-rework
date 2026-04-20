@@ -155,7 +155,7 @@ export function LivePlayer() {
               {isOnline ? "Canlı" : "Yayın"}
             </span>
           </div>
-          <h2 className="mt-1 truncate text-lg font-semibold sm:text-xl">
+          <h2 className="mt-1 line-clamp-2 text-lg font-semibold leading-tight text-balance sm:text-xl">
             {now?.title ?? "Radyo Özü"}
           </h2>
           <p

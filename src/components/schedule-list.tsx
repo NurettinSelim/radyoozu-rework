@@ -45,7 +45,7 @@ export function ScheduleList({ programs }: { programs: Program[] }) {
             {items.map((p) => (
               <li
                 key={p.slug}
-                className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+                className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-[border-color,background-color] duration-200 active:border-white/20 active:bg-white/[0.06]"
               >
                 <div
                   aria-hidden
@@ -58,7 +58,7 @@ export function ScheduleList({ programs }: { programs: Program[] }) {
                   <span className="text-[10px] font-medium uppercase tracking-[0.2em] tabular-nums text-foreground/55">
                     {formatRange(p)}
                   </span>
-                  <h3 className="mt-1 font-serif text-lg font-semibold leading-tight">
+                  <h3 className="mt-1 font-serif text-lg font-semibold leading-tight text-balance">
                     {p.title}
                   </h3>
                   <p className="mt-1 text-sm text-foreground/65">{p.tagline}</p>

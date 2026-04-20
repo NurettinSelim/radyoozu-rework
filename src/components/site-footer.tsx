@@ -18,7 +18,7 @@ export function SiteFooter() {
           <p className="text-sm text-foreground/60">
             <Link
               href={site.phoneHref}
-              className="hover:text-primary"
+              className="tabular-nums transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
             >
               {site.phone}
             </Link>

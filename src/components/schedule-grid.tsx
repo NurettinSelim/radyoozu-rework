@@ -15,7 +15,7 @@ const DAYS: { key: Program["day"]; label: string; short: string }[] = [
 const START_HOUR = 18;
 const END_HOUR = 22;
 const ROW_COUNT = END_HOUR - START_HOUR;
-const ROW_HEIGHT = 128;
+const ROW_HEIGHT = 148;
 
 function formatHour(h: number) {
   return `${String(h).padStart(2, "0")}:00`;
@@ -180,7 +180,7 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
             <article
               key={p.slug}
               className={cn(
-                "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] p-3.5 transition duration-200",
+                "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] p-4 pb-5 transition duration-200",
                 "hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.07] hover:shadow-xl hover:shadow-black/40",
                 isLive &&
                   "border-primary/60 ring-1 ring-primary/40 ring-offset-0",
@@ -209,13 +209,13 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
                     </span>
                   )}
                 </div>
-                <h3 className="mt-1.5 font-serif text-[1.05rem] font-semibold leading-[1.15] tracking-tight text-foreground">
+                <h3 className="mt-1.5 font-serif text-[1.05rem] font-semibold leading-[1.15] tracking-tight text-balance text-foreground">
                   {p.title}
                 </h3>
                 <p className="mt-1 line-clamp-2 text-xs leading-snug text-foreground/65">
                   {p.tagline}
                 </p>
-                <p className="mt-auto truncate pt-2 text-[11px] text-foreground/50">
+                <p className="mt-auto line-clamp-2 pt-2 text-[11px] leading-tight text-foreground/50">
                   {p.hosts.join(", ")}
                 </p>
               </div>

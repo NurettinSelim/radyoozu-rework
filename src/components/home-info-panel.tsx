@@ -18,7 +18,7 @@ function AddressLines() {
 
 export function HomeInfoPanel() {
   return (
-    <section className="mt-24 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+    <section className="mt-24 overflow-hidden rounded-[28px] border border-white/10 bg-white/3 p-6 sm:p-8">
       <div className="relative grid gap-8 md:grid-cols-2 md:gap-10">
         <div className="md:pr-10">
           <p className="text-xs uppercase tracking-widest text-foreground/50">
@@ -32,7 +32,7 @@ export function HomeInfoPanel() {
 
         <div
           aria-hidden
-          className="hidden md:absolute md:left-1/2 md:top-0 md:block md:h-full md:w-px md:-translate-x-1/2 md:bg-gradient-to-b md:from-transparent md:via-white/10 md:to-transparent"
+          className="hidden md:absolute md:left-1/2 md:top-0 md:block md:h-full md:w-px md:-translate-x-1/2 md:bg-linear-to-b md:from-transparent md:via-white/10 md:to-transparent"
         />
 
         <div className="border-t border-white/10 pt-8 md:border-t-0 md:pt-0 md:pl-10">

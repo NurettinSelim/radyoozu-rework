@@ -13,13 +13,13 @@ export default function SpotifyPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-16 md:px-6 md:py-24">
       <header>
-        <p className="text-xs uppercase tracking-widest text-primary">
+        <p className="enter-rise text-xs uppercase tracking-widest text-primary">
           Çalma listeleri
         </p>
-        <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
+        <h1 className="enter-rise enter-delay-1 mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl">
           Spotify’da Radyo Özü
         </h1>
-        <p className="mt-4 max-w-2xl text-base text-foreground/70 sm:text-lg">
+        <p className="enter-rise enter-delay-2 mt-4 max-w-2xl text-base text-pretty text-foreground/70 sm:text-lg">
           Yayında çaldığımız parçaları, program çalma listelerini ve en yeni
           keşiflerimizi Spotify profilimizden takip edebilirsin.
         </p>
@@ -29,7 +29,7 @@ export default function SpotifyPage() {
         href={site.socials.spotify}
         target="_blank"
         rel="noopener noreferrer"
-        className="group mt-10 block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/15 via-emerald-400/5 to-transparent p-8 transition hover:border-emerald-400/40 sm:p-12"
+        className="enter-rise enter-delay-3 group mt-10 block overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/15 via-emerald-400/5 to-transparent p-8 transition hover:border-emerald-400/40 sm:p-12"
       >
         <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-5">
@@ -42,7 +42,7 @@ export default function SpotifyPage() {
               <p className="text-xs uppercase tracking-widest text-emerald-300/80">
                 Radyo Özü · Spotify
               </p>
-              <p className="mt-1 font-serif text-2xl font-semibold sm:text-3xl">
+              <p className="mt-1 font-serif text-2xl font-semibold text-balance sm:text-3xl">
                 Çalma listelerini keşfet
               </p>
               <p className="mt-1 max-w-md text-sm text-foreground/60">
@@ -50,14 +50,14 @@ export default function SpotifyPage() {
               </p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-medium text-background transition group-hover:bg-emerald-300">
+          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-medium text-background transition-[background-color,scale] duration-150 ease-out group-hover:bg-emerald-300 group-active:scale-[0.96]">
             Spotify’da aç
             <ExternalLink className="size-4" />
           </span>
         </div>
       </Link>
 
-      <p className="mt-6 text-sm text-foreground/50">
+      <p className="enter-rise enter-delay-4 mt-6 text-sm text-foreground/50">
         İpucu: Spotify uygulamasında “Radyo Özü”yü takip edersen, yeni listeler
         ana sayfana düşer.
       </p>
