@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Headphones } from "lucide-react";
+import { ArrowRight, Headphones, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { HomeInfoPanel } from "@/components/home-info-panel";
@@ -49,12 +49,28 @@ export default function HomePage() {
             </Button>
           </div>
         </div>
-        <div className="enter-rise enter-delay-3">
-          <LivePlayer />
+        <div className="flex flex-col gap-3">
+          <div className="enter-rise enter-delay-3">
+            <LivePlayer />
+          </div>
+          <Link
+            href={site.phoneHref}
+            aria-label={`Stüdyo hattını ara: ${site.phone}`}
+            className="enter-rise enter-delay-4 group inline-flex items-center gap-2.5 self-center rounded-full border border-white/10 bg-white/4 px-4 py-2.5 text-sm transition-[background-color,border-color,color,scale] duration-200 ease-out hover:border-white/20 hover:bg-white/8 active:scale-[0.96]"
+          >
+            <Phone className="size-3.5 text-foreground/60 transition-colors group-hover:text-primary" />
+            <span className="text-[10px] font-medium uppercase tracking-widest text-foreground/60">
+              Stüdyo hattı
+            </span>
+            <span aria-hidden className="h-3 w-px bg-white/10" />
+            <span className="font-medium tabular-nums text-foreground">
+              {site.phone}
+            </span>
+          </Link>
         </div>
       </section>
 
-      <div className="enter-rise enter-delay-4">
+      <div className="enter-rise enter-delay-5">
         <HomeInfoPanel />
       </div>
     </div>

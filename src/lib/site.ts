@@ -3,7 +3,7 @@ export const site = {
   shortName: "RadyoÖzü",
   description:
     "Özyeğin Üniversitesi öğrenci radyosu. Canlı yayın, haftalık programlar ve müzik.",
-  phone: "0216 564 97 97",
+  phone: "+90 216 564 97 97",
   phoneHref: "tel:+902165649797",
   address: "Özyeğin Üniversitesi Kampüsü, Öğrenci Merkezi Giriş Katı",
   foundedYear: 2021,
