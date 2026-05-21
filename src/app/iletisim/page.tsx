@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, Phone } from "lucide-react";
 
-import { ContactForm } from "@/components/contact-form";
-import { SocialLinks } from "@/components/social-links";
+import { Button } from "@/components/ui/button";
+import { InstagramIcon, SocialLinks } from "@/components/social-links";
 import { site } from "@/lib/site";
+
+const INSTAGRAM_HANDLE = "radyozu";
 
 export const metadata: Metadata = {
   title: "Bize Ulaş",
@@ -25,7 +27,7 @@ export default function ContactPage() {
           </h1>
           <p className="enter-rise enter-delay-2 mt-4 max-w-xl text-base text-pretty text-foreground/70 sm:text-lg">
             Dinleyicilerimizden gelen her öneri, her şarkı isteği ve her yorum
-            yayına dokunuyor. Formu doldur, stüdyoda konuşalım.
+            yayına dokunuyor. Bize yaz, stüdyoda konuşalım.
           </p>
 
           <dl className="enter-rise enter-delay-3 mt-10 space-y-6">
@@ -70,8 +72,30 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="enter-rise enter-delay-3 rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-          <ContactForm />
+        <div className="enter-rise enter-delay-3 flex flex-col justify-center rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+          <span className="grid size-14 place-items-center rounded-2xl bg-linear-to-br from-[#bb205d] to-[#94205a] text-white shadow-lg shadow-[#bb205d]/20">
+            <InstagramIcon className="size-7" />
+          </span>
+          <h2 className="mt-6 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Bize Instagram&apos;dan ulaş
+          </h2>
+          <p className="mt-3 text-pretty text-foreground/70">
+            Önerilerini, şarkı isteklerini ve geri bildirimlerini DM olarak
+            gönder!
+          </p>
+          <Button
+            size="lg"
+            className="mt-8 self-start rounded-full bg-linear-to-br from-[#bb205d] to-[#94205a] px-6 text-white"
+            render={
+              <a
+                href={site.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <InstagramIcon className="size-4" />@{INSTAGRAM_HANDLE}
+              </a>
+            }
+          />
         </div>
       </div>
     </div>

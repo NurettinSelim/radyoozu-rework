@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, AtSign, Phone } from "lucide-react";
+import { AtSign, Phone } from "lucide-react";
 
 import { site } from "@/lib/site";
 
@@ -68,15 +68,6 @@ export function HomeInfoPanel() {
                 className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
               >
                 Spotify
-              </Link>
-            </li>
-            <li className="pt-2">
-              <Link
-                href="/iletisim"
-                className="group inline-flex items-center gap-1.5 text-foreground transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
-              >
-                Mesaj gönder
-                <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
             </li>
           </ul>
