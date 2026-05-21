@@ -14,6 +14,9 @@ type NowPlaying = {
   artworkUrl?: string;
 };
 
+const INITIAL_VOLUME = 1.0;
+const POLL_INTERVAL_MS = 20_000;
+
 async function fetchNowPlaying(): Promise<NowPlaying | null> {
   try {
     const [statusRes, trackRes] = await Promise.all([
@@ -43,40 +46,78 @@ async function fetchNowPlaying(): Promise<NowPlaying | null> {
 
 export function LivePlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const isPlayingRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(0.8);
+  const [volume, setVolume] = useState(INITIAL_VOLUME);
   const [now, setNow] = useState<NowPlaying | null>(null);
 
   useEffect(() => {
     let active = true;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
     const load = async () => {
       const data = await fetchNowPlaying();
-      if (active) setNow(data);
+      if (!active || !data) return;
+      setNow((prev) => {
+        if (
+          prev &&
+          prev.status === data.status &&
+          prev.title === data.title &&
+          prev.artworkUrl === data.artworkUrl
+        ) {
+          return prev;
+        }
+        return data;
+      });
     };
-    load();
-    const id = setInterval(load, 20_000);
+
+    const start = () => {
+      if (intervalId !== null) return;
+      load();
+      intervalId = setInterval(load, POLL_INTERVAL_MS);
+    };
+
+    const stop = () => {
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    const shouldPoll = () =>
+      document.visibilityState === "visible" || isPlayingRef.current;
+
+    const onVisibility = () => {
+      if (shouldPoll()) start();
+      else stop();
+    };
+
+    if (shouldPoll()) start();
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
       active = false;
-      clearInterval(id);
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
+  const setAudioRef = useCallback((el: HTMLAudioElement | null) => {
+    audioRef.current = el;
+    if (el) el.volume = INITIAL_VOLUME;
+  }, []);
 
   const toggle = useCallback(async () => {
     const el = audioRef.current;
     if (!el) return;
     setError(null);
-    if (isPlaying) {
+    if (isPlayingRef.current) {
       el.pause();
       el.src = "";
+      isPlayingRef.current = false;
       setIsPlaying(false);
       return;
     }
@@ -84,16 +125,19 @@ export function LivePlayer() {
       setIsLoading(true);
       el.src = `${site.stream.url}?_=${Date.now()}`;
       await el.play();
+      isPlayingRef.current = true;
       setIsPlaying(true);
     } catch {
       setError("Yayın şu an başlatılamadı. Lütfen tekrar deneyin.");
+      isPlayingRef.current = false;
       setIsPlaying(false);
     } finally {
       setIsLoading(false);
     }
-  }, [isPlaying]);
+  }, []);
 
   const isOnline = now?.status === "online";
+  const showMuteIcon = muted || volume === 0;
 
   return (
     <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
@@ -128,12 +172,12 @@ export function LivePlayer() {
               />
             )}
           </div>
-          {isPlaying && (
+          {isPlaying ? (
             <div
               aria-hidden
               className="absolute -inset-1 -z-10 animate-pulse rounded-lg bg-primary/30 blur-xl"
             />
-          )}
+          ) : null}
         </div>
 
         <div className="min-w-0 flex-1">
@@ -210,7 +254,7 @@ export function LivePlayer() {
             <Volume2
               className={cn(
                 "size-4 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
-                muted || volume === 0
+                showMuteIcon
                   ? "scale-[0.25] opacity-0 blur-[4px]"
                   : "scale-100 opacity-100 blur-0",
               )}
@@ -218,7 +262,7 @@ export function LivePlayer() {
             <VolumeX
               className={cn(
                 "absolute size-4 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
-                muted || volume === 0
+                showMuteIcon
                   ? "scale-100 opacity-100 blur-0"
                   : "scale-[0.25] opacity-0 blur-[4px]",
               )}
@@ -235,6 +279,7 @@ export function LivePlayer() {
             const v = Number(e.target.value);
             setMuted(v === 0);
             setVolume(v);
+            if (audioRef.current) audioRef.current.volume = v;
           }}
           aria-label="Ses seviyesi"
           className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#bb205d]"
@@ -248,12 +293,16 @@ export function LivePlayer() {
       )}
 
       <audio
-        ref={audioRef}
+        ref={setAudioRef}
         preload="none"
         muted={muted}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => {
+          isPlayingRef.current = false;
+          setIsPlaying(false);
+        }}
         onError={() => {
           setError("Yayın bağlantısı kesildi.");
+          isPlayingRef.current = false;
           setIsPlaying(false);
         }}
       />
