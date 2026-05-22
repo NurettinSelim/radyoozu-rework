@@ -6,7 +6,6 @@ import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { site } from "@/lib/site";
 
 type NowPlaying = {
   status: "online" | "offline" | string;
@@ -17,11 +16,19 @@ type NowPlaying = {
 const INITIAL_VOLUME = 1.0;
 const POLL_INTERVAL_MS = 20_000;
 
-async function fetchNowPlaying(): Promise<NowPlaying | null> {
+type Props = {
+  stream: {
+    url: string;
+    apiBase: string;
+  };
+  brand: { prefix: string; accent: string };
+};
+
+async function fetchNowPlaying(apiBase: string): Promise<NowPlaying | null> {
   try {
     const [statusRes, trackRes] = await Promise.all([
-      fetch(`${site.stream.apiBase}/status`, { cache: "no-store" }),
-      fetch(`${site.stream.apiBase}/track/current`, { cache: "no-store" }),
+      fetch(`${apiBase}/status`, { cache: "no-store" }),
+      fetch(`${apiBase}/track/current`, { cache: "no-store" }),
     ]);
     const statusJson = (await statusRes.json()) as {
       status?: string;
@@ -44,7 +51,7 @@ async function fetchNowPlaying(): Promise<NowPlaying | null> {
   }
 }
 
-export function LivePlayer() {
+export function LivePlayer({ stream, brand }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isPlayingRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -59,7 +66,7 @@ export function LivePlayer() {
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
     const load = async () => {
-      const data = await fetchNowPlaying();
+      const data = await fetchNowPlaying(stream.apiBase);
       if (!active || !data) return;
       setNow((prev) => {
         if (
@@ -103,7 +110,7 @@ export function LivePlayer() {
       stop();
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, []);
+  }, [stream.apiBase]);
 
   const setAudioRef = useCallback((el: HTMLAudioElement | null) => {
     audioRef.current = el;
@@ -123,7 +130,7 @@ export function LivePlayer() {
     }
     try {
       setIsLoading(true);
-      el.src = `${site.stream.url}?_=${Date.now()}`;
+      el.src = `${stream.url}?_=${Date.now()}`;
       await el.play();
       isPlayingRef.current = true;
       setIsPlaying(true);
@@ -134,13 +141,14 @@ export function LivePlayer() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [stream.url]);
 
   const isOnline = now?.status === "online";
   const showMuteIcon = muted || volume === 0;
+  const fallbackTitle = `${brand.prefix}${brand.accent}`.trim();
 
   return (
-    <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
+    <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/8 via-white/4 to-transparent p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
       <div
         aria-hidden
         className="absolute inset-0 -z-10 opacity-70"
@@ -200,7 +208,7 @@ export function LivePlayer() {
             </span>
           </div>
           <h2 className="mt-1 line-clamp-2 text-lg font-semibold leading-tight text-balance sm:text-xl">
-            {now?.title ?? "Radyo Özü"}
+            {now?.title ?? fallbackTitle}
           </h2>
           <p
             aria-live="polite"

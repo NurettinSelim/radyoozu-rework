@@ -3,19 +3,21 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import type { DayKey } from "@/content/schema";
 import type { Program } from "@/content/programs";
+import type { ScheduleWindow } from "@/content/schedule-window";
 
-const DAYS: { key: Program["day"]; label: string; short: string }[] = [
-  { key: "Pazartesi", label: "Pazartesi", short: "Pzt" },
-  { key: "Salı", label: "Salı", short: "Sal" },
-  { key: "Çarşamba", label: "Çarşamba", short: "Çar" },
-  { key: "Perşembe", label: "Perşembe", short: "Per" },
-];
-
-const START_HOUR = 18;
-const END_HOUR = 22;
-const ROW_COUNT = END_HOUR - START_HOUR;
 const ROW_HEIGHT = 148;
+
+const JS_DAY_TO_KEY: Record<number, DayKey> = {
+  0: "Pazar",
+  1: "Pazartesi",
+  2: "Salı",
+  3: "Çarşamba",
+  4: "Perşembe",
+  5: "Cuma",
+  6: "Cumartesi",
+};
 
 function formatHour(h: number) {
   return `${String(h).padStart(2, "0")}:00`;
@@ -27,22 +29,27 @@ function formatRange(p: Program) {
     : `${formatHour(p.startHour)} – ${formatHour(p.endHour)}`;
 }
 
-function jsDayToColumn(jsDay: number): number | null {
-  switch (jsDay) {
-    case 1:
-      return 0;
-    case 2:
-      return 1;
-    case 3:
-      return 2;
-    case 4:
-      return 3;
-    default:
-      return null;
-  }
+function accentStyle(p: Program): React.CSSProperties {
+  return {
+    backgroundImage: `linear-gradient(to bottom right, ${p.accentFrom}cc, ${p.accentTo}b3)`,
+  };
 }
 
-export function ScheduleGrid({ programs }: { programs: Program[] }) {
+type Props = {
+  programs: Program[];
+  window: ScheduleWindow;
+  liveLabel?: string;
+  liveLegend?: string;
+  replayLegend?: string;
+};
+
+export function ScheduleGrid({
+  programs,
+  window: w,
+  liveLabel = "Canlı",
+  liveLegend = "Şu an canlı",
+  replayLegend = "Haftalık tekrar",
+}: Props) {
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -52,26 +59,32 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
     return () => clearInterval(id);
   }, []);
 
+  const rowCount = w.endHour - w.startHour;
+  const days = w.days;
+
   const { todayCol, hourNow, inRange } = useMemo(() => {
-    if (!now) return { todayCol: null, hourNow: null, inRange: false };
-    const col = jsDayToColumn(now.getDay());
+    if (!now) return { todayCol: null as number | null, hourNow: null as number | null, inRange: false };
+    const todayKey = JS_DAY_TO_KEY[now.getDay()];
+    const col = days.findIndex((d) => d.key === todayKey);
     const h = now.getHours() + now.getMinutes() / 60;
     return {
-      todayCol: col,
+      todayCol: col >= 0 ? col : null,
       hourNow: h,
-      inRange: col !== null && h >= START_HOUR && h <= END_HOUR,
+      inRange: col >= 0 && h >= w.startHour && h <= w.endHour,
     };
-  }, [now]);
+  }, [now, days, w.startHour, w.endHour]);
+
+  const colCount = days.length;
 
   return (
     <div className="hidden overflow-hidden rounded-3xl border border-white/10 bg-background/40 shadow-2xl shadow-black/30 md:block">
       {/* Day header row */}
       <div
         className="grid border-b border-white/10"
-        style={{ gridTemplateColumns: `76px repeat(4, minmax(0, 1fr))` }}
+        style={{ gridTemplateColumns: `76px repeat(${colCount}, minmax(0, 1fr))` }}
       >
         <div aria-hidden className="bg-white/[0.015]" />
-        {DAYS.map((d, i) => {
+        {days.map((d, i) => {
           const isToday = i === todayCol;
           return (
             <div
@@ -104,8 +117,8 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
       <div
         className="relative grid"
         style={{
-          gridTemplateColumns: `76px repeat(4, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${ROW_COUNT}, ${ROW_HEIGHT}px)`,
+          gridTemplateColumns: `76px repeat(${colCount}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${rowCount}, ${ROW_HEIGHT}px)`,
         }}
       >
         {/* Today column tint (spans full height) */}
@@ -115,13 +128,13 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
             className="pointer-events-none bg-gradient-to-b from-primary/[0.08] to-transparent"
             style={{
               gridColumn: todayCol + 2,
-              gridRow: `1 / span ${ROW_COUNT}`,
+              gridRow: `1 / span ${rowCount}`,
             }}
           />
         )}
 
         {/* Hour labels */}
-        {Array.from({ length: ROW_COUNT }, (_, i) => (
+        {Array.from({ length: rowCount }, (_, i) => (
           <div
             key={`hour-${i}`}
             className={cn(
@@ -130,13 +143,13 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
             )}
             style={{ gridColumn: 1, gridRow: i + 1 }}
           >
-            {formatHour(START_HOUR + i)}
+            {formatHour(w.startHour + i)}
           </div>
         ))}
 
         {/* Background day cells (for borders) */}
-        {DAYS.map((d, colIdx) =>
-          Array.from({ length: ROW_COUNT }, (_, rowIdx) => (
+        {days.map((d, colIdx) =>
+          Array.from({ length: rowCount }, (_, rowIdx) => (
             <div
               key={`bg-${d.key}-${rowIdx}`}
               className={cn(
@@ -153,7 +166,7 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
           <div
             aria-hidden
             className="pointer-events-none absolute left-[76px] right-0 z-[5] flex items-center"
-            style={{ top: (hourNow - START_HOUR) * ROW_HEIGHT }}
+            style={{ top: (hourNow - w.startHour) * ROW_HEIGHT }}
           >
             <div className="-ml-[5px] size-2.5 rounded-full bg-primary shadow-[0_0_12px_rgb(187_32_93_/_0.7)]" />
             <div className="h-px flex-1 bg-gradient-to-r from-primary via-primary/40 to-transparent" />
@@ -162,12 +175,12 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
 
         {/* Show blocks */}
         {programs.map((p) => {
-          const colIdx = DAYS.findIndex((d) => d.key === p.day);
+          const colIdx = days.findIndex((d) => d.key === p.day);
           if (colIdx < 0) return null;
 
-          const startClamped = Math.max(START_HOUR, p.startHour);
-          const endClamped = Math.min(END_HOUR, p.endHour);
-          const rowStart = startClamped - START_HOUR + 1;
+          const startClamped = Math.max(w.startHour, p.startHour);
+          const endClamped = Math.min(w.endHour, p.endHour);
+          const rowStart = startClamped - w.startHour + 1;
           const rowSpan = Math.max(1, endClamped - startClamped);
 
           const isLive =
@@ -180,8 +193,8 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
             <article
               key={p.slug}
               className={cn(
-                "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] p-4 pb-5 transition duration-200",
-                "hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.07] hover:shadow-xl hover:shadow-black/40",
+                "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/4 p-4 pb-5 transition duration-200",
+                "hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/7 hover:shadow-xl hover:shadow-black/40",
                 isLive &&
                   "border-primary/60 ring-1 ring-primary/40 ring-offset-0",
               )}
@@ -192,10 +205,8 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
             >
               <div
                 aria-hidden
-                className={cn(
-                  "pointer-events-none absolute -top-14 -right-10 h-40 w-40 rounded-full bg-gradient-to-br opacity-35 blur-2xl transition group-hover:opacity-55",
-                  p.accent,
-                )}
+                className="pointer-events-none absolute -top-14 -right-10 h-40 w-40 rounded-full opacity-35 blur-2xl transition group-hover:opacity-55"
+                style={accentStyle(p)}
               />
               <div className="relative flex flex-1 flex-col">
                 <div className="flex items-center gap-2">
@@ -205,7 +216,7 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
                   {isLive && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-1.5 py-[1px] text-[9px] font-bold uppercase tracking-widest text-primary">
                       <span className="size-1 animate-pulse rounded-full bg-primary" />
-                      Canlı
+                      {liveLabel}
                     </span>
                   )}
                 </div>
@@ -229,14 +240,16 @@ export function ScheduleGrid({ programs }: { programs: Program[] }) {
         <div className="flex items-center gap-4">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-primary shadow-[0_0_8px_rgb(187_32_93_/_0.7)]" />
-            Şu an canlı
+            {liveLegend}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-foreground/30" />
-            Haftalık tekrar
+            {replayLegend}
           </span>
         </div>
-        <span className="tabular-nums">{programs.length} yayın · Pzt – Per</span>
+        <span className="tabular-nums">
+          {programs.length} yayın · {days[0]?.short} – {days[days.length - 1]?.short}
+        </span>
       </div>
     </div>
   );

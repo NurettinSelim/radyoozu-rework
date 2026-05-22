@@ -1,15 +1,5 @@
-import { cn } from "@/lib/utils";
 import type { Program } from "@/content/programs";
-
-const DAY_ORDER: Program["day"][] = [
-  "Pazartesi",
-  "Salı",
-  "Çarşamba",
-  "Perşembe",
-  "Cuma",
-  "Cumartesi",
-  "Pazar",
-];
+import type { ScheduleWindow } from "@/content/schedule-window";
 
 function formatHour(h: number) {
   return `${String(h).padStart(2, "0")}:00`;
@@ -21,21 +11,34 @@ function formatRange(p: Program) {
     : `${formatHour(p.startHour)} – ${formatHour(p.endHour)}`;
 }
 
-export function ScheduleList({ programs }: { programs: Program[] }) {
-  const grouped = DAY_ORDER.map((day) => ({
-    day,
-    items: programs
-      .filter((p) => p.day === day)
-      .sort((a, b) => a.startHour - b.startHour),
-  })).filter((g) => g.items.length > 0);
+function accentStyle(p: Program): React.CSSProperties {
+  return {
+    backgroundImage: `linear-gradient(to bottom right, ${p.accentFrom}cc, ${p.accentTo}b3)`,
+  };
+}
+
+type Props = {
+  programs: Program[];
+  window: ScheduleWindow;
+};
+
+export function ScheduleList({ programs, window: w }: Props) {
+  const grouped = w.days
+    .map((day) => ({
+      day,
+      items: programs
+        .filter((p) => p.day === day.key)
+        .sort((a, b) => a.startHour - b.startHour),
+    }))
+    .filter((g) => g.items.length > 0);
 
   return (
     <div className="space-y-10 md:hidden">
       {grouped.map(({ day, items }) => (
-        <section key={day}>
+        <section key={day.key}>
           <div className="mb-4 flex items-baseline justify-between border-b border-white/10 pb-2">
             <h2 className="font-serif text-xl font-semibold tracking-tight text-primary">
-              {day}
+              {day.label}
             </h2>
             <span className="text-[11px] uppercase tracking-widest text-foreground/50">
               {items.length} yayın
@@ -45,14 +48,12 @@ export function ScheduleList({ programs }: { programs: Program[] }) {
             {items.map((p) => (
               <li
                 key={p.slug}
-                className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-[border-color,background-color] duration-200 active:border-white/20 active:bg-white/[0.06]"
+                className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-4 transition-[border-color,background-color] duration-200 active:border-white/20 active:bg-white/6"
               >
                 <div
                   aria-hidden
-                  className={cn(
-                    "pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br opacity-30 blur-2xl",
-                    p.accent,
-                  )}
+                  className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full opacity-30 blur-2xl"
+                  style={accentStyle(p)}
                 />
                 <div className="relative">
                   <span className="text-[10px] font-medium uppercase tracking-[0.2em] tabular-nums text-foreground/55">
