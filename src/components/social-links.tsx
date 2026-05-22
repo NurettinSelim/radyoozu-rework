@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/site";
 
 function SpotifyIcon({ className }: { className?: string }) {
   return (
@@ -51,7 +51,8 @@ type Props = {
   iconClassName?: string;
 };
 
-export function SocialLinks({ className, iconClassName }: Props) {
+export async function SocialLinks({ className, iconClassName }: Props) {
+  const site = await getSite();
   const iconBase = cn("size-5", iconClassName);
   const links = [
     { href: site.socials.spotify, label: "Spotify", icon: <SpotifyIcon className={iconBase} /> },

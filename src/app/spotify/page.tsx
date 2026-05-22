@@ -2,26 +2,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 
-import { site } from "@/lib/site";
+import { getCopy } from "@/content/copy";
+import { getSite } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Spotify",
-  description: "Radyo Özü'nün Spotify çalma listeleri ve profili.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = await getCopy();
+  return {
+    title: copy.spotify.metadataTitle,
+    description: copy.spotify.metadataDescription,
+  };
+}
 
-export default function SpotifyPage() {
+export default async function SpotifyPage() {
+  const [site, copy] = await Promise.all([getSite(), getCopy()]);
+  const c = copy.spotify;
+
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-16 md:px-6 md:py-24">
       <header>
         <p className="enter-rise text-xs uppercase tracking-widest text-primary">
-          Çalma listeleri
+          {c.eyebrow}
         </p>
         <h1 className="enter-rise enter-delay-1 mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl">
-          Spotify’da Radyo Özü
+          {c.headline}
         </h1>
         <p className="enter-rise enter-delay-2 mt-4 max-w-2xl text-base text-pretty text-foreground/70 sm:text-lg">
-          Yayında çaldığımız parçaları, program çalma listelerini ve en yeni
-          keşiflerimizi Spotify profilimizden takip edebilirsin.
+          {c.tagline}
         </p>
       </header>
 
@@ -40,26 +46,25 @@ export default function SpotifyPage() {
             </span>
             <div>
               <p className="text-xs uppercase tracking-widest text-emerald-300/80">
-                Radyo Özü · Spotify
+                {c.cardEyebrow}
               </p>
               <p className="mt-1 font-serif text-2xl font-semibold text-balance sm:text-3xl">
-                Çalma listelerini keşfet
+                {c.cardHeading}
               </p>
               <p className="mt-1 max-w-md text-sm text-foreground/60">
-                Her programın kendi listesi, haftalık güncellenen karışımlar.
+                {c.cardTagline}
               </p>
             </div>
           </div>
           <span className="inline-flex items-center gap-2 rounded-full bg-emerald-400 px-5 py-3 text-sm font-medium text-background transition-[background-color,scale] duration-150 ease-out group-hover:bg-emerald-300 group-active:scale-[0.96]">
-            Spotify’da aç
+            {c.cardCta}
             <ExternalLink className="size-4" />
           </span>
         </div>
       </Link>
 
       <p className="enter-rise enter-delay-4 mt-6 text-sm text-foreground/50">
-        İpucu: Spotify uygulamasında “Radyo Özü”yü takip edersen, yeni listeler
-        ana sayfana düşer.
+        {c.tip}
       </p>
     </div>
   );

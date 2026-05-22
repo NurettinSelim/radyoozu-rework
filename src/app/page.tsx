@@ -4,23 +4,27 @@ import { ArrowRight, Headphones, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HomeInfoPanel } from "@/components/home-info-panel";
 import { LivePlayer } from "@/components/live-player";
-import { site } from "@/lib/site";
+import { getCopy } from "@/content/copy";
+import { getSite } from "@/lib/site";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [site, copy] = await Promise.all([getSite(), getCopy()]);
+  const c = copy.home;
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 md:px-6 md:py-20">
       <section className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,480px)] md:gap-14">
         <div>
           <span className="enter-rise inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-widest text-foreground/70">
             <Headphones className="size-3.5" />
-            Özyeğin Üniversitesi · Öğrenci Radyosu
+            {c.eyebrow}
           </span>
           <h1 className="enter-rise enter-delay-1 mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-6xl md:text-7xl">
-            Radyo <span className="text-primary">Özü</span>
+            {site.brand.prefix}
+            <span className="text-primary">{site.brand.accent}</span>
           </h1>
           <p className="enter-rise enter-delay-2 mt-6 max-w-xl text-base leading-relaxed text-pretty text-foreground/70 sm:text-lg">
-            Ders aralarına, kütüphanede geçen gecelere, kampüste yürürken açık
-            kalsın diye. Kampüsün sesi, öğrencilerin çalma listesi.
+            {c.tagline}
           </p>
           <div className="enter-rise enter-delay-3 mt-8 flex flex-wrap items-center gap-3">
             <Button
@@ -29,7 +33,7 @@ export default function HomePage() {
               className="rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] px-6 text-white"
               render={<Link href="/yayinlar" />}
             >
-              Haftalık Yayınlar
+              {c.ctaPrograms}
               <ArrowRight className="size-4" />
             </Button>
             <Button
@@ -45,13 +49,13 @@ export default function HomePage() {
                 />
               }
             >
-              Spotify’da dinle
+              {c.ctaSpotify}
             </Button>
           </div>
         </div>
         <div className="flex flex-col gap-3">
           <div className="enter-rise enter-delay-3">
-            <LivePlayer />
+            <LivePlayer stream={site.stream} brand={site.brand} />
           </div>
           <Link
             href={site.phoneHref}
@@ -60,7 +64,7 @@ export default function HomePage() {
           >
             <Phone className="size-3.5 text-foreground/60 transition-colors group-hover:text-primary" />
             <span className="text-[10px] font-medium uppercase tracking-widest text-foreground/60">
-              Stüdyo hattı
+              {c.phoneLabel}
             </span>
             <span aria-hidden className="h-3 w-px bg-white/10" />
             <span className="font-medium tabular-nums text-foreground">

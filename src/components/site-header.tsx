@@ -15,9 +15,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { site } from "@/lib/site";
+import type { NavItem } from "@/lib/site";
 
-export function SiteHeader() {
+type Props = {
+  nav: NavItem[];
+  brand: { prefix: string; accent: string };
+};
+
+export function SiteHeader({ nav, brand }: Props) {
   const pathname = usePathname();
 
   return (
@@ -36,13 +41,14 @@ export function SiteHeader() {
             className="size-10 shrink-0 rounded-md object-contain outline outline-1 -outline-offset-1 outline-white/10"
           />
           <span className="text-base">
-            Radyo <span className="text-primary">Özü</span>
+            {brand.prefix}
+            <span className="text-primary">{brand.accent}</span>
           </span>
         </Link>
 
         <nav aria-label="Ana menü" className="hidden md:block">
           <ul className="flex items-center gap-1">
-            {site.nav.map((item) => {
+            {nav.map((item) => {
               const active =
                 item.href === "/"
                   ? pathname === "/"
@@ -82,10 +88,13 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px]">
               <SheetHeader>
-                <SheetTitle>Radyo Özü</SheetTitle>
+                <SheetTitle>
+                  {brand.prefix}
+                  {brand.accent}
+                </SheetTitle>
               </SheetHeader>
               <ul className="mt-4 flex flex-col gap-1 px-4 pb-6">
-                {site.nav.map((item) => {
+                {nav.map((item) => {
                   const active =
                     item.href === "/"
                       ? pathname === "/"

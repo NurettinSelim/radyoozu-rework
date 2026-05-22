@@ -4,7 +4,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Toaster } from "@/components/ui/sonner";
-import { site } from "@/lib/site";
+import { getSite } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,25 +23,29 @@ const playfair = Playfair_Display({
   weight: ["500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: `${site.name} · Özyeğin Üniversitesi Radyosu`,
-    template: `%s · ${site.name}`,
-  },
-  description: site.description,
-  openGraph: {
-    title: `${site.name} · Özyeğin Üniversitesi Radyosu`,
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSite();
+  return {
+    title: {
+      default: `${site.name} · Özyeğin Üniversitesi Radyosu`,
+      template: `%s · ${site.name}`,
+    },
     description: site.description,
-    type: "website",
-    locale: "tr_TR",
-  },
-};
+    openGraph: {
+      title: `${site.name} · Özyeğin Üniversitesi Radyosu`,
+      description: site.description,
+      type: "website",
+      locale: "tr_TR",
+    },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const site = await getSite();
   return (
     <html
       lang="tr"
@@ -56,7 +60,7 @@ export default function RootLayout({
               "radial-gradient(60% 40% at 15% 0%, rgba(187,32,93,0.14) 0%, transparent 60%), radial-gradient(50% 40% at 100% 100%, rgba(70,33,85,0.22) 0%, transparent 55%)",
           }}
         />
-        <SiteHeader />
+        <SiteHeader nav={site.nav} brand={site.brand} />
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <Toaster richColors position="top-center" />
