@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Pencil } from "lucide-react";
 
 import { ScheduleGrid } from "@/components/schedule-grid";
 import { ScheduleList } from "@/components/schedule-list";
@@ -36,6 +38,14 @@ export default async function ProgramsPage() {
             {c.tagline}
           </p>
         </div>
+        <Link
+          href="/admin/programs"
+          prefetch={false}
+          className="enter-rise enter-delay-2 inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-widest text-foreground/60 transition-[background-color,border-color,color,scale] duration-150 ease-out hover:border-primary/50 hover:bg-primary/10 hover:text-primary active:scale-[0.96] md:self-auto"
+        >
+          <Pencil className="size-3.5" />
+          Düzenle
+        </Link>
       </header>
 
       <div className="enter-rise enter-delay-3 mt-12">
