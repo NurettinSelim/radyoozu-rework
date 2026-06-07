@@ -97,33 +97,52 @@ type SpotifyApiPlaylist = {
   id: string;
   name: string;
   description: string | null;
+  public: boolean | null;
   external_urls?: { spotify?: string };
   images?: Array<{ url: string }> | null;
+  owner?: { id?: string };
+  // The current API exposes the track collection as `items` ({ total }); older
+  // payloads used `tracks`. Read both so the count stays correct either way.
+  items?: { total?: number };
   tracks?: { total?: number };
 };
 
 /**
- * Fetch the Radyo Özü account's playlists (newest the account exposes first).
- * Returns [] when the integration isn't configured or the API is unreachable,
- * so the page can fall back to a static design without error handling.
+ * Fetch the Radyo Özü account's own public playlists — the ones shown on its
+ * Spotify profile — newest first. Filters out playlists the account merely
+ * follows and any private ones. Returns [] when the integration isn't
+ * configured or the API is unreachable, so the page falls back to its static
+ * design without error handling.
  */
 export async function getSpotifyPlaylists(limit = 12): Promise<SpotifyPlaylist[]> {
   const token = await getAccessToken();
   if (!token) return [];
 
-  const res = await spotifyGet(`${API_BASE}/me/playlists?limit=${limit}`, token);
+  // Identify the connected account so we keep only playlists it owns (profile
+  // playlists), not ones it follows.
+  const meRes = await spotifyGet(`${API_BASE}/me`, token);
+  if (!meRes || !meRes.ok) return [];
+  const me: { id?: string } = await meRes.json();
+  if (!me.id) return [];
+
+  // 50 is the page max; fetch a full page, filter to owned + public, then trim.
+  const res = await spotifyGet(`${API_BASE}/me/playlists?limit=50`, token);
   if (!res || !res.ok) return [];
 
   const data: { items?: Array<SpotifyApiPlaylist | null> } = await res.json();
   return (data.items ?? [])
     .filter((p): p is SpotifyApiPlaylist => Boolean(p))
+    .filter((p) => p.owner?.id === me.id && p.public !== false)
+    // Skip empty playlists (e.g. auto-created "N. Çalma Listem" placeholders).
+    .filter((p) => (p.items?.total ?? p.tracks?.total ?? 0) > 0)
+    .slice(0, limit)
     .map((p) => ({
       id: p.id,
       name: p.name,
       description: decodeEntities(p.description ?? ""),
       url: p.external_urls?.spotify ?? `https://open.spotify.com/playlist/${p.id}`,
       imageUrl: p.images?.[0]?.url ?? null,
-      trackCount: p.tracks?.total ?? 0,
+      trackCount: p.items?.total ?? p.tracks?.total ?? 0,
     }));
 }
 
