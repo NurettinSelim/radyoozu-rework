@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { toast } from "sonner";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -15,7 +16,7 @@ import { saveSite } from "@/app/admin/(authed)/site/actions";
 
 export function SiteForm({ initial }: { initial: Site }) {
   const [isPending, startTransition] = useTransition();
-  const form = useForm<Site>({
+  const form = useForm<z.input<typeof siteSchema>, unknown, Site>({
     resolver: zodResolver(siteSchema),
     defaultValues: initial,
   });
@@ -73,6 +74,9 @@ export function SiteForm({ initial }: { initial: Site }) {
             <Input {...form.register("phoneHref")} />
           </Field>
         </div>
+        <Field label="E-posta" error={errors.email?.message} hint="Genel iletişim e-postası">
+          <Input type="email" {...form.register("email")} />
+        </Field>
         <Field label="Adres" error={errors.address?.message}>
           <Textarea rows={2} {...form.register("address")} />
         </Field>

@@ -75,6 +75,7 @@ export const siteSchema = z.object({
   phone: z.string().min(1),
   phoneHref: z.string().regex(/^tel:/, "tel: ile başlamalı"),
   address: z.string().min(1),
+  email: z.email("Geçerli bir e-posta girin").default("radyoozu@ozu.edu.tr"),
   foundedYear: z.number().int(),
   instagramHandle: z.string().min(1),
   stream: z.object({
@@ -121,6 +122,7 @@ export const copySchema = z.object({
     headline: z.string().min(1),
     tagline: z.string().min(1),
     phoneLabel: z.string().min(1),
+    emailLabel: z.string().min(1).default("E-posta"),
     studioLabel: z.string().min(1),
     socialLabel: z.string().min(1),
     instagram: z.object({

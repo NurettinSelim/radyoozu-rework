@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AtSign, Phone } from "lucide-react";
+import { AtSign, Mail, Phone } from "lucide-react";
 
 import { getSite } from "@/lib/site";
 import { getCopy } from "@/content/copy";
@@ -48,6 +48,15 @@ export async function HomeInfoPanel() {
               >
                 <Phone className="size-3.5 opacity-70" />
                 {site.phone}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`mailto:${site.email}`}
+                className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
+              >
+                <Mail className="size-3.5 opacity-70" />
+                {site.email}
               </Link>
             </li>
             <li>

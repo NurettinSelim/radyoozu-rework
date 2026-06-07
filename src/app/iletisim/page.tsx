@@ -71,14 +71,14 @@ export default async function ContactPage() {
               </span>
               <div>
                 <dt className="text-xs uppercase tracking-widest text-foreground/50">
-                  E-posta
+                  {c.emailLabel}
                 </dt>
                 <dd className="mt-1">
                   <Link
-                    href="mailto:radyoozu@ozu.edu.tr"
+                    href={`mailto:${site.email}`}
                     className="text-lg transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
                   >
-                    radyoozu@ozu.edu.tr
+                    {site.email}
                   </Link>
                 </dd>
               </div>

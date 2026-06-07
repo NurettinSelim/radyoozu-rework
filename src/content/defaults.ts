@@ -116,6 +116,7 @@ export const DEFAULT_SITE: Site = {
   phone: "+90 216 564 97 97",
   phoneHref: "tel:+902165649797",
   address: "Özyeğin Üniversitesi Kampüsü, Öğrenci Merkezi Giriş Katı",
+  email: "radyoozu@ozu.edu.tr",
   foundedYear: 2021,
   instagramHandle: "radyozu",
   stream: {
@@ -183,6 +184,7 @@ export const DEFAULT_COPY: Copy = {
     tagline:
       "Dinleyicilerimizden gelen her öneri, her şarkı isteği ve her yorum yayına dokunuyor. Bize yaz, stüdyoda konuşalım.",
     phoneLabel: "Telefon",
+    emailLabel: "E-posta",
     studioLabel: "Stüdyo",
     socialLabel: "Sosyal",
     instagram: {

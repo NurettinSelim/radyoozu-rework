@@ -3,6 +3,7 @@
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ import { saveCopy } from "@/app/admin/(authed)/copy/actions";
 
 export function CopyForm({ initial }: { initial: Copy }) {
   const [isPending, startTransition] = useTransition();
-  const form = useForm<Copy>({
+  const form = useForm<z.input<typeof copySchema>, unknown, Copy>({
     resolver: zodResolver(copySchema),
     defaultValues: initial,
   });
@@ -103,9 +104,12 @@ export function CopyForm({ initial }: { initial: Copy }) {
         <Field label="Tagline" error={errors.iletisim?.tagline?.message}>
           <Textarea rows={3} {...form.register("iletisim.tagline")} />
         </Field>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Telefon başlığı" error={errors.iletisim?.phoneLabel?.message}>
             <Input {...form.register("iletisim.phoneLabel")} />
+          </Field>
+          <Field label="E-posta başlığı" error={errors.iletisim?.emailLabel?.message}>
+            <Input {...form.register("iletisim.emailLabel")} />
           </Field>
           <Field label="Stüdyo başlığı" error={errors.iletisim?.studioLabel?.message}>
             <Input {...form.register("iletisim.studioLabel")} />
