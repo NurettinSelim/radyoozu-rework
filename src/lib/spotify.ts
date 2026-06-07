@@ -126,3 +126,61 @@ export async function getSpotifyPlaylists(limit = 12): Promise<SpotifyPlaylist[]
       trackCount: p.tracks?.total ?? 0,
     }));
 }
+
+export type SpotifyDiagnostics =
+  | { state: "disconnected" }
+  | { state: "token_error" }
+  | { state: "ok"; account: string; total: number }
+  | { state: "api_error"; status: number; message: string };
+
+/**
+ * Live (uncached) probe of the connection for the admin page. Distinguishes the
+ * states that {@link getSpotifyPlaylists} collapses into an empty list — most
+ * importantly the Development-Mode 403 ("user not registered for this
+ * application"), which otherwise looks like "no playlists found".
+ */
+export async function getSpotifyDiagnostics(): Promise<SpotifyDiagnostics> {
+  const token = await getAccessToken();
+  if (!token) {
+    return (await readRefreshToken())
+      ? { state: "token_error" }
+      : { state: "disconnected" };
+  }
+
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/me/playlists?limit=1`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+  } catch {
+    return { state: "api_error", status: 0, message: "Ağ hatası" };
+  }
+
+  if (!res.ok) {
+    let message = res.statusText;
+    try {
+      const body: { error?: { message?: string } } = await res.json();
+      message = body.error?.message ?? message;
+    } catch {
+      /* non-JSON body */
+    }
+    return { state: "api_error", status: res.status, message };
+  }
+
+  const data: { total?: number } = await res.json();
+  let account = "";
+  try {
+    const meRes = await fetch(`${API_BASE}/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+    if (meRes.ok) {
+      const me: { display_name?: string; id?: string } = await meRes.json();
+      account = me.display_name ?? me.id ?? "";
+    }
+  } catch {
+    /* best-effort */
+  }
+  return { state: "ok", account, total: data.total ?? 0 };
+}

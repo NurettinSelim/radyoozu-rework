@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { CheckCircle2, ListMusic, Music, TriangleAlert } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { getSpotifyPlaylists } from "@/lib/spotify";
+import { getSpotifyDiagnostics, getSpotifyPlaylists } from "@/lib/spotify";
 import { isSpotifyConnected } from "@/lib/spotify-auth-store";
 import { callbackUri } from "@/lib/spotify-oauth";
 import { disconnectSpotify } from "@/app/admin/(authed)/spotify/actions";
@@ -21,7 +21,11 @@ export default async function AdminSpotifyPage({
 }) {
   const sp = await searchParams;
   const connected = await isSpotifyConnected();
-  const playlists = connected ? await getSpotifyPlaylists() : [];
+  const [playlists, diag] = connected
+    ? await Promise.all([getSpotifyPlaylists(), getSpotifyDiagnostics()])
+    : [[], { state: "disconnected" as const }];
+  const notRegistered =
+    diag.state === "api_error" && diag.status === 403;
   const envPinned = Boolean(process.env.SPOTIFY_REFRESH_TOKEN);
 
   const h = await headers();
@@ -54,6 +58,13 @@ export default async function AdminSpotifyPage({
           <code>http://127.0.0.1:3000/admin/spotify</code> üzerinden aç.
         </Banner>
       )}
+      {notRegistered && (
+        <Banner tone="error" icon={TriangleAlert}>
+          Bağlanan hesap Spotify uygulamasının izin listesinde değil (403). Spotify
+          panelinde uygulaman “Development Mode”da; bağlandığın hesabı{" "}
+          <strong>Settings → User Management</strong> bölümüne ekle, sonra yeniden bağlan.
+        </Banner>
+      )}
 
       <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-6">
         <div className="flex items-start gap-4">
@@ -64,12 +75,21 @@ export default async function AdminSpotifyPage({
             {connected ? (
               <>
                 <p className="flex items-center gap-2 font-medium text-emerald-300">
-                  <CheckCircle2 className="size-4" /> Bağlı
+                  <CheckCircle2 className="size-4" />{" "}
+                  {diag.state === "ok" && diag.account
+                    ? `Bağlı — ${diag.account}`
+                    : "Bağlı"}
                 </p>
                 <p className="mt-1 text-sm text-foreground/65">
-                  {playlists.length > 0
-                    ? `${playlists.length} çalma listesi yayında gösteriliyor.`
-                    : "Bağlı, ancak herkese açık çalma listesi bulunamadı."}
+                  {diag.state === "ok"
+                    ? `${diag.total} çalma listesi bulundu, ${playlists.length} tanesi yayında gösteriliyor.`
+                    : notRegistered
+                      ? "Hesap izin listesinde değil (403) — aşağıdaki uyarıya bak."
+                      : diag.state === "api_error"
+                        ? `Spotify API hatası (${diag.status}): ${diag.message}`
+                        : diag.state === "token_error"
+                          ? "Token yenilenemedi. Yeniden bağlanmayı dene."
+                          : "Bağlı, ancak çalma listesi alınamadı."}
                 </p>
               </>
             ) : (
