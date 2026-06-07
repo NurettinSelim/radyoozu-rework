@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CalendarDays, Clock, FileText, LayoutGrid, Radio } from "lucide-react";
+import { CalendarDays, Clock, FileText, LayoutGrid, Music, Radio } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { auth, signOut } from "@/auth";
@@ -17,6 +17,7 @@ const NAV = [
   { href: "/admin/site", label: "Site Bilgileri", icon: FileText },
   { href: "/admin/schedule-window", label: "Program Saatleri", icon: Clock },
   { href: "/admin/copy", label: "Metinler", icon: CalendarDays },
+  { href: "/admin/spotify", label: "Spotify", icon: Music },
 ];
 
 export default async function AdminAuthedLayout({

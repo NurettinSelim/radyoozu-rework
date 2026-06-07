@@ -136,6 +136,11 @@ export const copySchema = z.object({
     eyebrow: z.string().min(1),
     headline: z.string().min(1),
     tagline: z.string().min(1),
+    playlistsHeading: z.string().min(1).default("Çalma listelerimiz"),
+    playlistsTagline: z
+      .string()
+      .min(1)
+      .default("Spotify profilimizdeki en yeni listeler — birine dokun, dinlemeye başla."),
     cardEyebrow: z.string().min(1),
     cardHeading: z.string().min(1),
     cardTagline: z.string().min(1),

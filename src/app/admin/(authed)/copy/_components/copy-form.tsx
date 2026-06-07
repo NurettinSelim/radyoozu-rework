@@ -144,6 +144,19 @@ export function CopyForm({ initial }: { initial: Copy }) {
         <Field label="Tagline" error={errors.spotify?.tagline?.message}>
           <Textarea rows={3} {...form.register("spotify.tagline")} />
         </Field>
+        <Field
+          label="Çalma listeleri başlığı"
+          error={errors.spotify?.playlistsHeading?.message}
+          hint="Otomatik çekilen Spotify listeleri üzerindeki başlık"
+        >
+          <Input {...form.register("spotify.playlistsHeading")} />
+        </Field>
+        <Field
+          label="Çalma listeleri tagline"
+          error={errors.spotify?.playlistsTagline?.message}
+        >
+          <Textarea rows={2} {...form.register("spotify.playlistsTagline")} />
+        </Field>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Kart üst etiket" error={errors.spotify?.cardEyebrow?.message}>
             <Input {...form.register("spotify.cardEyebrow")} />

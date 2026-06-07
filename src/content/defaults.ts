@@ -201,6 +201,9 @@ export const DEFAULT_COPY: Copy = {
     headline: "Spotify’da Radyo Özü",
     tagline:
       "Yayında çaldığımız parçaları, program çalma listelerini ve en yeni keşiflerimizi Spotify profilimizden takip edebilirsin.",
+    playlistsHeading: "Çalma listelerimiz",
+    playlistsTagline:
+      "Spotify profilimizdeki en yeni listeler — birine dokun, dinlemeye başla.",
     cardEyebrow: "Radyo Özü · Spotify",
     cardHeading: "Çalma listelerini keşfet",
     cardTagline: "Her programın kendi listesi, haftalık güncellenen karışımlar.",

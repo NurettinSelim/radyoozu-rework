@@ -1,10 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Dev-only: allow loopback-IP access (used for local Spotify/Google OAuth,
+  // since Spotify rejects "localhost"). No effect on production.
+  allowedDevOrigins: ["127.0.0.1"],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.radio.co" },
       { protocol: "https", hostname: "public.radio.co" },
+      { protocol: "https", hostname: "**.scdn.co" },
+      { protocol: "https", hostname: "**.spotifycdn.com" },
     ],
   },
   async redirects() {
