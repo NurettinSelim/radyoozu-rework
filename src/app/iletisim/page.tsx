@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { InstagramIcon, SocialLinks } from "@/components/social-links";
@@ -62,6 +62,24 @@ export default async function ContactPage() {
                 </dt>
                 <dd className="mt-1 max-w-sm text-foreground/80">
                   {site.address}
+                </dd>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-primary/30 bg-primary/15 text-primary">
+                <Mail className="size-4" />
+              </span>
+              <div>
+                <dt className="text-xs uppercase tracking-widest text-foreground/50">
+                  E-posta
+                </dt>
+                <dd className="mt-1">
+                  <Link
+                    href="mailto:radyoozu@ozu.edu.tr"
+                    className="text-lg transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
+                  >
+                    radyoozu@ozu.edu.tr
+                  </Link>
                 </dd>
               </div>
             </div>
