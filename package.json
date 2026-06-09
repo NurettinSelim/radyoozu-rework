@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:blob": "node --experimental-strip-types --no-warnings scripts/seed-blob.ts",
-    "spotify:auth": "node scripts/spotify-auth.mjs"
+    "seed:blob": "node --experimental-strip-types --no-warnings scripts/seed-blob.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

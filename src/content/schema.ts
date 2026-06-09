@@ -86,7 +86,6 @@ export const siteSchema = z.object({
   }),
   socials: z.object({
     spotify: z.url(),
-    spotifyEmbed: z.url(),
     twitter: z.url(),
     instagram: z.url(),
     youtube: z.url(),

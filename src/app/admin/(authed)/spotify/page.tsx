@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { CheckCircle2, ListMusic, Music, TriangleAlert } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { getSpotifyDiagnostics, getSpotifyPlaylists } from "@/lib/spotify";
+import { getSpotifyDiagnostics } from "@/lib/spotify";
 import { isSpotifyConnected } from "@/lib/spotify-auth-store";
 import { callbackUri } from "@/lib/spotify-oauth";
 import { disconnectSpotify } from "@/app/admin/(authed)/spotify/actions";
@@ -21,9 +21,10 @@ export default async function AdminSpotifyPage({
 }) {
   const sp = await searchParams;
   const connected = await isSpotifyConnected();
-  const [playlists, diag] = connected
-    ? await Promise.all([getSpotifyPlaylists(), getSpotifyDiagnostics()])
-    : [[], { state: "disconnected" as const }];
+  const diag = connected
+    ? await getSpotifyDiagnostics()
+    : ({ state: "disconnected" } as const);
+  const playlists = diag.state === "ok" ? diag.playlists : [];
   const notRegistered =
     diag.state === "api_error" && diag.status === 403;
   const envPinned = Boolean(process.env.SPOTIFY_REFRESH_TOKEN);

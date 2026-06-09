@@ -9,7 +9,7 @@ import { put } from "@vercel/blob";
 // keeping the value unreadable without the server secret.
 //
 // A SPOTIFY_REFRESH_TOKEN env var, if set, always wins (lets you pin a token
-// without the web flow, e.g. when minted via scripts/spotify-auth.mjs).
+// without the web flow).
 
 const BLOB_PATH = "content/spotify-auth.json";
 export const SPOTIFY_AUTH_TAG = "spotify-auth";
