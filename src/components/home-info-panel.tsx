@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AtSign, Mail, Phone } from "lucide-react";
 
+import { SpotifyIcon } from "@/components/social-links";
 import { getSite } from "@/lib/site";
 import { getCopy } from "@/content/copy";
 
@@ -77,6 +78,7 @@ export async function HomeInfoPanel() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
               >
+                <SpotifyIcon className="size-3.5 opacity-70" />
                 Spotify
               </Link>
             </li>

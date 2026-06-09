@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Headphones, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { SpotifyIcon } from "@/components/social-links";
 import { HomeInfoPanel } from "@/components/home-info-panel";
 import { LivePlayer } from "@/components/live-player";
 import { getCopy } from "@/content/copy";
@@ -49,6 +50,7 @@ export default async function HomePage() {
                 />
               }
             >
+              <SpotifyIcon className="size-4" />
               {c.ctaSpotify}
             </Button>
           </div>
