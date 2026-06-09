@@ -104,9 +104,6 @@ export function SiteForm({ initial }: { initial: Site }) {
           <Field label="Spotify" error={errors.socials?.spotify?.message}>
             <Input {...form.register("socials.spotify")} />
           </Field>
-          <Field label="Spotify embed" error={errors.socials?.spotifyEmbed?.message}>
-            <Input {...form.register("socials.spotifyEmbed")} />
-          </Field>
           <Field label="Twitter / X" error={errors.socials?.twitter?.message}>
             <Input {...form.register("socials.twitter")} />
           </Field>

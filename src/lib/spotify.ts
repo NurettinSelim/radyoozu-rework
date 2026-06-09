@@ -6,8 +6,8 @@ import { readRefreshToken } from "@/lib/spotify-auth-store";
 // Listing an account's playlists is user-specific data, so it requires a user
 // token (Authorization Code flow), NOT Client Credentials. We hold a long-lived
 // refresh token for the Radyo Özü account (set via the admin "Connect Spotify"
-// flow, or scripts/spotify-auth.mjs) and exchange it for a short-lived access
-// token on the server at render time.
+// flow) and exchange it for a short-lived access token on the server at render
+// time.
 // Docs: https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens
 
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
@@ -108,6 +108,32 @@ type SpotifyApiPlaylist = {
 };
 
 /**
+ * Keep only the account's own public, non-empty playlists (the ones shown on
+ * its Spotify profile, not ones it merely follows), newest first, then map the
+ * raw API shape to {@link SpotifyPlaylist} and trim to `limit`.
+ */
+function mapProfilePlaylists(
+  items: Array<SpotifyApiPlaylist | null> | undefined,
+  ownerId: string,
+  limit: number,
+): SpotifyPlaylist[] {
+  return (items ?? [])
+    .filter((p): p is SpotifyApiPlaylist => Boolean(p))
+    .filter((p) => p.owner?.id === ownerId && p.public !== false)
+    // Skip empty playlists (e.g. auto-created "N. Çalma Listem" placeholders).
+    .filter((p) => (p.items?.total ?? p.tracks?.total ?? 0) > 0)
+    .slice(0, limit)
+    .map((p) => ({
+      id: p.id,
+      name: p.name,
+      description: decodeEntities(p.description ?? ""),
+      url: p.external_urls?.spotify ?? `https://open.spotify.com/playlist/${p.id}`,
+      imageUrl: p.images?.[0]?.url ?? null,
+      trackCount: p.items?.total ?? p.tracks?.total ?? 0,
+    }));
+}
+
+/**
  * Fetch the Radyo Özü account's own public playlists — the ones shown on its
  * Spotify profile — newest first. Filters out playlists the account merely
  * follows and any private ones. Returns [] when the integration isn't
@@ -130,32 +156,55 @@ export async function getSpotifyPlaylists(limit = 12): Promise<SpotifyPlaylist[]
   if (!res || !res.ok) return [];
 
   const data: { items?: Array<SpotifyApiPlaylist | null> } = await res.json();
-  return (data.items ?? [])
-    .filter((p): p is SpotifyApiPlaylist => Boolean(p))
-    .filter((p) => p.owner?.id === me.id && p.public !== false)
-    // Skip empty playlists (e.g. auto-created "N. Çalma Listem" placeholders).
-    .filter((p) => (p.items?.total ?? p.tracks?.total ?? 0) > 0)
-    .slice(0, limit)
-    .map((p) => ({
-      id: p.id,
-      name: p.name,
-      description: decodeEntities(p.description ?? ""),
-      url: p.external_urls?.spotify ?? `https://open.spotify.com/playlist/${p.id}`,
-      imageUrl: p.images?.[0]?.url ?? null,
-      trackCount: p.items?.total ?? p.tracks?.total ?? 0,
-    }));
+  return mapProfilePlaylists(data.items, me.id, limit);
 }
 
 export type SpotifyDiagnostics =
   | { state: "disconnected" }
   | { state: "token_error" }
-  | { state: "ok"; account: string; total: number }
+  | { state: "ok"; account: string; total: number; playlists: SpotifyPlaylist[] }
   | { state: "api_error"; status: number; message: string };
 
+type ApiError = Extract<SpotifyDiagnostics, { state: "api_error" }>;
+
 /**
- * Live (uncached) probe of the connection for the admin page. Distinguishes the
- * states that {@link getSpotifyPlaylists} collapses into an empty list — most
- * importantly the Development-Mode 403 ("user not registered for this
+ * Uncached GET for the diagnostics probe. Returns the parsed JSON or a typed
+ * api_error (network failure → status 0, otherwise the HTTP status and
+ * Spotify's error message).
+ */
+async function diagFetch<T>(
+  url: string,
+  token: string,
+): Promise<{ data: T } | { error: ApiError }> {
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+  } catch {
+    return { error: { state: "api_error", status: 0, message: "Ağ hatası" } };
+  }
+  if (!res.ok) {
+    let message = res.statusText;
+    try {
+      const body: { error?: { message?: string } } = await res.json();
+      message = body.error?.message ?? message;
+    } catch {
+      /* non-JSON body */
+    }
+    return { error: { state: "api_error", status: res.status, message } };
+  }
+  return { data: await res.json() };
+}
+
+/**
+ * Live (uncached) probe of the connection for the admin page. Does everything
+ * the admin page needs in one pass — one token exchange, one /me, one
+ * /me/playlists — and returns the profile playlists alongside the status, so
+ * the page needs no separate {@link getSpotifyPlaylists} call. Distinguishes
+ * the states that {@link getSpotifyPlaylists} collapses into an empty list —
+ * most importantly the Development-Mode 403 ("user not registered for this
  * application"), which otherwise looks like "no playlists found".
  */
 export async function getSpotifyDiagnostics(): Promise<SpotifyDiagnostics> {
@@ -166,40 +215,24 @@ export async function getSpotifyDiagnostics(): Promise<SpotifyDiagnostics> {
       : { state: "disconnected" };
   }
 
-  let res: Response;
-  try {
-    res = await fetch(`${API_BASE}/me/playlists?limit=1`, {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    });
-  } catch {
-    return { state: "api_error", status: 0, message: "Ağ hatası" };
-  }
+  // /me names the account and is where the Development-Mode 403 surfaces; its
+  // id also scopes the playlist list below to owned (profile) playlists.
+  const meResult = await diagFetch<{ display_name?: string; id?: string }>(
+    `${API_BASE}/me`,
+    token,
+  );
+  if ("error" in meResult) return meResult.error;
+  const me = meResult.data;
+  const account = me.display_name ?? me.id ?? "";
 
-  if (!res.ok) {
-    let message = res.statusText;
-    try {
-      const body: { error?: { message?: string } } = await res.json();
-      message = body.error?.message ?? message;
-    } catch {
-      /* non-JSON body */
-    }
-    return { state: "api_error", status: res.status, message };
-  }
+  const listResult = await diagFetch<{
+    total?: number;
+    items?: Array<SpotifyApiPlaylist | null>;
+  }>(`${API_BASE}/me/playlists?limit=50`, token);
+  if ("error" in listResult) return listResult.error;
+  const data = listResult.data;
 
-  const data: { total?: number } = await res.json();
-  let account = "";
-  try {
-    const meRes = await fetch(`${API_BASE}/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    });
-    if (meRes.ok) {
-      const me: { display_name?: string; id?: string } = await meRes.json();
-      account = me.display_name ?? me.id ?? "";
-    }
-  } catch {
-    /* best-effort */
-  }
-  return { state: "ok", account, total: data.total ?? 0 };
+  // 12 mirrors getSpotifyPlaylists' default so "shown" matches the public page.
+  const playlists = me.id ? mapProfilePlaylists(data.items, me.id, 12) : [];
+  return { state: "ok", account, total: data.total ?? 0, playlists };
 }

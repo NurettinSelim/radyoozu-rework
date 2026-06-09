@@ -128,8 +128,6 @@ export const DEFAULT_SITE: Site = {
   socials: {
     spotify:
       "https://open.spotify.com/user/21dw1vj0ziac5h7spi999w8i2?si=353e94766e584ffa",
-    spotifyEmbed:
-      "https://open.spotify.com/embed/user/21dw1vj0ziac5h7spi999w8i2",
     twitter: "https://twitter.com/RadyoOzU",
     instagram: "https://www.instagram.com/radyozu/",
     youtube: "https://www.youtube.com/c/RadyoOzU",
