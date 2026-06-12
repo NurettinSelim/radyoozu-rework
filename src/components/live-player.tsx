@@ -123,7 +123,8 @@ export function LivePlayer({ stream, brand }: Props) {
     setError(null);
     if (isPlayingRef.current) {
       el.pause();
-      el.src = "";
+      el.removeAttribute("src");
+      el.load();
       isPlayingRef.current = false;
       setIsPlaying(false);
       return;
@@ -309,6 +310,9 @@ export function LivePlayer({ stream, brand }: Props) {
           setIsPlaying(false);
         }}
         onError={() => {
+          const el = audioRef.current;
+          // Detaching the source on stop can fire `error`; ignore when no src is set.
+          if (!el || !el.getAttribute("src")) return;
           setError("Yayın bağlantısı kesildi.");
           isPlayingRef.current = false;
           setIsPlaying(false);
