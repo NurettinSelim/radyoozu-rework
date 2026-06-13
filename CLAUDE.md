@@ -14,6 +14,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 No test runner is configured.
 
+## Deployment & branches
+
+Hosted on Vercel (project `radyoozu`, see `.vercel/project.json`) via Vercel's **Git integration** — there are no GitHub Actions / CI workflow files; pushes are deployed by Vercel itself.
+
+- **`main` is the production branch.** Merging/pushing to `main` triggers a production deploy to `radyoozu.com` (see `ADMIN_SETUP.md` step 5). Treat `main` as always-deployable.
+- **Every other branch gets an automatic Vercel preview deployment.** Branches follow a `<type>/<slug>` convention using conventional-commit types: `feat/`, `fix/`, `chore/`, `perf/` (e.g. `feat/admin-handoff`, `perf/live-player-optimizations`). Do all work on a feature branch and merge to `main` to ship.
+- **Env vars live in Vercel, set for both Production and Preview** (`AUTH_*`, `ADMIN_EMAIL`, `BLOB_*` — full list in `ADMIN_SETUP.md`). A build that passes locally can still fail on Vercel if a var is missing for the target environment. Pull them locally with `vercel env pull .env.local`.
+- **Gotcha: the Vercel Blob store is shared across Production and Preview** (same `BLOB_PUBLIC_BASE_URL`). Content edits made through a *preview* deployment's `/admin` write to the same blobs production reads — preview is not isolated for content.
+
 ## Stack pinning (important)
 
 - **Next.js 16.2.4** with the App Router under `src/app`. Per `AGENTS.md`, APIs/conventions may differ from training data — consult `node_modules/next/dist/docs/` (notably `01-app/`) before introducing Next.js features. Notable Next 16 specifics already in use:
