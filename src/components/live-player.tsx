@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type NowPlaying = {
-  status: "online" | "offline" | string;
+  status: "onair" | "offline" | string;
   title: string;
   artworkUrl?: string;
 };
@@ -31,18 +31,20 @@ async function fetchNowPlaying(apiBase: string): Promise<NowPlaying | null> {
       fetch(`${apiBase}/track/current`, { cache: "no-store" }),
     ]);
     const statusJson = (await statusRes.json()) as {
-      status?: string;
-      current_track?: { title?: string; artwork_url?: string };
+      data?: { status?: string };
     };
     const trackJson = (await trackRes.json()) as {
-      data?: { title?: string; artwork_url?: string };
+      data?: {
+        title?: string;
+        artwork_urls?: { standard?: string; large?: string };
+      };
     };
-    const title =
-      trackJson.data?.title ?? statusJson.current_track?.title ?? "Canlı Yayın";
+    const title = trackJson.data?.title ?? "Canlı Yayın";
     const artworkUrl =
-      trackJson.data?.artwork_url ?? statusJson.current_track?.artwork_url;
+      trackJson.data?.artwork_urls?.large ??
+      trackJson.data?.artwork_urls?.standard;
     return {
-      status: statusJson.status ?? "offline",
+      status: statusJson.data?.status ?? "offline",
       title,
       artworkUrl,
     };
@@ -144,7 +146,7 @@ export function LivePlayer({ stream, brand }: Props) {
     }
   }, [stream.url]);
 
-  const isOnline = now?.status === "online";
+  const isOnline = now?.status === "onair";
   const showMuteIcon = muted || volume === 0;
   const fallbackTitle = `${brand.prefix}${brand.accent}`.trim();
 
