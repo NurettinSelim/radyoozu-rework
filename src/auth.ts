@@ -17,6 +17,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const email = profile?.email?.toLowerCase();
       if (!email) return false;
       if (!ADMIN_EMAIL) return false;
+      // Belt-and-suspenders: Google enforces hd + exact email, but we verify both here too.
+      if (profile?.email_verified === false) return false;
+      if (HOSTED_DOMAIN && !email.endsWith(`@${HOSTED_DOMAIN}`)) return false;
       return email === ADMIN_EMAIL;
     },
     async session({ session }) {

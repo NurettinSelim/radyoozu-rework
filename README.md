@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Radyo Özü
 
-## Getting Started
+Website for **Radyo Özü**, the student radio station of [Özyeğin University](https://www.ozyegin.edu.tr) (Istanbul, Turkey). Single-locale (Turkish) marketing site with a live streaming player, weekly schedule grid, and a built-in CMS at `/admin` for non-technical editors.
 
-First, run the development server:
+## Features
+
+- Live radio player with real-time "now playing" metadata (Radio.co API)
+- Weekly program schedule — desktop grid + mobile list view
+- Admin panel at `/admin` — edit programs, site info, schedule hours, and page copy without touching code
+- Content stored in Vercel Blob; edits go live in seconds
+- Spotify playlist integration
+
+## Stack
+
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **Tailwind CSS v4** · **shadcn** on `@base-ui/react` primitives
+- **Auth.js v5** (Google OAuth, single-account admin gate)
+- **Vercel Blob** for editable content
+
+## Local setup
+
+**Prerequisites:** Node.js 20+, npm, a Vercel account (for Blob + env vars).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/NurettinSelim/radyoozu-rework.git
+cd radyoozu-rework
+npm install
+
+# Pull real env vars from Vercel (requires `vercel link` first)
+vercel link
+vercel env pull .env.local
+
+# Or copy the template and fill in values manually
+cp .env.example .env.local
+
+npm run dev   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Public pages (`/`, `/yayinlar`, `/spotify`, `/iletisim`) render from bundled
+defaults even without a Blob store, so you can work on most of the UI with a
+minimal `.env.local`. The `/admin` panel needs real credentials — see
+[ADMIN_SETUP.md](ADMIN_SETUP.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All required variables are listed and documented in [`.env.example`](.env.example).
+Full setup instructions (Google OAuth, Blob store, seeding) are in [ADMIN_SETUP.md](ADMIN_SETUP.md).
 
-## Learn More
+## Commands
 
-To learn more about Next.js, take a look at the following resources:
+| Command | Description |
+|---|---|
+| `npm run dev` | Start dev server at http://localhost:3000 |
+| `npm run build` | Production build |
+| `npm run lint` | ESLint |
+| `npm run seed:blob` | One-time seed of Blob content store from defaults |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Hosted on Vercel via Git integration — no CI workflow files needed.
 
-## Deploy on Vercel
+- `main` is the production branch → pushes deploy to radyoozu.com
+- Every other branch gets an automatic preview deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Use `feat/`, `fix/`, `chore/`, `perf/` branch prefixes (conventional-commit style).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately via [SECURITY.md](SECURITY.md).
+
+## License & trademarks
+
+Source code is licensed under the [MIT License](LICENSE).
+
+The Radyo Özü and Özyeğin University logos (`public/radyo-ozu-logo.svg`, `public/radyoozu-logo.png`) are trademarks of Özyeğin University and are **not** covered by the MIT License. See [NOTICE](NOTICE) for details. If you fork this project for your own station, replace these assets with your own branding.
