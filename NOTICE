@@ -1,0 +1,21 @@
+Radyo Özü — radyoozu.com
+Copyright (c) 2026 Radyo Özü / Özyeğin University
+
+This product's SOURCE CODE is licensed under the MIT License (see LICENSE).
+
+TRADEMARKS AND BRAND ASSETS
+---------------------------
+The MIT License applies to the source code only. It does NOT grant any rights
+to the Radyo Özü or Özyeğin University names, logos, or other brand assets.
+
+The following files are trademarks of Özyeğin University, included here with
+permission for the operation of this site, and are NOT covered by the MIT
+License:
+
+  - public/radyo-ozu-logo.svg
+  - public/radyoozu-logo.png
+
+You may not use these marks, or any confusingly similar marks, in a way that
+implies endorsement by or affiliation with Radyo Özü or Özyeğin University.
+If you fork this project for your own station, please replace these assets
+with your own branding.
