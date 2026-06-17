@@ -1,70 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
-
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { Toaster } from "@/components/ui/sonner";
-import { getSite } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin", "latin-ext"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700"],
-});
-
-export async function generateMetadata(): Promise<Metadata> {
-  const site = await getSite();
-  return {
-    title: {
-      default: `${site.name} · Özyeğin Üniversitesi Radyosu`,
-      template: `%s · ${site.name}`,
-    },
-    description: site.description,
-    openGraph: {
-      title: `${site.name} · Özyeğin Üniversitesi Radyosu`,
-      description: site.description,
-      type: "website",
-      locale: "tr_TR",
-    },
-  };
-}
-
-export default async function RootLayout({
+// Pass-through root: the localized tree (src/app/[locale]) and the admin tree
+// (src/app/admin) each render their own <html>/<body>. Global styles are
+// imported here so they apply to both.
+export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const site = await getSite();
-  return (
-    <html
-      lang="tr"
-      className={`dark ${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
-    >
-      <body className="relative flex min-h-full flex-col bg-background font-sans text-foreground">
-        <div
-          aria-hidden
-          className="pointer-events-none fixed inset-0 -z-10 opacity-40"
-          style={{
-            background:
-              "radial-gradient(60% 40% at 15% 0%, rgba(187,32,93,0.14) 0%, transparent 60%), radial-gradient(50% 40% at 100% 100%, rgba(70,33,85,0.22) 0%, transparent 55%)",
-          }}
-        />
-        <SiteHeader nav={site.nav} brand={site.brand} />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        <Toaster richColors position="top-center" />
-      </body>
-    </html>
-  );
+}: Readonly<{ children: React.ReactNode }>) {
+  return children;
 }

@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import type { Program } from "@/content/programs";
 import type { ScheduleWindow } from "@/content/schedule-window";
 
@@ -22,7 +24,8 @@ type Props = {
   window: ScheduleWindow;
 };
 
-export function ScheduleList({ programs, window: w }: Props) {
+export async function ScheduleList({ programs, window: w }: Props) {
+  const t = await getTranslations("Schedule");
   const grouped = w.days
     .map((day) => ({
       day,
@@ -41,7 +44,7 @@ export function ScheduleList({ programs, window: w }: Props) {
               {day.label}
             </h2>
             <span className="text-[11px] uppercase tracking-widest text-foreground/50">
-              {items.length} yayın
+              {t("broadcastsCount", { count: items.length })}
             </span>
           </div>
           <ul className="space-y-3">
@@ -65,7 +68,7 @@ export function ScheduleList({ programs, window: w }: Props) {
                   <p className="mt-1 text-sm text-foreground/65">{p.tagline}</p>
                   <p className="mt-3 text-[11px] text-foreground/55">
                     <span className="uppercase tracking-widest text-foreground/40">
-                      Sunan ·{" "}
+                      {t("hostedBy")}{" "}
                     </span>
                     {p.hosts.join(", ")}
                   </p>

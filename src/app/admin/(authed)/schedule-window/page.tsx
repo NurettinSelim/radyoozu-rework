@@ -2,7 +2,7 @@ import { ScheduleWindowForm } from "@/app/admin/(authed)/schedule-window/_compon
 import { getScheduleWindow } from "@/content/schedule-window";
 
 export default async function AdminScheduleWindowPage() {
-  const w = await getScheduleWindow();
+  const w = await getScheduleWindow("tr");
   return (
     <div>
       <h2 className="font-serif text-2xl font-semibold tracking-tight">

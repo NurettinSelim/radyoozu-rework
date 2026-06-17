@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 import { SocialLinks } from "@/components/social-links";
 import { getSite } from "@/lib/site";
 
 export async function SiteFooter() {
-  const site = await getSite();
+  const [site, t] = await Promise.all([getSite(), getTranslations("Footer")]);
   const year = new Date().getFullYear();
   return (
     <footer className="mt-auto border-t border-white/5 bg-background/50">
@@ -27,7 +28,7 @@ export async function SiteFooter() {
         <div className="flex flex-col items-start gap-4 md:items-end">
           <SocialLinks />
           <p className="text-xs text-foreground/50">
-            © {year} {site.shortName} · Tüm hakları saklıdır.
+            {t("rights", { year: String(year), name: site.shortName })}
           </p>
         </div>
       </div>

@@ -13,7 +13,7 @@ export default async function EditProgramPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const programs = await getPrograms();
+  const programs = await getPrograms("tr");
   const program = programs.find((p) => p.slug === slug);
   if (!program) notFound();
 

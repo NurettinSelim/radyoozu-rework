@@ -1,15 +1,25 @@
-import Link from "next/link";
 import { ArrowRight, Headphones, Phone } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
 import { SpotifyIcon } from "@/components/social-links";
 import { HomeInfoPanel } from "@/components/home-info-panel";
 import { LivePlayer } from "@/components/live-player";
+import { Link } from "@/i18n/navigation";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
+import type { Locale } from "@/i18n/routing";
 
-export default async function HomePage() {
-  const [site, copy] = await Promise.all([getSite(), getCopy()]);
+type Props = { params: Promise<{ locale: Locale }> };
+
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const [site, copy, t] = await Promise.all([
+    getSite(locale),
+    getCopy(locale),
+    getTranslations("Home"),
+  ]);
   const c = copy.home;
 
   return (
@@ -43,7 +53,7 @@ export default async function HomePage() {
               nativeButton={false}
               className="rounded-full border-white/15 bg-white/5 px-6"
               render={
-                <Link
+                <a
                   href={site.socials.spotify}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -59,9 +69,9 @@ export default async function HomePage() {
           <div className="enter-rise enter-delay-3">
             <LivePlayer stream={site.stream} brand={site.brand} />
           </div>
-          <Link
+          <a
             href={site.phoneHref}
-            aria-label={`Stüdyo hattını ara: ${site.phone}`}
+            aria-label={t("callStudioAria", { phone: site.phone })}
             className="enter-rise enter-delay-4 group inline-flex items-center gap-2.5 self-center rounded-full border border-white/10 bg-white/4 px-4 py-2.5 text-sm transition-[background-color,border-color,color,scale] duration-200 ease-out hover:border-white/20 hover:bg-white/8 active:scale-[0.96]"
           >
             <Phone className="size-3.5 text-foreground/60 transition-colors group-hover:text-primary" />
@@ -72,7 +82,7 @@ export default async function HomePage() {
             <span className="font-medium tabular-nums text-foreground">
               {site.phone}
             </span>
-          </Link>
+          </a>
         </div>
       </section>
 

@@ -1,26 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ScheduleGrid } from "@/components/schedule-grid";
 import { ScheduleList } from "@/components/schedule-list";
 import { getCopy } from "@/content/copy";
 import { getPrograms } from "@/content/programs";
 import { getScheduleWindow } from "@/content/schedule-window";
+import type { Locale } from "@/i18n/routing";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const copy = await getCopy();
+type Props = { params: Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const copy = await getCopy(locale);
   return {
     title: copy.yayinlar.metadataTitle,
     description: copy.yayinlar.metadataDescription,
   };
 }
 
-export default async function ProgramsPage() {
-  const [programs, scheduleWindow, copy] = await Promise.all([
-    getPrograms(),
-    getScheduleWindow(),
-    getCopy(),
+export default async function ProgramsPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const [programs, scheduleWindow, copy, t] = await Promise.all([
+    getPrograms(locale),
+    getScheduleWindow(locale),
+    getCopy(locale),
+    getTranslations("Programs"),
   ]);
   const c = copy.yayinlar;
 
@@ -44,7 +52,7 @@ export default async function ProgramsPage() {
           className="enter-rise enter-delay-2 inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-widest text-foreground/60 transition-[background-color,border-color,color,scale] duration-150 ease-out hover:border-primary/50 hover:bg-primary/10 hover:text-primary active:scale-[0.96] md:self-auto"
         >
           <Pencil className="size-3.5" />
-          Düzenle
+          {t("edit")}
         </Link>
       </header>
 

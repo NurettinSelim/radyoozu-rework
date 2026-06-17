@@ -2,25 +2,33 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ListMusic } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { SpotifyIcon } from "@/components/social-links";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
 import { getSpotifyPlaylists } from "@/lib/spotify";
+import type { Locale } from "@/i18n/routing";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const copy = await getCopy();
+type Props = { params: Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const copy = await getCopy(locale);
   return {
     title: copy.spotify.metadataTitle,
     description: copy.spotify.metadataDescription,
   };
 }
 
-export default async function SpotifyPage() {
-  const [site, copy, playlists] = await Promise.all([
-    getSite(),
-    getCopy(),
+export default async function SpotifyPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const [site, copy, playlists, t] = await Promise.all([
+    getSite(locale),
+    getCopy(locale),
     getSpotifyPlaylists(),
+    getTranslations("Spotify"),
   ]);
   const c = copy.spotify;
 
@@ -79,7 +87,7 @@ export default async function SpotifyPage() {
                       </p>
                     )}
                     <p className="mt-3 text-xs uppercase tracking-widest text-emerald-300/70">
-                      {p.trackCount} parça
+                      {t("trackCount", { count: p.trackCount })}
                     </p>
                   </div>
                 </Link>

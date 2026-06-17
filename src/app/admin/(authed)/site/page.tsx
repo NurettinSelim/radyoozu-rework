@@ -2,7 +2,7 @@ import { SiteForm } from "@/app/admin/(authed)/site/_components/site-form";
 import { getSite } from "@/lib/site";
 
 export default async function AdminSitePage() {
-  const site = await getSite();
+  const site = await getSite("tr");
   return (
     <div>
       <h2 className="font-serif text-2xl font-semibold tracking-tight">

@@ -10,7 +10,7 @@ function formatHour(h: number) {
 }
 
 export default async function ProgramsListPage() {
-  const programs = await getPrograms();
+  const programs = await getPrograms("tr");
   const byDay = DAY_KEYS.map((day) => ({
     day,
     items: programs

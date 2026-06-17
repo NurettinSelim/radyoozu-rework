@@ -1,22 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
 import { InstagramIcon, SocialLinks } from "@/components/social-links";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
+import type { Locale } from "@/i18n/routing";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const copy = await getCopy();
+type Props = { params: Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const copy = await getCopy(locale);
   return {
     title: copy.iletisim.metadataTitle,
     description: copy.iletisim.metadataDescription,
   };
 }
 
-export default async function ContactPage() {
-  const [site, copy] = await Promise.all([getSite(), getCopy()]);
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const [site, copy] = await Promise.all([getSite(locale), getCopy(locale)]);
   const c = copy.iletisim;
 
   return (

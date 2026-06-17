@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -39,7 +40,7 @@ async function fetchNowPlaying(apiBase: string): Promise<NowPlaying | null> {
         artwork_urls?: { standard?: string; large?: string };
       };
     };
-    const title = trackJson.data?.title ?? "Canlı Yayın";
+    const title = trackJson.data?.title ?? "";
     const artworkUrl =
       trackJson.data?.artwork_urls?.large ??
       trackJson.data?.artwork_urls?.standard;
@@ -54,6 +55,7 @@ async function fetchNowPlaying(apiBase: string): Promise<NowPlaying | null> {
 }
 
 export function LivePlayer({ stream, brand }: Props) {
+  const t = useTranslations("Player");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isPlayingRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -138,13 +140,13 @@ export function LivePlayer({ stream, brand }: Props) {
       isPlayingRef.current = true;
       setIsPlaying(true);
     } catch {
-      setError("Yayın şu an başlatılamadı. Lütfen tekrar deneyin.");
+      setError(t("errorStart"));
       isPlayingRef.current = false;
       setIsPlaying(false);
     } finally {
       setIsLoading(false);
     }
-  }, [stream.url]);
+  }, [stream.url, t]);
 
   const isOnline = now?.status === "onair";
   const showMuteIcon = muted || volume === 0;
@@ -207,21 +209,21 @@ export function LivePlayer({ stream, brand }: Props) {
               />
             </span>
             <span className="text-xs font-medium uppercase tracking-widest text-foreground/60">
-              {isOnline ? "Canlı" : "Yayın"}
+              {isOnline ? t("live") : t("offair")}
             </span>
           </div>
           <h2 className="mt-1 line-clamp-2 text-lg font-semibold leading-tight text-balance sm:text-xl">
-            {now?.title ?? fallbackTitle}
+            {now?.title || fallbackTitle}
           </h2>
           <p
             aria-live="polite"
             className="mt-0.5 truncate text-sm text-foreground/60"
           >
             {isPlaying
-              ? "Şimdi dinliyorsun"
+              ? t("nowPlaying")
               : isLoading
-                ? "Bağlanıyor…"
-                : "Dinlemek için oynat"}
+                ? t("connecting")
+                : t("pressPlay")}
           </p>
         </div>
 
@@ -230,7 +232,7 @@ export function LivePlayer({ stream, brand }: Props) {
           disabled={isLoading}
           size="icon-lg"
           className="size-14 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white sm:size-16"
-          aria-label={isPlaying ? "Duraklat" : "Oynat"}
+          aria-label={isPlaying ? t("pause") : t("play")}
         >
           <span className="relative flex size-6 items-center justify-center sm:size-7">
             <Pause
@@ -258,7 +260,7 @@ export function LivePlayer({ stream, brand }: Props) {
           variant="ghost"
           size="icon-sm"
           onClick={() => setMuted((m) => !m)}
-          aria-label={muted ? "Sesi aç" : "Sesi kapat"}
+          aria-label={muted ? t("unmute") : t("mute")}
           className="relative text-foreground/70 hover:text-foreground after:absolute after:left-1/2 after:top-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']"
         >
           <span className="relative flex size-4 items-center justify-center">
@@ -292,7 +294,7 @@ export function LivePlayer({ stream, brand }: Props) {
             setVolume(v);
             if (audioRef.current) audioRef.current.volume = v;
           }}
-          aria-label="Ses seviyesi"
+          aria-label={t("volume")}
           className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#bb205d]"
         />
       </div>
@@ -315,7 +317,7 @@ export function LivePlayer({ stream, brand }: Props) {
           const el = audioRef.current;
           // Detaching the source on stop can fire `error`; ignore when no src is set.
           if (!el || !el.getAttribute("src")) return;
-          setError("Yayın bağlantısı kesildi.");
+          setError(t("errorDisconnected"));
           isPlayingRef.current = false;
           setIsPlaying(false);
         }}

@@ -1,0 +1,45 @@
+{
+  "Metadata": {
+    "siteSuffix": "Özyeğin University Radio"
+  },
+  "Header": {
+    "mainMenu": "Main menu",
+    "openMenu": "Open menu",
+    "switchLanguage": "Change language"
+  },
+  "Home": {
+    "callStudioAria": "Call the studio line: {phone}"
+  },
+  "Player": {
+    "live": "Live",
+    "offair": "Off air",
+    "nowPlaying": "Now playing",
+    "connecting": "Connecting…",
+    "pressPlay": "Press play to listen",
+    "play": "Play",
+    "pause": "Pause",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume",
+    "errorStart": "The stream couldn’t be started. Please try again.",
+    "errorDisconnected": "The stream connection was lost."
+  },
+  "Schedule": {
+    "today": "Today",
+    "liveLabel": "Live",
+    "broadcastsCount": "{count, plural, one {# broadcast} other {# broadcasts}}",
+    "hostedBy": "Hosted by ·"
+  },
+  "Programs": {
+    "edit": "Edit"
+  },
+  "Social": {
+    "aria": "Social media"
+  },
+  "Spotify": {
+    "trackCount": "{count, plural, one {# track} other {# tracks}}"
+  },
+  "Footer": {
+    "rights": "© {year} {name} · All rights reserved."
+  }
+}

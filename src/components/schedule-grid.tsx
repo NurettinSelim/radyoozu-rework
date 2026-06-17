@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import type { DayKey } from "@/content/schema";
@@ -46,10 +47,11 @@ type Props = {
 export function ScheduleGrid({
   programs,
   window: w,
-  liveLabel = "Canlı",
+  liveLabel,
   liveLegend = "Şu an canlı",
   replayLegend = "Haftalık tekrar",
 }: Props) {
+  const t = useTranslations("Schedule");
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export function ScheduleGrid({
               {isToday && (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-primary">
                   <span className="size-1.5 animate-pulse rounded-full bg-primary" />
-                  Bugün
+                  {t("today")}
                 </span>
               )}
             </div>
@@ -216,7 +218,7 @@ export function ScheduleGrid({
                   {isLive && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 px-1.5 py-[1px] text-[9px] font-bold uppercase tracking-widest text-primary">
                       <span className="size-1 animate-pulse rounded-full bg-primary" />
-                      {liveLabel}
+                      {liveLabel ?? t("liveLabel")}
                     </span>
                   )}
                 </div>
@@ -248,7 +250,8 @@ export function ScheduleGrid({
           </span>
         </div>
         <span className="tabular-nums">
-          {programs.length} yayın · {days[0]?.short} – {days[days.length - 1]?.short}
+          {t("broadcastsCount", { count: programs.length })} · {days[0]?.short} –{" "}
+          {days[days.length - 1]?.short}
         </span>
       </div>
     </div>

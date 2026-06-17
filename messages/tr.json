@@ -1,0 +1,45 @@
+{
+  "Metadata": {
+    "siteSuffix": "Özyeğin Üniversitesi Radyosu"
+  },
+  "Header": {
+    "mainMenu": "Ana menü",
+    "openMenu": "Menüyü aç",
+    "switchLanguage": "Dili değiştir"
+  },
+  "Home": {
+    "callStudioAria": "Stüdyo hattını ara: {phone}"
+  },
+  "Player": {
+    "live": "Canlı",
+    "offair": "Yayın",
+    "nowPlaying": "Şimdi dinliyorsun",
+    "connecting": "Bağlanıyor…",
+    "pressPlay": "Dinlemek için oynat",
+    "play": "Oynat",
+    "pause": "Duraklat",
+    "mute": "Sesi kapat",
+    "unmute": "Sesi aç",
+    "volume": "Ses seviyesi",
+    "errorStart": "Yayın şu an başlatılamadı. Lütfen tekrar deneyin.",
+    "errorDisconnected": "Yayın bağlantısı kesildi."
+  },
+  "Schedule": {
+    "today": "Bugün",
+    "liveLabel": "Canlı",
+    "broadcastsCount": "{count} yayın",
+    "hostedBy": "Sunan ·"
+  },
+  "Programs": {
+    "edit": "Düzenle"
+  },
+  "Social": {
+    "aria": "Sosyal medya"
+  },
+  "Spotify": {
+    "trackCount": "{count} parça"
+  },
+  "Footer": {
+    "rights": "© {year} {name} · Tüm hakları saklıdır."
+  }
+}

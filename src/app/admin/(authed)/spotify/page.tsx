@@ -106,6 +106,9 @@ export default async function AdminSpotifyPage({
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           <Button
+            // Route handler that 3xx-redirects to Spotify OAuth, not a page —
+            // plain <a> (full navigation) is correct, next/link would be wrong.
+            // eslint-disable-next-line @next/next/no-html-link-for-pages
             render={<a href="/api/spotify/connect" />}
             size="sm"
             className="rounded-full"
@@ -156,7 +159,7 @@ export default async function AdminSpotifyPage({
         </div>
       )}
 
-      <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-sm text-foreground/60">
+      <div className="mt-8 rounded-2xl border border-white/10 bg-white/2 p-5 text-sm text-foreground/60">
         <p className="font-medium text-foreground/80">Kurulum</p>
         <p className="mt-2">
           Spotify panelinde <strong>tam olarak</strong> bu redirect URI’yi kayıtlı tut

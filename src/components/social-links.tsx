@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 import { cn } from "@/lib/utils";
 import { getSite } from "@/lib/site";
@@ -52,7 +53,7 @@ type Props = {
 };
 
 export async function SocialLinks({ className, iconClassName }: Props) {
-  const site = await getSite();
+  const [site, t] = await Promise.all([getSite(), getTranslations("Social")]);
   const iconBase = cn("size-5", iconClassName);
   const links = [
     { href: site.socials.spotify, label: "Spotify", icon: <SpotifyIcon className={iconBase} /> },
@@ -61,7 +62,7 @@ export async function SocialLinks({ className, iconClassName }: Props) {
     { href: site.socials.youtube, label: "YouTube", icon: <YoutubeIcon className={iconBase} /> },
   ];
   return (
-    <nav aria-label="Sosyal medya" className={cn("flex items-center gap-2", className)}>
+    <nav aria-label={t("aria")} className={cn("flex items-center gap-2", className)}>
       {links.map((l) => (
         <Link
           key={l.label}
