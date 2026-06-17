@@ -6,6 +6,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { LivePlayerProvider } from "@/components/live-player-provider";
+import { MiniPlayer } from "@/components/mini-player";
 import { Toaster } from "@/components/ui/sonner";
 import { getSite } from "@/lib/site";
 import { routing, type Locale } from "@/i18n/routing";
@@ -77,10 +79,13 @@ export default async function LocaleLayout({ children, params }: Props) {
           }}
         />
         <NextIntlClientProvider>
-          <SiteHeader nav={site.nav} brand={site.brand} />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-          <Toaster richColors position="top-center" />
+          <LivePlayerProvider stream={site.stream} brand={site.brand}>
+            <SiteHeader nav={site.nav} brand={site.brand} />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+            <MiniPlayer />
+            <Toaster richColors position="top-center" />
+          </LivePlayerProvider>
         </NextIntlClientProvider>
       </body>
     </html>

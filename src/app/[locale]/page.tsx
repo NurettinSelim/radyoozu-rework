@@ -67,7 +67,7 @@ export default async function HomePage({ params }: Props) {
         </div>
         <div className="flex flex-col gap-3">
           <div className="enter-rise enter-delay-3">
-            <LivePlayer stream={site.stream} brand={site.brand} />
+            <LivePlayer />
           </div>
           <a
             href={site.phoneHref}

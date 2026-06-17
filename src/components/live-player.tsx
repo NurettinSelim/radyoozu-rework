@@ -1,156 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import { useLivePlayer } from "@/components/live-player-provider";
 import { cn } from "@/lib/utils";
 
-type NowPlaying = {
-  status: "onair" | "offline" | string;
-  title: string;
-  artworkUrl?: string;
-};
-
-const INITIAL_VOLUME = 1.0;
-const POLL_INTERVAL_MS = 20_000;
-
-type Props = {
-  stream: {
-    url: string;
-    apiBase: string;
-  };
-  brand: { prefix: string; accent: string };
-};
-
-async function fetchNowPlaying(apiBase: string): Promise<NowPlaying | null> {
-  try {
-    const [statusRes, trackRes] = await Promise.all([
-      fetch(`${apiBase}/status`, { cache: "no-store" }),
-      fetch(`${apiBase}/track/current`, { cache: "no-store" }),
-    ]);
-    const statusJson = (await statusRes.json()) as {
-      data?: { status?: string };
-    };
-    const trackJson = (await trackRes.json()) as {
-      data?: {
-        title?: string;
-        artwork_urls?: { standard?: string; large?: string };
-      };
-    };
-    const title = trackJson.data?.title ?? "";
-    const artworkUrl =
-      trackJson.data?.artwork_urls?.large ??
-      trackJson.data?.artwork_urls?.standard;
-    return {
-      status: statusJson.data?.status ?? "offline",
-      title,
-      artworkUrl,
-    };
-  } catch {
-    return null;
-  }
-}
-
-export function LivePlayer({ stream, brand }: Props) {
+export function LivePlayer() {
   const t = useTranslations("Player");
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const isPlayingRef = useRef(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(INITIAL_VOLUME);
-  const [now, setNow] = useState<NowPlaying | null>(null);
-
-  useEffect(() => {
-    let active = true;
-    let intervalId: ReturnType<typeof setInterval> | null = null;
-
-    const load = async () => {
-      const data = await fetchNowPlaying(stream.apiBase);
-      if (!active || !data) return;
-      setNow((prev) => {
-        if (
-          prev &&
-          prev.status === data.status &&
-          prev.title === data.title &&
-          prev.artworkUrl === data.artworkUrl
-        ) {
-          return prev;
-        }
-        return data;
-      });
-    };
-
-    const start = () => {
-      if (intervalId !== null) return;
-      load();
-      intervalId = setInterval(load, POLL_INTERVAL_MS);
-    };
-
-    const stop = () => {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
-
-    const shouldPoll = () =>
-      document.visibilityState === "visible" || isPlayingRef.current;
-
-    const onVisibility = () => {
-      if (shouldPoll()) start();
-      else stop();
-    };
-
-    if (shouldPoll()) start();
-    document.addEventListener("visibilitychange", onVisibility);
-
-    return () => {
-      active = false;
-      stop();
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, [stream.apiBase]);
-
-  const setAudioRef = useCallback((el: HTMLAudioElement | null) => {
-    audioRef.current = el;
-    if (el) el.volume = INITIAL_VOLUME;
-  }, []);
-
-  const toggle = useCallback(async () => {
-    const el = audioRef.current;
-    if (!el) return;
-    setError(null);
-    if (isPlayingRef.current) {
-      el.pause();
-      el.removeAttribute("src");
-      el.load();
-      isPlayingRef.current = false;
-      setIsPlaying(false);
-      return;
-    }
-    try {
-      setIsLoading(true);
-      el.src = `${stream.url}?_=${Date.now()}`;
-      await el.play();
-      isPlayingRef.current = true;
-      setIsPlaying(true);
-    } catch {
-      setError(t("errorStart"));
-      isPlayingRef.current = false;
-      setIsPlaying(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [stream.url, t]);
+  const {
+    isPlaying,
+    isLoading,
+    error,
+    muted,
+    volume,
+    now,
+    fallbackTitle,
+    toggle,
+    toggleMuted,
+    changeVolume,
+  } = useLivePlayer();
 
   const isOnline = now?.status === "onair";
   const showMuteIcon = muted || volume === 0;
-  const fallbackTitle = `${brand.prefix}${brand.accent}`.trim();
 
   return (
     <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/8 via-white/4 to-transparent p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
@@ -259,7 +133,7 @@ export function LivePlayer({ stream, brand }: Props) {
         <Button
           variant="ghost"
           size="icon-sm"
-          onClick={() => setMuted((m) => !m)}
+          onClick={toggleMuted}
           aria-label={muted ? t("unmute") : t("mute")}
           className="relative text-foreground/70 hover:text-foreground after:absolute after:left-1/2 after:top-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-['']"
         >
@@ -288,12 +162,7 @@ export function LivePlayer({ stream, brand }: Props) {
           max={1}
           step={0.01}
           value={muted ? 0 : volume}
-          onChange={(e) => {
-            const v = Number(e.target.value);
-            setMuted(v === 0);
-            setVolume(v);
-            if (audioRef.current) audioRef.current.volume = v;
-          }}
+          onChange={(e) => changeVolume(Number(e.target.value))}
           aria-label={t("volume")}
           className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#bb205d]"
         />
@@ -304,24 +173,6 @@ export function LivePlayer({ stream, brand }: Props) {
           {error}
         </p>
       )}
-
-      <audio
-        ref={setAudioRef}
-        preload="none"
-        muted={muted}
-        onEnded={() => {
-          isPlayingRef.current = false;
-          setIsPlaying(false);
-        }}
-        onError={() => {
-          const el = audioRef.current;
-          // Detaching the source on stop can fire `error`; ignore when no src is set.
-          if (!el || !el.getAttribute("src")) return;
-          setError(t("errorDisconnected"));
-          isPlayingRef.current = false;
-          setIsPlaying(false);
-        }}
-      />
     </div>
   );
 }

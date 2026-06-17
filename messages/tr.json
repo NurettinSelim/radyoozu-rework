@@ -12,8 +12,8 @@
   },
   "Player": {
     "live": "Canlı",
-    "offair": "Yayın",
-    "nowPlaying": "Şimdi dinliyorsun",
+    "offair": "Yayın dışı",
+    "nowPlaying": "Şimdi çalıyor",
     "connecting": "Bağlanıyor…",
     "pressPlay": "Dinlemek için oynat",
     "play": "Oynat",
