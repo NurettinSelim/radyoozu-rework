@@ -43,7 +43,7 @@ export default async function AdminLoginPage() {
           Yönetici Girişi
         </h1>
         <p className="mt-3 text-sm text-foreground/65">
-          Radyo Özü içeriklerini düzenlemek için ortak{" "}
+          Radyo ÖzÜ içeriklerini düzenlemek için ortak{" "}
           <span className="font-medium text-foreground">
             radyoozu@ozu.edu.tr
           </span>{" "}

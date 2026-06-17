@@ -108,11 +108,11 @@ export const DEFAULT_PROGRAMS: Program[] = [
 ];
 
 export const DEFAULT_SITE: Site = {
-  name: "Radyo Özü",
-  shortName: "RadyoÖzü",
+  name: "Radyo ÖzÜ",
+  shortName: "RadyoÖzÜ",
   description:
     "Özyeğin Üniversitesi öğrenci radyosu. Canlı yayın, haftalık programlar ve müzik.",
-  brand: { prefix: "Radyo ", accent: "Özü" },
+  brand: { prefix: "Radyo ", accent: "ÖzÜ" },
   phone: "+90 216 564 97 97",
   phoneHref: "tel:+902165649797",
   address: "Özyeğin Üniversitesi Kampüsü, Öğrenci Merkezi Giriş Katı",
@@ -172,7 +172,7 @@ export const DEFAULT_COPY: Copy = {
       "Haftanın her akşamı stüdyoda farklı bir ses. Canlı dinlemek için Canlı Yayın sayfamıza göz at — aşağıda kaçırılmayacak saatler.",
     metadataTitle: "Haftalık Yayınlar",
     metadataDescription:
-      "Radyo Özü'nün 2025-26 sezonu haftalık yayın akışı.",
+      "Radyo ÖzÜ'nün 2025-26 sezonu haftalık yayın akışı.",
     liveLegend: "Şu an canlı",
     replayLegend: "Haftalık tekrar",
   },
@@ -192,22 +192,22 @@ export const DEFAULT_COPY: Copy = {
     },
     metadataTitle: "Bize Ulaş",
     metadataDescription:
-      "Şarkı önerisi, geri bildirim veya iş birliği için Radyo Özü'ne yaz.",
+      "Şarkı önerisi, geri bildirim veya iş birliği için Radyo ÖzÜ'ne yaz.",
   },
   spotify: {
     eyebrow: "Çalma listeleri",
-    headline: "Spotify’da Radyo Özü",
+    headline: "Spotify’da Radyo ÖzÜ",
     tagline:
       "Yayında çaldığımız parçaları, program çalma listelerini ve en yeni keşiflerimizi Spotify profilimizden takip edebilirsin.",
     playlistsHeading: "Çalma listelerimiz",
     playlistsTagline:
       "Spotify profilimizdeki en yeni listeler — birine dokun, dinlemeye başla.",
-    cardEyebrow: "Radyo Özü · Spotify",
+    cardEyebrow: "Radyo ÖzÜ · Spotify",
     cardHeading: "Çalma listelerini keşfet",
     cardTagline: "Her programın kendi listesi, haftalık güncellenen karışımlar.",
     cardCta: "Spotify’da aç",
-    tip: "İpucu: Spotify uygulamasında “Radyo Özü”yü takip edersen, yeni listeler ana sayfana düşer.",
+    tip: "İpucu: Spotify uygulamasında “Radyo ÖzÜ”yü takip edersen, yeni listeler ana sayfana düşer.",
     metadataTitle: "Spotify",
-    metadataDescription: "Radyo Özü'nün Spotify çalma listeleri ve profili.",
+    metadataDescription: "Radyo ÖzÜ'nün Spotify çalma listeleri ve profili.",
   },
 };

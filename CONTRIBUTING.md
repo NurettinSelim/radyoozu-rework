@@ -1,6 +1,6 @@
-# Contributing to Radyo Özü
+# Contributing to Radyo ÖzÜ
 
-Thanks for your interest in improving the Radyo Özü website. This is the public
+Thanks for your interest in improving the Radyo ÖzÜ website. This is the public
 site for Özyeğin University's student radio. Contributions of all sizes are
 welcome — bug fixes, accessibility improvements, docs, and features.
 

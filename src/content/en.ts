@@ -24,7 +24,7 @@ export const EN_COPY: Copy = {
       "A different voice in the studio every evening of the week. Check our Live page to tune in — the can't-miss hours are below.",
     metadataTitle: "Weekly Schedule",
     metadataDescription:
-      "Radyo Özü's weekly program schedule for the 2025-26 season.",
+      "Radyo ÖzÜ's weekly program schedule for the 2025-26 season.",
     liveLegend: "On air now",
     replayLegend: "Weekly replay",
   },
@@ -44,23 +44,23 @@ export const EN_COPY: Copy = {
     },
     metadataTitle: "Contact",
     metadataDescription:
-      "Write to Radyo Özü for song suggestions, feedback, or collaborations.",
+      "Write to Radyo ÖzÜ for song suggestions, feedback, or collaborations.",
   },
   spotify: {
     eyebrow: "Playlists",
-    headline: "Radyo Özü on Spotify",
+    headline: "Radyo ÖzÜ on Spotify",
     tagline:
       "Follow the tracks we play on air, our show playlists, and our latest discoveries on our Spotify profile.",
     playlistsHeading: "Our playlists",
     playlistsTagline:
       "The newest lists on our Spotify profile — tap one and start listening.",
-    cardEyebrow: "Radyo Özü · Spotify",
+    cardEyebrow: "Radyo ÖzÜ · Spotify",
     cardHeading: "Explore the playlists",
     cardTagline: "A list for every show, with mixes updated weekly.",
     cardCta: "Open in Spotify",
-    tip: "Tip: follow “Radyo Özü” in the Spotify app and new lists will show up on your home page.",
+    tip: "Tip: follow “Radyo ÖzÜ” in the Spotify app and new lists will show up on your home page.",
     metadataTitle: "Spotify",
-    metadataDescription: "Radyo Özü's Spotify playlists and profile.",
+    metadataDescription: "Radyo ÖzÜ's Spotify playlists and profile.",
   },
 };
 
@@ -121,7 +121,7 @@ export const EN_PROGRAM_TRANSLATIONS: Record<
   "developer-log": {
     tagline: "The newest show bringing tech enthusiasts together.",
     description:
-      "Weekly notes on software, hardware, AI, and technical projects on campus. Radyo Özü's fresh voice.",
+      "Weekly notes on software, hardware, AI, and technical projects on campus. Radyo ÖzÜ's fresh voice.",
   },
   "yan-komsu": {
     tagline: "Your new Thursday habit.",

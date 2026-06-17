@@ -33,7 +33,7 @@ export default async function AdminAuthedLayout({
       <header className="mb-8 flex flex-col gap-4 border-b border-white/10 pb-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-primary">
-            Radyo Özü · Yönetim
+            Radyo ÖzÜ · Yönetim
           </p>
           <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight">
             Yönetim Paneli

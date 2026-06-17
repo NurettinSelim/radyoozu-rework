@@ -1,4 +1,4 @@
-# Radyo Özü — Yönetim Paneli Kurulumu
+# Radyo ÖzÜ — Yönetim Paneli Kurulumu
 
 This guide is for the **technical lead** (the one developer who knows Git/Vercel).
 The editor onboarding lives at the bottom.
@@ -19,7 +19,7 @@ The admin signs in via Google. You need a Google Cloud OAuth 2.0 client.
 1. Go to <https://console.cloud.google.com/apis/credentials>
 2. Create a project (or reuse one) → **Create Credentials → OAuth client ID**
 3. Application type: **Web application**
-4. Name: `Radyo Özü Admin`
+4. Name: `Radyo ÖzÜ Admin`
 5. Authorized redirect URIs:
    - `https://radyoozu.com/api/auth/callback/google` (production domain)
    - `http://localhost:3000/api/auth/callback/google` (local dev)

@@ -3,7 +3,7 @@ import "server-only";
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";
 import { put } from "@vercel/blob";
 
-// Persists the Radyo Özü Spotify refresh token. The token is a secret, so it's
+// Persists the Radyo ÖzÜ Spotify refresh token. The token is a secret, so it's
 // encrypted (AES-256-GCM, key derived from AUTH_SECRET) before being stored in
 // the blob store — this reuses the existing public-read / put-write path while
 // keeping the value unreadable without the server secret.

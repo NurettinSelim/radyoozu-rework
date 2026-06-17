@@ -23,7 +23,7 @@ disclosure.
 
 ## Scope
 
-This repository hosts the Radyo Özü marketing site and its `/admin` content
+This repository hosts the Radyo ÖzÜ marketing site and its `/admin` content
 editor. Relevant areas include authentication (`src/auth.ts`, `src/proxy.ts`),
 the admin Server Actions under `src/app/admin/`, and the Vercel Blob content
 store (`src/lib/content-store.ts`).

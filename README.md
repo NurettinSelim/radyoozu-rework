@@ -1,6 +1,6 @@
-# Radyo Özü
+# Radyo ÖzÜ
 
-Website for **Radyo Özü**, the student radio station of [Özyeğin University](https://www.ozyegin.edu.tr) (Istanbul, Turkey). Single-locale (Turkish) marketing site with a live streaming player, weekly schedule grid, and a built-in CMS at `/admin` for non-technical editors.
+Website for **Radyo ÖzÜ**, the student radio station of [Özyeğin University](https://www.ozyegin.edu.tr) (Istanbul, Turkey). Single-locale (Turkish) marketing site with a live streaming player, weekly schedule grid, and a built-in CMS at `/admin` for non-technical editors.
 
 ## Features
 
@@ -72,4 +72,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately 
 
 Source code is licensed under the [MIT License](LICENSE).
 
-The Radyo Özü and Özyeğin University logos (`public/radyo-ozu-logo.svg`, `public/radyoozu-logo.png`) are trademarks of Özyeğin University and are **not** covered by the MIT License. See [NOTICE](NOTICE) for details. If you fork this project for your own station, replace these assets with your own branding.
+The Radyo ÖzÜ and Özyeğin University logos (`public/radyo-ozu-logo.svg`, `public/radyoozu-logo.png`) are trademarks of Özyeğin University and are **not** covered by the MIT License. See [NOTICE](NOTICE) for details. If you fork this project for your own station, replace these assets with your own branding.

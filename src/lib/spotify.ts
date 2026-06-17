@@ -5,7 +5,7 @@ import { readRefreshToken } from "@/lib/spotify-auth-store";
 // Spotify Web API client.
 // Listing an account's playlists is user-specific data, so it requires a user
 // token (Authorization Code flow), NOT Client Credentials. We hold a long-lived
-// refresh token for the Radyo Özü account (set via the admin "Connect Spotify"
+// refresh token for the Radyo ÖzÜ account (set via the admin "Connect Spotify"
 // flow) and exchange it for a short-lived access token on the server at render
 // time.
 // Docs: https://developer.spotify.com/documentation/web-api/tutorials/refreshing-tokens
@@ -134,7 +134,7 @@ function mapProfilePlaylists(
 }
 
 /**
- * Fetch the Radyo Özü account's own public playlists — the ones shown on its
+ * Fetch the Radyo ÖzÜ account's own public playlists — the ones shown on its
  * Spotify profile — newest first. Filters out playlists the account merely
  * follows and any private ones. Returns [] when the integration isn't
  * configured or the API is unreachable, so the page falls back to its static

@@ -97,7 +97,7 @@ export default async function AdminSpotifyPage({
               <>
                 <p className="font-medium">Bağlı değil</p>
                 <p className="mt-1 text-sm text-foreground/65">
-                  Çalma listelerini göstermek için Radyo Özü Spotify hesabıyla bağlan.
+                  Çalma listelerini göstermek için Radyo ÖzÜ Spotify hesabıyla bağlan.
                 </p>
               </>
             )}
@@ -170,9 +170,9 @@ export default async function AdminSpotifyPage({
         </code>
         <ul className="mt-3 list-disc space-y-1 pl-5">
           <li>“redirect_uri: Not matching configuration” hatası bu adres birebir eşleşmediğinde çıkar.</li>
-          <li>Açılan Spotify ekranında Radyo Özü hesabıyla giriş yap.</li>
+          <li>Açılan Spotify ekranında Radyo ÖzÜ hesabıyla giriş yap.</li>
           <li>
-            Uygulama geliştirme modundaysa, Radyo Özü hesabının Spotify panelinde
+            Uygulama geliştirme modundaysa, Radyo ÖzÜ hesabının Spotify panelinde
             “User Management” listesinde olması gerekir.
           </li>
         </ul>
