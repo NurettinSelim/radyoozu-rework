@@ -28,6 +28,10 @@ export const programSchema = z
     startHour: z.number().int().min(0).max(23),
     endHour: z.number().int().min(1).max(24),
     hosts: z.array(z.string().min(1)).min(1, "En az bir sunucu ekleyin"),
+    instagramHandle: z
+      .string()
+      .regex(/^[a-zA-Z0-9._]+$/, "Sadece harf, rakam, nokta ve alt çizgi")
+      .optional(),
     accentFrom: hexColor,
     accentTo: hexColor,
   })

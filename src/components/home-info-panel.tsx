@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 
-import { InstagramIcon, SpotifyIcon } from "@/components/social-links";
+import { InstagramIcon } from "@/components/icons";
+import { SpotifyIcon } from "@/components/social-links";
 import { getSite } from "@/lib/site";
 import { getCopy } from "@/content/copy";
 

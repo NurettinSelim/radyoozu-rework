@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import { InstagramIcon } from "@/components/icons";
 import type { Program } from "@/content/programs";
 import type { ScheduleWindow } from "@/content/schedule-window";
 
@@ -72,6 +73,17 @@ export async function ScheduleList({ programs, window: w }: Props) {
                     </span>
                     {p.hosts.join(", ")}
                   </p>
+                  {p.instagramHandle && (
+                    <a
+                      href={`https://www.instagram.com/${p.instagramHandle}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${p.title} Instagram`}
+                      className="mt-2 inline-flex items-center gap-1.5 text-xs text-foreground/55 transition-colors hover:text-primary"
+                    >
+                      <InstagramIcon className="size-4" />@{p.instagramHandle}
+                    </a>
+                  )}
                 </div>
               </li>
             ))}

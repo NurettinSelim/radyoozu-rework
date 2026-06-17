@@ -4,7 +4,8 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
-import { InstagramIcon, SocialLinks } from "@/components/social-links";
+import { InstagramIcon } from "@/components/icons";
+import { SocialLinks } from "@/components/social-links";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
 import type { Locale } from "@/i18n/routing";

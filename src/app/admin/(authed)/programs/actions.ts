@@ -20,8 +20,10 @@ function toProgram(input: ProgramFormInput): Program {
     .map((s) => s.trim())
     .filter(Boolean);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { hostsText, ...rest } = input;
-  return { ...rest, hosts };
+  const { hostsText, instagramHandle, ...rest } = input;
+  const handle =
+    instagramHandle?.trim().replace(/^@/, "").replace(/\/+$/, "") || undefined;
+  return { ...rest, hosts, instagramHandle: handle };
 }
 
 export async function saveProgram(originalSlug: string, input: ProgramFormInput) {

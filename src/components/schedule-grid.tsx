@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
+import { InstagramIcon } from "@/components/icons";
 import type { DayKey } from "@/content/schema";
 import type { Program } from "@/content/programs";
 import type { ScheduleWindow } from "@/content/schedule-window";
@@ -231,6 +232,17 @@ export function ScheduleGrid({
                 <p className="mt-auto line-clamp-2 pt-2 text-[11px] leading-tight text-foreground/50">
                   {p.hosts.join(", ")}
                 </p>
+                {p.instagramHandle && (
+                  <a
+                    href={`https://www.instagram.com/${p.instagramHandle}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${p.title} Instagram`}
+                    className="mt-1.5 inline-flex w-fit items-center gap-1.5 text-[11px] text-foreground/55 transition-colors hover:text-primary"
+                  >
+                    <InstagramIcon className="size-3.5" />@{p.instagramHandle}
+                  </a>
+                )}
               </div>
             </article>
           );

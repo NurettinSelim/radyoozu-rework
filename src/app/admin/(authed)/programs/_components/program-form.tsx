@@ -34,6 +34,11 @@ const formSchema = z
     startHour: z.number().int().min(0).max(23),
     endHour: z.number().int().min(1).max(24),
     hostsText: z.string().min(1, "En az bir sunucu"),
+    instagramHandle: z
+      .string()
+      .regex(/^@?[a-zA-Z0-9._]+$/, "Geçersiz kullanıcı adı")
+      .or(z.literal(""))
+      .optional(),
     accentFrom: hexColor,
     accentTo: hexColor,
   })
@@ -58,6 +63,7 @@ const DEFAULT_VALUES: FormValues = {
   startHour: 19,
   endHour: 20,
   hostsText: "",
+  instagramHandle: "",
   accentFrom: "#bb205d",
   accentTo: "#94205a",
 };
@@ -78,6 +84,7 @@ export function ProgramForm({ mode, initial }: Props) {
           startHour: initial.startHour,
           endHour: initial.endHour,
           hostsText: initial.hosts.join(", "),
+          instagramHandle: initial.instagramHandle ?? "",
           accentFrom: initial.accentFrom,
           accentTo: initial.accentTo,
         }
@@ -173,6 +180,13 @@ export function ProgramForm({ mode, initial }: Props) {
           hint="Virgülle ayır (örn: Ada Yılmaz, Mert Demir)"
         >
           <Input {...form.register("hostsText")} placeholder="Ada Yılmaz, Mert Demir" />
+        </Field>
+        <Field
+          label="Instagram"
+          error={errors.instagramHandle?.message}
+          hint="@ olmadan kullanıcı adı (örn: bside_radyo). Boş bırakılabilir."
+        >
+          <Input {...form.register("instagramHandle")} placeholder="bside_radyo" />
         </Field>
       </section>
 
