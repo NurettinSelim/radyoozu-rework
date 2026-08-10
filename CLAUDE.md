@@ -20,7 +20,7 @@ Hosted on Vercel (project `radyoozu`, see `.vercel/project.json`) via Vercel's *
 
 - **`main` is the production branch.** Merging/pushing to `main` triggers a production deploy to `radyoozu.com` (see `ADMIN_SETUP.md` step 5). Treat `main` as always-deployable.
 - **Every other branch gets an automatic Vercel preview deployment.** Branches follow a `<type>/<slug>` convention using conventional-commit types: `feat/`, `fix/`, `chore/`, `perf/` (e.g. `feat/admin-handoff`, `perf/live-player-optimizations`). Do all work on a feature branch and merge to `main` to ship.
-- **Env vars live in Vercel, set for both Production and Preview** (`AUTH_*`, `ADMIN_EMAIL`, `BLOB_*` — full list in `ADMIN_SETUP.md`). A build that passes locally can still fail on Vercel if a var is missing for the target environment. Pull them locally with `vercel env pull .env.local`.
+- **Env vars live in Vercel, set for both Production and Preview** (`AUTH_*`, `ADMIN_EMAIL`, `BLOB_*` — full list in `ADMIN_SETUP.md`). A build that passes locally can still fail on Vercel if a var is missing for the target environment. Pull them locally with `vercel env pull .env.local`. **Exception: `NEXT_PUBLIC_GA_ID` (GA4) is set for Production only** so Preview/localhost traffic stays out of the analytics property.
 - **Gotcha: the Vercel Blob store is shared across Production and Preview** (same `BLOB_PUBLIC_BASE_URL`). Content edits made through a *preview* deployment's `/admin` write to the same blobs production reads — preview is not isolated for content.
 
 ## Stack pinning (important)
@@ -48,6 +48,12 @@ Client islands:
 - `src/components/live-player.tsx` — `"use client"`; receives `{ stream, brand }` props. Polls `stream.apiBase` (`/status`, `/track/current`) every 20s with `cache: "no-store"`, plays `stream.url` via an `<audio>` element.
 - `src/components/schedule-grid.tsx` — `"use client"`; receives `{ programs, window }` props. Computes "today" column + hour cursor from the live `Date`. Window-driven: days, hours, and `jsDayToColumn` mapping all derive from `window` config — no hard-coded day list.
 - `src/components/site-header.tsx` — `"use client"` (uses `usePathname`); receives `{ nav, brand }` props.
+
+Analytics (Google Analytics 4, `src/components/analytics/`):
+
+- Consent-gated: `<GoogleAnalytics>` (from `@next/third-parties/google`) is mounted by `analytics.tsx` **only** after the visitor accepts the cookie banner, so no GA script/cookie loads before consent (KVKK/GDPR). Consent lives in a first-party cookie `radyoozu-analytics-consent` read via `useSyncExternalStore` in `consent-context.tsx` (client-only read — keeps locale pages statically prerenderable; no `cookies()` call).
+- Wired into `src/app/[locale]/layout.tsx` only (never `/admin`). Pageviews (incl. SPA route changes) are automatic via GA4 Enhanced Measurement.
+- Custom events via `trackEvent()` (`track.ts`, wraps `sendGAEvent`): `radio_play` (player Play buttons), `contact_click` (Instagram/phone/email — the Wix "İletişim tıklamaları" equivalent), `outbound_click` (Spotify/social). Contact/outbound links in Server Components use the `TrackedLink` client wrapper (`tracked-link.tsx`) so an `onClick` can fire without making the page a client tree.
 
 Config & content (Vercel Blob-backed, with bundled defaults):
 

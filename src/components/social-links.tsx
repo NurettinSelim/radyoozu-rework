@@ -1,9 +1,10 @@
-import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
 import { cn } from "@/lib/utils";
 import { getSite } from "@/lib/site";
 import { InstagramIcon } from "@/components/icons";
+import { TrackedLink } from "@/components/analytics/tracked-link";
+import type { AnalyticsEventParams } from "@/components/analytics/track";
 
 export function SpotifyIcon({ className }: { className?: string }) {
   return (
@@ -37,25 +38,33 @@ type Props = {
 export async function SocialLinks({ className, iconClassName }: Props) {
   const [site, t] = await Promise.all([getSite(), getTranslations("Social")]);
   const iconBase = cn("size-5", iconClassName);
-  const links = [
-    { href: site.socials.spotify, label: "Spotify", icon: <SpotifyIcon className={iconBase} /> },
-    { href: site.socials.twitter, label: "X (Twitter)", icon: <XIcon className={iconBase} /> },
-    { href: site.socials.instagram, label: "Instagram", icon: <InstagramIcon className={iconBase} /> },
-    { href: site.socials.youtube, label: "YouTube", icon: <YoutubeIcon className={iconBase} /> },
+  const links: {
+    href: string;
+    label: string;
+    icon: React.ReactNode;
+    event: string;
+    params: AnalyticsEventParams;
+  }[] = [
+    { href: site.socials.spotify, label: "Spotify", icon: <SpotifyIcon className={iconBase} />, event: "outbound_click", params: { target: "spotify" } },
+    { href: site.socials.twitter, label: "X (Twitter)", icon: <XIcon className={iconBase} />, event: "outbound_click", params: { target: "twitter" } },
+    { href: site.socials.instagram, label: "Instagram", icon: <InstagramIcon className={iconBase} />, event: "contact_click", params: { method: "instagram" } },
+    { href: site.socials.youtube, label: "YouTube", icon: <YoutubeIcon className={iconBase} />, event: "outbound_click", params: { target: "youtube" } },
   ];
   return (
     <nav aria-label={t("aria")} className={cn("flex items-center gap-2", className)}>
       {links.map((l) => (
-        <Link
+        <TrackedLink
           key={l.label}
           href={l.href}
+          event={l.event}
+          params={l.params}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={l.label}
           className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/5 text-foreground/70 transition-[background-color,border-color,color,scale] duration-150 ease-out hover:border-primary/50 hover:bg-primary/15 hover:text-primary active:scale-[0.96]"
         >
           {l.icon}
-        </Link>
+        </TrackedLink>
       ))}
     </nav>
   );

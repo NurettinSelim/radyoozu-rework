@@ -47,6 +47,7 @@ Set these on Vercel (Production + Preview), and in a local `.env.local`:
 | `ADMIN_EMAIL` | `radyoozu@ozu.edu.tr` | The single shared editor account. |
 | `BLOB_READ_WRITE_TOKEN` | auto-provisioned | Vercel sets this when you create the Blob store. |
 | `BLOB_PUBLIC_BASE_URL` | from seed output | The public base URL of the blob store, e.g. `https://abc123.public.blob.vercel-storage.com`. The seed script prints this. |
+| `NEXT_PUBLIC_GA_ID` | from Google Analytics | GA4 Measurement ID, e.g. `G-XXXXXXXXXX`. **Set for Production only** — leaving it unset on Preview keeps preview/localhost traffic out of the GA property. Google Analytics loads only after the visitor accepts the cookie banner. |
 
 For local development you can pull all of them at once after linking the
 project:

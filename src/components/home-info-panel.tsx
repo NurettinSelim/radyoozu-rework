@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 
 import { InstagramIcon } from "@/components/icons";
 import { SpotifyIcon } from "@/components/social-links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { getSite } from "@/lib/site";
 import { getCopy } from "@/content/copy";
 
@@ -44,44 +44,52 @@ export async function HomeInfoPanel() {
           </p>
           <ul className="mt-4 space-y-3 text-sm">
             <li>
-              <Link
+              <TrackedLink
                 href={site.phoneHref}
+                event="contact_click"
+                params={{ method: "phone" }}
                 className="inline-flex items-center gap-2 text-foreground/80 tabular-nums transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
               >
                 <Phone className="size-3.5 opacity-70" />
                 {site.phone}
-              </Link>
+              </TrackedLink>
             </li>
             <li>
-              <Link
+              <TrackedLink
                 href={`mailto:${site.email}`}
+                event="contact_click"
+                params={{ method: "email" }}
                 className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
               >
                 <Mail className="size-3.5 opacity-70" />
                 {site.email}
-              </Link>
+              </TrackedLink>
             </li>
             <li>
-              <Link
+              <TrackedLink
                 href={site.socials.instagram}
+                event="contact_click"
+                params={{ method: "instagram" }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
               >
                 <InstagramIcon className="size-3.5 opacity-70" />
                 {site.instagramHandle}
-              </Link>
+              </TrackedLink>
             </li>
             <li>
-              <Link
+              <TrackedLink
                 href={site.socials.spotify}
+                event="outbound_click"
+                params={{ target: "spotify" }}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-foreground/80 transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
               >
                 <SpotifyIcon className="size-3.5 opacity-70" />
                 Spotify
-              </Link>
+              </TrackedLink>
             </li>
           </ul>
         </div>

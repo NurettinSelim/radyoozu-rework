@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { useLivePlayer } from "@/components/live-player-provider";
+import { trackEvent } from "@/components/analytics/track";
 import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -123,7 +124,10 @@ export function MiniPlayer() {
           </Button>
 
           <Button
-            onClick={toggle}
+            onClick={() => {
+              if (!isPlaying) trackEvent("radio_play", { source: "mini" });
+              toggle();
+            }}
             disabled={isLoading}
             size="icon-lg"
             className="size-11 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white"

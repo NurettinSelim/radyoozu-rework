@@ -36,6 +36,12 @@
   "Social": {
     "aria": "Sosyal medya"
   },
+  "Consent": {
+    "title": "Çerezler",
+    "description": "Siteyi geliştirmek için anonim kullanım istatistikleri topluyoruz. İzin veriyor musunuz?",
+    "accept": "Kabul et",
+    "reject": "Reddet"
+  },
   "Spotify": {
     "trackCount": "{count} parça"
   },

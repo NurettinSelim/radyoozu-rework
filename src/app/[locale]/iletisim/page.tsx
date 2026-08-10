@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { InstagramIcon } from "@/components/icons";
 import { SocialLinks } from "@/components/social-links";
+import { TrackedLink } from "@/components/analytics/tracked-link";
+import { cn } from "@/lib/utils";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
 import type { Locale } from "@/i18n/routing";
@@ -51,12 +52,14 @@ export default async function ContactPage({ params }: Props) {
                   {c.phoneLabel}
                 </dt>
                 <dd className="mt-1">
-                  <Link
+                  <TrackedLink
                     href={site.phoneHref}
+                    event="contact_click"
+                    params={{ method: "phone" }}
                     className="text-lg tabular-nums transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
                   >
                     {site.phone}
-                  </Link>
+                  </TrackedLink>
                 </dd>
               </div>
             </div>
@@ -82,12 +85,14 @@ export default async function ContactPage({ params }: Props) {
                   {c.emailLabel}
                 </dt>
                 <dd className="mt-1">
-                  <Link
+                  <TrackedLink
                     href={`mailto:${site.email}`}
+                    event="contact_click"
+                    params={{ method: "email" }}
                     className="text-lg transition-[color,scale] duration-150 ease-out hover:text-primary active:scale-[0.96]"
                   >
                     {site.email}
-                  </Link>
+                  </TrackedLink>
                 </dd>
               </div>
             </div>
@@ -111,19 +116,19 @@ export default async function ContactPage({ params }: Props) {
           <p className="mt-3 text-pretty text-foreground/70">
             {c.instagram.tagline}
           </p>
-          <Button
-            size="lg"
-            className="mt-8 self-start rounded-full bg-linear-to-br from-[#bb205d] to-[#94205a] px-6 text-white"
-            render={
-              <a
-                href={site.socials.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <InstagramIcon className="size-4" />@{site.instagramHandle}
-              </a>
-            }
-          />
+          <TrackedLink
+            href={site.socials.instagram}
+            event="contact_click"
+            params={{ method: "instagram" }}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "mt-8 self-start rounded-full bg-linear-to-br from-[#bb205d] to-[#94205a] px-6 text-white",
+            )}
+          >
+            <InstagramIcon className="size-4" />@{site.instagramHandle}
+          </TrackedLink>
         </div>
       </div>
     </div>

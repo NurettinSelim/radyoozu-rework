@@ -36,6 +36,12 @@
   "Social": {
     "aria": "Social media"
   },
+  "Consent": {
+    "title": "Cookies",
+    "description": "We collect anonymous usage statistics to improve the site. Do you accept?",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
   "Spotify": {
     "trackCount": "{count, plural, one {# track} other {# tracks}}"
   },
