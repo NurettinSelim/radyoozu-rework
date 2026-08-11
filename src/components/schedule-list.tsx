@@ -41,7 +41,7 @@ export async function ScheduleList({ programs, window: w }: Props) {
       {grouped.map(({ day, items }) => (
         <section key={day.key}>
           <div className="mb-4 flex items-baseline justify-between border-b border-white/10 pb-2">
-            <h2 className="font-serif text-xl font-semibold tracking-tight text-primary">
+            <h2 className="text-xl font-semibold tracking-tight text-primary">
               {day.label}
             </h2>
             <span className="text-[11px] uppercase tracking-widest text-foreground/50">
@@ -63,7 +63,7 @@ export async function ScheduleList({ programs, window: w }: Props) {
                   <span className="text-[10px] font-medium uppercase tracking-[0.2em] tabular-nums text-foreground/55">
                     {formatRange(p)}
                   </span>
-                  <h3 className="mt-1 font-serif text-lg font-semibold leading-tight text-balance">
+                  <h3 className="mt-1 text-lg font-semibold leading-tight text-balance">
                     {p.title}
                   </h3>
                   <p className="mt-1 text-sm text-foreground/65">{p.tagline}</p>

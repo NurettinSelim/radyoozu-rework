@@ -66,7 +66,7 @@ export default async function GamePage({ params }: Props) {
           <p className="enter-rise text-xs uppercase tracking-[0.25em] text-primary">
             {t("eyebrow")}
           </p>
-          <h1 className="enter-rise enter-delay-1 mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl">
+          <h1 className="enter-rise enter-delay-1 mt-3 text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl">
             {t("headline")}
           </h1>
           <p className="enter-rise enter-delay-2 mt-4 text-base text-pretty text-foreground/70 sm:text-lg">

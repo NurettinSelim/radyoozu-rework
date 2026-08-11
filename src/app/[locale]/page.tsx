@@ -31,7 +31,7 @@ export default async function HomePage({ params }: Props) {
             <Headphones className="size-3.5" />
             {c.eyebrow}
           </span>
-          <h1 className="enter-rise enter-delay-1 mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-6xl md:text-7xl">
+          <h1 className="enter-rise enter-delay-1 mt-6 text-5xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-6xl md:text-7xl">
             {site.brand.prefix}
             <span className="text-primary">{site.brand.accent}</span>
           </h1>
@@ -102,7 +102,7 @@ export default async function HomePage({ params }: Props) {
             <Gamepad2 className="size-4 transition-transform duration-200 ease-out group-hover:scale-110" />
           </span>
           <span className="min-w-0 text-left">
-            <strong className="block font-serif text-base font-semibold text-foreground">
+            <strong className="block text-base font-semibold text-foreground">
               {tGame("teaserTitle")}
             </strong>
             <span className="mt-0.5 block text-xs text-pretty text-foreground/55">

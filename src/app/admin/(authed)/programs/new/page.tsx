@@ -13,7 +13,7 @@ export default function NewProgramPage() {
         <ArrowLeft className="size-3.5" />
         Yayın listesi
       </Link>
-      <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight">
+      <h2 className="mt-3 text-2xl font-semibold tracking-tight">
         Yeni Yayın
       </h2>
       <p className="mt-1 text-sm text-foreground/65">

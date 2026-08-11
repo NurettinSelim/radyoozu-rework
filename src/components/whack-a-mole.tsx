@@ -410,7 +410,7 @@ export function WhackAMole({ targets }: { targets: MoleTarget[] }) {
                   />
                   <span
                     aria-hidden
-                    className={`absolute bottom-[12%] left-[15%] flex aspect-square w-[70%] will-change-transform items-center justify-center rounded-full font-serif text-xl font-semibold text-white opacity-0 shadow-[0_6px_12px_rgba(0,0,0,0.35)] outline outline-1 -outline-offset-1 outline-white/10 ease-[cubic-bezier(0.2,0,0,1)] motion-safe:transition-[transform,opacity] motion-reduce:transition-opacity sm:text-3xl ${
+                    className={`absolute bottom-[12%] left-[15%] flex aspect-square w-[70%] will-change-transform items-center justify-center rounded-full text-xl font-semibold text-white opacity-0 shadow-[0_6px_12px_rgba(0,0,0,0.35)] outline outline-1 -outline-offset-1 outline-white/10 ease-[cubic-bezier(0.2,0,0,1)] motion-safe:transition-[transform,opacity] motion-reduce:transition-opacity sm:text-3xl ${
                       isCaught
                         ? "opacity-0 motion-safe:translate-y-[25%] motion-safe:scale-x-[1.15] motion-safe:scale-y-[0.6]"
                         : isOccupied
@@ -434,7 +434,7 @@ export function WhackAMole({ targets }: { targets: MoleTarget[] }) {
                       >
                         <span className="hit-ring absolute left-1/2 top-1/2 size-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#f4eaca]/80" />
                         <span
-                          className="score-pop font-serif text-lg font-semibold text-[#f4eaca]"
+                          className="score-pop text-lg font-semibold text-[#f4eaca]"
                           onAnimationEnd={() =>
                             setHits((currentHits) =>
                               currentHits.filter(
@@ -466,13 +466,13 @@ export function WhackAMole({ targets }: { targets: MoleTarget[] }) {
               ) : phase === "countdown" ? (
                 <span
                   key={countdownStep}
-                  className="countdown-pop font-serif text-7xl font-semibold tabular-nums text-[#f4eaca]"
+                  className="countdown-pop text-7xl font-semibold tabular-nums text-[#f4eaca]"
                 >
                   {countdownStep}
                 </span>
               ) : (
                 <div className="flex flex-col items-center">
-                  <h2 className="enter-rise font-serif text-3xl font-semibold text-balance">
+                  <h2 className="enter-rise text-3xl font-semibold text-balance">
                     {t("finalTitle")}
                   </h2>
                   <p className="enter-rise enter-delay-1 mt-2 text-sm text-foreground/70">

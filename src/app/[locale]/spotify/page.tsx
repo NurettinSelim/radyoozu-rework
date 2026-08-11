@@ -38,7 +38,7 @@ export default async function SpotifyPage({ params }: Props) {
         <p className="enter-rise text-xs uppercase tracking-widest text-primary">
           {c.eyebrow}
         </p>
-        <h1 className="enter-rise enter-delay-1 mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl">
+        <h1 className="enter-rise enter-delay-1 mt-3 text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl">
           {c.headline}
         </h1>
         <p className="enter-rise enter-delay-2 mt-4 max-w-2xl text-base text-pretty text-foreground/70 sm:text-lg">
@@ -48,7 +48,7 @@ export default async function SpotifyPage({ params }: Props) {
 
       {playlists.length > 0 && (
         <section className="enter-rise enter-delay-3 mt-12">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+          <h2 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
             {c.playlistsHeading}
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-pretty text-foreground/60">
@@ -112,7 +112,7 @@ export default async function SpotifyPage({ params }: Props) {
               <p className="text-xs uppercase tracking-widest text-emerald-300/80">
                 {c.cardEyebrow}
               </p>
-              <p className="mt-1 font-serif text-2xl font-semibold text-balance sm:text-3xl">
+              <p className="mt-1 text-2xl font-semibold text-balance sm:text-3xl">
                 {c.cardHeading}
               </p>
               <p className="mt-1 max-w-md text-sm text-foreground/60">

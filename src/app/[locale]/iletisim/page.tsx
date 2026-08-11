@@ -35,7 +35,7 @@ export default async function ContactPage({ params }: Props) {
           <p className="enter-rise text-xs uppercase tracking-widest text-primary">
             {c.eyebrow}
           </p>
-          <h1 className="enter-rise enter-delay-1 mt-3 font-serif text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl">
+          <h1 className="enter-rise enter-delay-1 mt-3 text-4xl font-semibold leading-tight tracking-tight text-balance sm:text-5xl">
             {c.headline}
           </h1>
           <p className="enter-rise enter-delay-2 mt-4 max-w-xl text-base text-pretty text-foreground/70 sm:text-lg">
@@ -110,7 +110,7 @@ export default async function ContactPage({ params }: Props) {
           <span className="grid size-14 place-items-center rounded-2xl bg-linear-to-br from-[#bb205d] to-[#94205a] text-white shadow-lg shadow-[#bb205d]/20">
             <InstagramIcon className="size-7" />
           </span>
-          <h2 className="mt-6 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="mt-6 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             {c.instagram.heading}
           </h2>
           <p className="mt-3 text-pretty text-foreground/70">

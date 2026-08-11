@@ -27,7 +27,7 @@ export async function HomeInfoPanel() {
           <p className="text-xs uppercase tracking-widest text-foreground/50">
             {info.studioEyebrow}
           </p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold text-balance text-foreground sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-semibold text-balance text-foreground sm:text-4xl">
             {info.studioHeading}
           </h2>
           <AddressLines address={site.address} />

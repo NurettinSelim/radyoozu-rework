@@ -5,7 +5,7 @@ export default async function AdminScheduleWindowPage() {
   const w = await getScheduleWindow("tr");
   return (
     <div>
-      <h2 className="font-serif text-2xl font-semibold tracking-tight">
+      <h2 className="text-2xl font-semibold tracking-tight">
         Program Saatleri
       </h2>
       <p className="mt-1 text-sm text-foreground/65">

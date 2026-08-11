@@ -35,7 +35,7 @@ export default async function AdminAuthedLayout({
           <p className="text-xs uppercase tracking-widest text-primary">
             Radyo ÖzÜ · Yönetim
           </p>
-          <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">
             Yönetim Paneli
           </h1>
         </div>

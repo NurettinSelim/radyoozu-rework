@@ -22,7 +22,7 @@ export default async function ProgramsListPage() {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="font-serif text-2xl font-semibold tracking-tight">
+          <h2 className="text-2xl font-semibold tracking-tight">
             Yayınlar
           </h2>
           <p className="mt-1 text-sm text-foreground/65">
@@ -39,7 +39,7 @@ export default async function ProgramsListPage() {
       <div className="mt-8 space-y-8">
         {byDay.map(({ day, items }) => (
           <section key={day}>
-            <h3 className="border-b border-white/10 pb-2 font-serif text-lg font-semibold text-primary">
+            <h3 className="border-b border-white/10 pb-2 text-lg font-semibold text-primary">
               {day}
             </h3>
             <ul className="mt-3 space-y-2">

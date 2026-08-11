@@ -99,7 +99,7 @@ export function ScheduleGrid({
             >
               <span
                 className={cn(
-                  "font-serif text-base font-semibold tracking-tight",
+                  "text-base font-semibold tracking-tight",
                   isToday ? "text-[#f4eaca]" : "text-foreground/80",
                 )}
               >
@@ -223,7 +223,7 @@ export function ScheduleGrid({
                     </span>
                   )}
                 </div>
-                <h3 className="mt-1.5 font-serif text-[1.05rem] font-semibold leading-[1.15] tracking-tight text-balance text-foreground">
+                <h3 className="mt-1.5 text-[1.05rem] font-semibold leading-[1.15] tracking-tight text-balance text-foreground">
                   {p.title}
                 </h3>
                 <p className="mt-1 line-clamp-2 text-xs leading-snug text-foreground/65">

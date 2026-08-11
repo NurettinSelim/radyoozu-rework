@@ -52,7 +52,7 @@ export default function AdminDashboardPage() {
               <span className="inline-flex size-10 items-center justify-center rounded-lg bg-primary/15 text-primary">
                 <Icon className="size-5" />
               </span>
-              <h2 className="mt-5 font-serif text-xl font-semibold tracking-tight">
+              <h2 className="mt-5 text-xl font-semibold tracking-tight">
                 {card.label}
               </h2>
               <p className="mt-2 text-sm text-foreground/65">

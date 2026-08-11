@@ -37,7 +37,7 @@ export default async function AdminSpotifyPage({
 
   return (
     <div className="max-w-2xl">
-      <h2 className="font-serif text-2xl font-semibold tracking-tight">Spotify</h2>
+      <h2 className="text-2xl font-semibold tracking-tight">Spotify</h2>
       <p className="mt-1 text-sm text-foreground/65">
         Spotify hesabını bağladığında <code className="text-foreground/80">/spotify</code>{" "}
         sayfası, hesabın en yeni çalma listelerini otomatik olarak gösterir.

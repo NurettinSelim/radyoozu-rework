@@ -39,7 +39,7 @@ export default async function AdminLoginPage() {
   return (
     <div className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col justify-center px-4 py-16 md:px-6">
       <div className="rounded-3xl border border-white/10 bg-white/4 p-8 shadow-2xl shadow-black/30">
-        <h1 className="font-serif text-3xl font-semibold tracking-tight">
+        <h1 className="text-3xl font-semibold tracking-tight">
           Yönetici Girişi
         </h1>
         <p className="mt-3 text-sm text-foreground/65">
