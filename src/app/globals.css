@@ -149,6 +149,69 @@
     animation: enter-rise 600ms cubic-bezier(0.2, 0, 0, 1) forwards;
     will-change: transform, opacity, filter;
   }
+  @keyframes score-pop {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-18px);
+    }
+  }
+
+  .score-pop {
+    animation: score-pop 600ms cubic-bezier(0.2, 0, 0, 1) forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes hit-ring {
+    from {
+      opacity: 0.7;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 0;
+      transform: scale(1.25);
+    }
+  }
+
+  .hit-ring {
+    animation: hit-ring 450ms ease-out forwards;
+    will-change: transform, opacity;
+  }
+
+  @keyframes score-bump {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.25);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .score-bump {
+    animation: score-bump 200ms ease-out;
+  }
+
+  @keyframes countdown-pop {
+    from {
+      opacity: 0;
+      transform: scale(1.6);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .countdown-pop {
+    animation: countdown-pop 250ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  }
+
 
   .enter-delay-1 {
     animation-delay: 80ms;
@@ -173,6 +236,18 @@
       opacity: 1;
       transform: none;
       filter: none;
+    }
+
+    .score-pop,
+    .hit-ring,
+    .score-bump,
+    .countdown-pop {
+      animation: none;
+    }
+
+    .score-pop,
+    .hit-ring {
+      opacity: 0;
     }
   }
 }

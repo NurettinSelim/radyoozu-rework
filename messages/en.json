@@ -62,6 +62,8 @@
     "newBest": "New record!",
     "whackAria": "Catch {name}'s mole",
     "emptyHoleAria": "Mole hole {number}",
+    "sfxMute": "Turn game sounds off",
+    "sfxUnmute": "Turn game sounds on",
     "rosterTitle": "The moles — our beloved hosts",
     "teaser": "Can't concentrate? A little mole break might help."
   },

@@ -62,6 +62,8 @@
     "newBest": "Yeni rekor!",
     "whackAria": "{name} köstebeğini yakala",
     "emptyHoleAria": "Köstebek deliği {number}",
+    "sfxMute": "Oyun seslerini kapat",
+    "sfxUnmute": "Oyun seslerini aç",
     "rosterTitle": "Köstebekler — sevgili sunucularımız",
     "teaser": "Odaklanamıyor musun? Küçük bir köstebek molası iyi gelebilir."
   },
