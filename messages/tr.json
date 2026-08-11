@@ -45,6 +45,26 @@
   "Spotify": {
     "trackCount": "{count} parça"
   },
+  "Game": {
+    "metadataTitle": "Köstebek Avı",
+    "metadataDescription": "Yayın çalarken küçük bir mola: Radyo ÖzÜ'nün şakadan köstebek oyunu.",
+    "eyebrow": "Stüdyo Arası",
+    "headline": "Köstebek Avı",
+    "tagline": "Köstebekler sevgili sunucularımızın baş harflerini ödünç almış. Delikten çıkanı yakala, puanları topla — tamamen şakasına.",
+    "hint": "Canlı yayın arka planda çalmaya devam eder.",
+    "start": "Başlat",
+    "playAgain": "Tekrar Oyna",
+    "score": "Puan",
+    "best": "Rekor",
+    "time": "Süre",
+    "finalTitle": "Süre doldu!",
+    "finalScore": "{score} puan topladın.",
+    "newBest": "Yeni rekor!",
+    "whackAria": "{name} köstebeğini yakala",
+    "emptyHoleAria": "Köstebek deliği {number}",
+    "rosterTitle": "Köstebekler — sevgili sunucularımız",
+    "teaser": "Odaklanamıyor musun? Küçük bir köstebek molası iyi gelebilir."
+  },
   "Footer": {
     "rights": "© {year} {name} · Tüm hakları saklıdır."
   }

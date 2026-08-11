@@ -45,6 +45,26 @@
   "Spotify": {
     "trackCount": "{count, plural, one {# track} other {# tracks}}"
   },
+  "Game": {
+    "metadataTitle": "Whack-a-Mole",
+    "metadataDescription": "A little break while the stream plays: Radyo ÖzÜ's just-for-fun mole game.",
+    "eyebrow": "Studio Break",
+    "headline": "Whack-a-Mole",
+    "tagline": "The moles borrowed our beloved hosts' initials. Catch them as they pop up and stack points — all in good fun.",
+    "hint": "The live stream keeps playing in the background.",
+    "start": "Start",
+    "playAgain": "Play Again",
+    "score": "Score",
+    "best": "Best",
+    "time": "Time",
+    "finalTitle": "Time's up!",
+    "finalScore": "You scored {score} points.",
+    "newBest": "New record!",
+    "whackAria": "Catch {name}'s mole",
+    "emptyHoleAria": "Mole hole {number}",
+    "rosterTitle": "The moles — our beloved hosts",
+    "teaser": "Can't concentrate? A little mole break might help."
+  },
   "Footer": {
     "rights": "© {year} {name} · All rights reserved."
   }
