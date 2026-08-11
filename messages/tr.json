@@ -65,7 +65,8 @@
     "sfxMute": "Oyun seslerini kapat",
     "sfxUnmute": "Oyun seslerini aç",
     "rosterTitle": "Köstebekler — sevgili sunucularımız",
-    "teaser": "Odaklanamıyor musun? Küçük bir köstebek molası iyi gelebilir."
+    "teaserTitle": "Biraz ara ver?",
+    "teaser": "Küçük bir sürpriz seni bekliyor."
   },
   "Footer": {
     "rights": "© {year} {name} · Tüm hakları saklıdır."

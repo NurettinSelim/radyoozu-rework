@@ -65,7 +65,8 @@
     "sfxMute": "Turn game sounds off",
     "sfxUnmute": "Turn game sounds on",
     "rosterTitle": "The moles — our beloved hosts",
-    "teaser": "Can't concentrate? A little mole break might help."
+    "teaserTitle": "Take a little break?",
+    "teaser": "A small surprise is waiting."
   },
   "Footer": {
     "rights": "© {year} {name} · All rights reserved."
