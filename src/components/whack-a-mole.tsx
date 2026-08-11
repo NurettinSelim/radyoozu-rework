@@ -113,6 +113,8 @@ export function WhackAMole({ targets }: { targets: MoleTarget[] }) {
     sfxOnRef.current = nextSfxOn;
     setSfxOn(nextSfxOn);
 
+    if (nextSfxOn) playGo();
+
     try {
       localStorage.setItem(SFX_KEY, nextSfxOn ? "on" : "off");
     } catch {
