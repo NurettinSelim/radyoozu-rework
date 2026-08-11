@@ -29,6 +29,14 @@ export async function SiteFooter() {
           <SocialLinks />
           <p className="text-xs text-foreground/50">
             {t("rights", { year: String(year), name: site.shortName })}
+            {" · "}
+            <Link
+              href="/admin"
+              prefetch={false}
+              className="transition-[color] duration-150 ease-out hover:text-primary"
+            >
+              {t("admin")}
+            </Link>
           </p>
         </div>
       </div>

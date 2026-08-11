@@ -30,9 +30,6 @@
     "broadcastsCount": "{count} yayın",
     "hostedBy": "Sunan ·"
   },
-  "Programs": {
-    "edit": "Düzenle"
-  },
   "Social": {
     "aria": "Sosyal medya"
   },
@@ -69,6 +66,7 @@
     "teaser": "Küçük bir sürpriz seni bekliyor."
   },
   "Footer": {
-    "rights": "© {year} {name} · Tüm hakları saklıdır."
+    "rights": "© {year} {name} · Tüm hakları saklıdır.",
+    "admin": "Yönetim"
   }
 }
