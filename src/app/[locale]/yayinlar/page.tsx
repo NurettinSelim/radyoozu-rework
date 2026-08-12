@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import Link from "next/link";
+import { Pencil } from "lucide-react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ScheduleGrid } from "@/components/schedule-grid";
 import { ScheduleList } from "@/components/schedule-list";
@@ -22,10 +24,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProgramsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [programs, scheduleWindow, copy] = await Promise.all([
+  const [programs, scheduleWindow, copy, t] = await Promise.all([
     getPrograms(locale),
     getScheduleWindow(locale),
     getCopy(locale),
+    getTranslations("Programs"),
   ]);
   const c = copy.yayinlar;
 
@@ -44,6 +47,16 @@ export default async function ProgramsPage({ params }: Props) {
       </header>
 
       <div className="enter-rise enter-delay-3 mt-12">
+        <div className="mb-3 flex justify-end">
+          <Link
+            href="/admin/programs"
+            prefetch={false}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-widest text-foreground/60 transition-[background-color,border-color,color,scale] duration-150 ease-out hover:border-primary/50 hover:bg-primary/10 hover:text-primary active:scale-[0.96]"
+          >
+            <Pencil className="size-3.5" />
+            {t("edit")}
+          </Link>
+        </div>
         <ScheduleGrid
           programs={programs}
           window={scheduleWindow}
