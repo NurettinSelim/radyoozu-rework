@@ -47,16 +47,6 @@ export default async function ProgramsPage({ params }: Props) {
       </header>
 
       <div className="enter-rise enter-delay-3 mt-12">
-        <div className="mb-3 flex justify-end">
-          <Link
-            href="/admin/programs"
-            prefetch={false}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-widest text-foreground/60 transition-[background-color,border-color,color,scale] duration-150 ease-out hover:border-primary/50 hover:bg-primary/10 hover:text-primary active:scale-[0.96]"
-          >
-            <Pencil className="size-3.5" />
-            {t("edit")}
-          </Link>
-        </div>
         <ScheduleGrid
           programs={programs}
           window={scheduleWindow}
@@ -64,6 +54,16 @@ export default async function ProgramsPage({ params }: Props) {
           replayLegend={c.replayLegend}
         />
         <ScheduleList programs={programs} window={scheduleWindow} />
+        <div className="mt-3 flex justify-end">
+          <Link
+            href="/admin/programs"
+            prefetch={false}
+            className="inline-flex min-h-10 items-center gap-1.5 py-2 text-xs uppercase tracking-widest text-foreground/50 underline-offset-4 transition-[color] duration-150 ease-out hover:text-primary hover:underline"
+          >
+            <Pencil className="size-3.5" />
+            {t("edit")}
+          </Link>
+        </div>
       </div>
     </div>
   );
