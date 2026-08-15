@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/routing";
 
 // Canonical production origin. Referenced by robots, sitemap, llms.txt,
 // canonicals, and JSON-LD. Change here if the canonical host ever moves.
-export const SITE_URL = "https://radyoozu.com";
+export const SITE_URL = "https://www.radyoozu.com";
 
 // localePrefix "as-needed": Turkish at the root, English under /en.
 export function localePath(locale: Locale, path: string): string {
