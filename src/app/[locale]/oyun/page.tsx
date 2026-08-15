@@ -7,6 +7,7 @@ import {
 } from "@/components/whack-a-mole";
 import { getPrograms } from "@/content/programs";
 import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t("metadataTitle"),
     description: t("metadataDescription"),
+    alternates: pageAlternates(locale, "/oyun"),
   };
 }
 

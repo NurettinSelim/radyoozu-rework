@@ -68,6 +68,15 @@
     "teaserTitle": "Take a little break?",
     "teaser": "A small surprise is waiting."
   },
+  "Faq": {
+    "title": "Frequently Asked Questions",
+    "q1": "What is Radyo ÖzÜ?",
+    "a1": "Radyo ÖzÜ is the official student radio station of Özyeğin University in Istanbul, Turkey. Founded in November 2013, it now offers a 24/7 music stream and live student-run shows refreshed every week.",
+    "q2": "How can I listen to Radyo ÖzÜ?",
+    "a2": "Open radyoozu.com and press play — the live stream starts right in your browser, no app needed. The weekly schedule is on the Broadcasts page.",
+    "q3": "Can I host a show on Radyo ÖzÜ?",
+    "a3": "Yes. If you are an Özyeğin University student, apply via the email address on the Contact page or through our Instagram."
+  },
   "Footer": {
     "rights": "© {year} {name} · All rights reserved."
   }

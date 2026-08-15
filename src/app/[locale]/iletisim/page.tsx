@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { buttonVariants } from "@/components/ui/button";
 import { InstagramIcon } from "@/components/icons";
 import { SocialLinks } from "@/components/social-links";
 import { TrackedLink } from "@/components/analytics/tracked-link";
+import { FaqSection } from "@/components/faq-section";
 import { cn } from "@/lib/utils";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
 import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -19,14 +21,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: copy.iletisim.metadataTitle,
     description: copy.iletisim.metadataDescription,
+    alternates: pageAlternates(locale, "/iletisim"),
   };
 }
 
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [site, copy] = await Promise.all([getSite(locale), getCopy(locale)]);
+  const [site, copy, tFaq] = await Promise.all([
+    getSite(locale),
+    getCopy(locale),
+    getTranslations("Faq"),
+  ]);
   const c = copy.iletisim;
+  const faqItems = [1, 2, 3].map((n) => ({
+    q: tFaq(`q${n}`),
+    a: tFaq(`a${n}`),
+  }));
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6 md:py-24">
@@ -131,6 +142,7 @@ export default async function ContactPage({ params }: Props) {
           </TrackedLink>
         </div>
       </div>
+      <FaqSection title={tFaq("title")} items={faqItems} />
     </div>
   );
 }

@@ -80,7 +80,6 @@ export const siteSchema = z.object({
   phoneHref: z.string().regex(/^tel:/, "tel: ile başlamalı"),
   address: z.string().min(1),
   email: z.email("Geçerli bir e-posta girin").default("radyoozu@ozu.edu.tr"),
-  foundedYear: z.number().int(),
   instagramHandle: z.string().min(1),
   stream: z.object({
     url: z.url(),

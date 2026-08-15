@@ -9,6 +9,7 @@ import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
 import { getSpotifyPlaylists } from "@/lib/spotify";
 import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: copy.spotify.metadataTitle,
     description: copy.spotify.metadataDescription,
+    alternates: pageAlternates(locale, "/spotify"),
   };
 }
 

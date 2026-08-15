@@ -123,7 +123,6 @@ export const DEFAULT_SITE: Site = {
   phoneHref: "tel:+902165649797",
   address: "Özyeğin Üniversitesi Kampüsü, Öğrenci Merkezi Giriş Katı",
   email: "radyoozu@ozu.edu.tr",
-  foundedYear: 2021,
   instagramHandle: "radyozu",
   stream: {
     url: "https://s5.radio.co/s3ab6bdcb9/listen",

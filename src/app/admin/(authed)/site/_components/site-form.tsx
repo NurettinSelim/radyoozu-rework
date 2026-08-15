@@ -60,9 +60,6 @@ export function SiteForm({ initial }: { initial: Site }) {
         <Field label="Instagram kullanıcı adı" error={errors.instagramHandle?.message} hint="@ işareti olmadan">
           <Input {...form.register("instagramHandle")} />
         </Field>
-        <Field label="Kuruluş yılı" error={errors.foundedYear?.message}>
-          <Input type="number" {...form.register("foundedYear", { valueAsNumber: true })} />
-        </Field>
       </Section>
 
       <Section title="İletişim">

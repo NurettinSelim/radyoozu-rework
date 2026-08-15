@@ -12,6 +12,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ConsentProvider } from "@/components/analytics/consent-context";
 import { Analytics } from "@/components/analytics/analytics";
 import { ConsentBanner } from "@/components/analytics/consent-banner";
+import { StructuredData } from "@/components/structured-data";
+import { SITE_URL } from "@/lib/seo";
 import { getSite } from "@/lib/site";
 import { routing, type Locale } from "@/i18n/routing";
 
@@ -39,11 +41,14 @@ export async function generateMetadata({
   ]);
   const title = `${site.name} · ${t("siteSuffix")}`;
   return {
+    metadataBase: new URL(SITE_URL),
     title: { default: title, template: `%s · ${site.name}` },
     description: site.description,
     openGraph: {
       title,
       description: site.description,
+      siteName: site.name,
+      images: [{ url: "/radyoozu-logo.png" }],
       type: "website",
       locale: locale === "en" ? "en_US" : "tr_TR",
     },
@@ -83,6 +88,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <Analytics />
           </ConsentProvider>
         </NextIntlClientProvider>
+        <StructuredData site={site} locale={locale} />
       </body>
     </html>
   );

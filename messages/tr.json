@@ -68,6 +68,15 @@
     "teaserTitle": "Biraz ara ver?",
     "teaser": "Küçük bir sürpriz seni bekliyor."
   },
+  "Faq": {
+    "title": "Sık Sorulan Sorular",
+    "q1": "Radyo ÖzÜ nedir?",
+    "a1": "Radyo ÖzÜ, Özyeğin Üniversitesi'nin İstanbul'daki kampüsünden yayın yapan resmi öğrenci radyosudur. Kasım 2013'te kuruldu; günümüzde 7/24 müzik yayını ve her hafta güncellenen canlı öğrenci programları sunar.",
+    "q2": "Radyo ÖzÜ nasıl dinlenir?",
+    "a2": "radyoozu.com'u aç ve oynat tuşuna bas; canlı yayın tarayıcıda anında başlar, uygulama gerekmez. Haftalık program akışını Yayınlar sayfasında bulabilirsin.",
+    "q3": "Radyo ÖzÜ'de program yapabilir miyim?",
+    "a3": "Evet. Özyeğin Üniversitesi öğrencisiysen İletişim sayfasındaki e-posta adresi veya Instagram hesabımız üzerinden başvurabilirsin."
+  },
   "Footer": {
     "rights": "© {year} {name} · Tüm hakları saklıdır."
   }

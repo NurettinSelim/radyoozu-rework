@@ -9,6 +9,7 @@ import { getCopy } from "@/content/copy";
 import { getPrograms } from "@/content/programs";
 import { getScheduleWindow } from "@/content/schedule-window";
 import type { Locale } from "@/i18n/routing";
+import { pageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: copy.yayinlar.metadataTitle,
     description: copy.yayinlar.metadataDescription,
+    alternates: pageAlternates(locale, "/yayinlar"),
   };
 }
 

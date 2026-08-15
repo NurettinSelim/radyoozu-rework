@@ -8,6 +8,9 @@ import type { Locale } from "@/i18n/routing";
 
 export type { NavItem, Site } from "@/content/schema";
 
+export const RADIO_FOUNDED_YEAR = 2013;
+export const RADIO_FOUNDING_DATE = `${RADIO_FOUNDED_YEAR}-11`;
+
 // Structural site data (phone, email, stream, socials, brand) always comes
 // from the blob; for English only the text fields (description, address, nav
 // labels) are swapped for their static translations.

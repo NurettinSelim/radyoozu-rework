@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowRight, Gamepad2, Headphones, Phone } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -8,9 +9,15 @@ import { LivePlayer } from "@/components/live-player";
 import { Link } from "@/i18n/navigation";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
+import { pageAlternates } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 
 type Props = { params: Promise<{ locale: Locale }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: pageAlternates(locale, "/") };
+}
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
