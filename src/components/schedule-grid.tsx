@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import { InstagramIcon } from "@/components/icons";
+import { ProgramReminderBell } from "@/components/next-up";
 import type { DayKey } from "@/content/schema";
 import type { Program } from "@/content/programs";
 import type { ScheduleWindow } from "@/content/schedule-window";
@@ -211,7 +212,11 @@ export function ScheduleGrid({
                 className="pointer-events-none absolute -top-14 -right-10 h-40 w-40 rounded-full opacity-35 blur-2xl transition group-hover:opacity-55"
                 style={accentStyle(p)}
               />
-              <div className="relative flex flex-1 flex-col">
+              <ProgramReminderBell
+                slug={p.slug}
+                className="absolute top-3 right-3 z-20"
+              />
+              <div className="relative flex flex-1 flex-col pr-8">
                 <div className="flex items-center gap-2">
                   <span className="text-[10.5px] font-medium uppercase tracking-[0.18em] tabular-nums text-foreground/55">
                     {formatRange(p)}

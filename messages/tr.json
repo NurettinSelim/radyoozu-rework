@@ -22,7 +22,17 @@
     "unmute": "Sesi aç",
     "volume": "Ses seviyesi",
     "errorStart": "Yayın şu an başlatılamadı. Lütfen tekrar deneyin.",
-    "errorDisconnected": "Yayın bağlantısı kesildi."
+    "errorDisconnected": "Yayın bağlantısı kesildi.",
+    "nextUp": "Sıradaki",
+    "remind": "Hatırlat",
+    "remindOn": "Hatırlatma açık",
+    "addToCalendar": "Takvime ekle",
+    "notifSet": "Hatırlatma kuruldu. Site açıkken yayından 10 dakika önce bildirim alacaksın — garanti için takvime de ekle.",
+    "notifRemoved": "Hatırlatma kapatıldı.",
+    "notifDenied": "Bildirim izni verilmedi. Tarayıcı ayarlarından izin verebilirsin.",
+    "notifError": "Hatırlatma kurulamadı. Lütfen tekrar dene.",
+    "notifTitle": "{title} birazdan başlıyor!",
+    "notifBody": "{time} · Radyo ÖzÜ"
   },
   "Schedule": {
     "today": "Bugün",

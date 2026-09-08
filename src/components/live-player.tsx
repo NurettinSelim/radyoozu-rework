@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { useLivePlayer } from "@/components/live-player-provider";
+import { NextUpLine, ReminderActions } from "@/components/next-up";
 import { trackEvent } from "@/components/analytics/track";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,7 @@ export function LivePlayer() {
     volume,
     now,
     fallbackTitle,
+    nextUp,
     toggle,
     toggleMuted,
     changeVolume,
@@ -90,16 +92,20 @@ export function LivePlayer() {
           <h2 className="mt-1 line-clamp-2 text-lg font-semibold leading-tight text-balance sm:text-xl">
             {now?.title || fallbackTitle}
           </h2>
-          <p
-            aria-live="polite"
-            className="mt-0.5 truncate text-sm text-foreground/60"
-          >
-            {isPlaying
-              ? t("nowPlaying")
-              : isLoading
-                ? t("connecting")
-                : t("pressPlay")}
-          </p>
+          {!isOnline && nextUp && !isPlaying && !isLoading ? (
+            <NextUpLine className="mt-0.5 truncate" />
+          ) : (
+            <p
+              aria-live="polite"
+              className="mt-0.5 truncate text-sm text-foreground/60"
+            >
+              {isPlaying
+                ? t("nowPlaying")
+                : isLoading
+                  ? t("connecting")
+                  : t("pressPlay")}
+            </p>
+          )}
         </div>
 
         <Button
@@ -171,6 +177,7 @@ export function LivePlayer() {
           className="h-1 flex-1 cursor-pointer appearance-none rounded-full bg-white/10 accent-[#bb205d] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#bb205d] [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#bb205d]"
         />
       </div>
+      <ReminderActions variant="hero" />
 
       {error && (
         <p role="alert" className="mt-3 text-sm text-destructive">
