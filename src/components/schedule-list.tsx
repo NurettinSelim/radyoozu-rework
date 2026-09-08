@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { InstagramIcon } from "@/components/icons";
+import { ProgramReminderBell } from "@/components/next-up";
 import type { Program } from "@/content/programs";
 import type { ScheduleWindow } from "@/content/schedule-window";
 
@@ -59,7 +60,11 @@ export async function ScheduleList({ programs, window: w }: Props) {
                   className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full opacity-30 blur-2xl"
                   style={accentStyle(p)}
                 />
-                <div className="relative">
+                <ProgramReminderBell
+                  slug={p.slug}
+                  className="absolute top-3 right-3 z-20"
+                />
+                <div className="relative pr-10">
                   <span className="text-[10px] font-medium uppercase tracking-[0.2em] tabular-nums text-foreground/55">
                     {formatRange(p)}
                   </span>

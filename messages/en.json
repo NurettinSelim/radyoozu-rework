@@ -22,7 +22,17 @@
     "unmute": "Unmute",
     "volume": "Volume",
     "errorStart": "The stream couldn’t be started. Please try again.",
-    "errorDisconnected": "The stream connection was lost."
+    "errorDisconnected": "The stream connection was lost.",
+    "nextUp": "Up next",
+    "remind": "Remind me",
+    "remindOn": "Reminder on",
+    "addToCalendar": "Add to calendar",
+    "notifSet": "Reminder set. While the site is open you'll get a notification 10 minutes before the show — add it to your calendar to be safe.",
+    "notifRemoved": "Reminder removed.",
+    "notifDenied": "Notification permission was denied. You can enable it in your browser settings.",
+    "notifError": "Could not set the reminder. Please try again.",
+    "notifTitle": "{title} starts in 10 minutes!",
+    "notifBody": "{time} · Radyo ÖzÜ"
   },
   "Schedule": {
     "today": "Today",

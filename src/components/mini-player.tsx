@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { useLivePlayer } from "@/components/live-player-provider";
+import { NextUpLine, ReminderActions } from "@/components/next-up";
 import { trackEvent } from "@/components/analytics/track";
 import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ export function MiniPlayer() {
     volume,
     now,
     fallbackTitle,
+    nextUp,
     toggle,
     toggleMuted,
   } = useLivePlayer();
@@ -94,7 +96,12 @@ export function MiniPlayer() {
             <p className="mt-0.5 truncate text-sm font-medium leading-tight">
               {now?.title || fallbackTitle}
             </p>
+            {!isOnline && nextUp ? (
+              <NextUpLine className="mt-0.5 truncate text-xs" />
+            ) : null}
           </div>
+
+          <ReminderActions variant="mini" />
 
           <Button
             variant="ghost"

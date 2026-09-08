@@ -15,6 +15,7 @@ import { ConsentBanner } from "@/components/analytics/consent-banner";
 import { StructuredData } from "@/components/structured-data";
 import { SITE_URL } from "@/lib/seo";
 import { getSite } from "@/lib/site";
+import { getPrograms } from "@/content/programs";
 import { routing, type Locale } from "@/i18n/routing";
 
 const geistSans = Geist({
@@ -60,7 +61,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
-  const site = await getSite(locale);
+  const [site, programs] = await Promise.all([
+    getSite(locale),
+    getPrograms(locale),
+  ]);
   return (
     <html
       lang={locale}
@@ -77,7 +81,16 @@ export default async function LocaleLayout({ children, params }: Props) {
         />
         <NextIntlClientProvider>
           <ConsentProvider>
-            <LivePlayerProvider stream={site.stream} brand={site.brand}>
+            <LivePlayerProvider
+              stream={site.stream}
+              brand={site.brand}
+              upcoming={programs.map(({ slug, title, day, startHour }) => ({
+                slug,
+                title,
+                day,
+                startHour,
+              }))}
+            >
               <SiteHeader nav={site.nav} brand={site.brand} />
               <main className="flex-1">{children}</main>
               <SiteFooter />
