@@ -124,6 +124,7 @@ export const copySchema = z.object({
     headline: z.string().min(1),
     tagline: z.string().min(1),
     phoneLabel: z.string().min(1),
+    phoneNote: z.string().min(1).default("Bu hat yalnızca canlı yayına katılmak içindir. Bize ulaşmak için:"),
     emailLabel: z.string().min(1).default("E-posta"),
     studioLabel: z.string().min(1),
     socialLabel: z.string().min(1),

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { SpotifyIcon } from "@/components/social-links";
 import { HomeInfoPanel } from "@/components/home-info-panel";
 import { LivePlayer } from "@/components/live-player";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { Link } from "@/i18n/navigation";
 import { getCopy } from "@/content/copy";
 import { getSite } from "@/lib/site";
@@ -91,6 +92,17 @@ export default async function HomePage({ params }: Props) {
               {site.phone}
             </span>
           </a>
+          <p className="enter-rise enter-delay-4 max-w-xs self-center text-center text-xs text-pretty text-foreground/60">
+            {copy.iletisim.phoneNote}{" "}
+            <TrackedLink
+              href={`mailto:${site.email}`}
+              event="contact_click"
+              params={{ method: "email" }}
+              className="text-foreground/80 underline underline-offset-4 transition-[color] duration-150 ease-out hover:text-primary"
+            >
+              {site.email}
+            </TrackedLink>
+          </p>
         </div>
       </section>
 
