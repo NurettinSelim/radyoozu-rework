@@ -118,6 +118,13 @@ export function CopyForm({ initial }: { initial: Copy }) {
             <Input {...form.register("iletisim.socialLabel")} />
           </Field>
         </div>
+        <Field
+          label="Telefon notu"
+          hint="Telefon numarasının hemen altında görünür; sonuna e-posta adresi bağlantı olarak eklenir"
+          error={errors.iletisim?.phoneNote?.message}
+        >
+          <Textarea rows={2} {...form.register("iletisim.phoneNote")} />
+        </Field>
         <Field label="Instagram kartı başlık" error={errors.iletisim?.instagram?.heading?.message}>
           <Input {...form.register("iletisim.instagram.heading")} />
         </Field>

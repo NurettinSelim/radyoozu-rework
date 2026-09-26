@@ -34,6 +34,7 @@ export const EN_COPY: Copy = {
     tagline:
       "Every suggestion, song request, and comment from our listeners shapes the show. Write to us — let's talk in the studio.",
     phoneLabel: "Phone",
+    phoneNote: "This line is only for joining the live broadcast. To reach us:",
     emailLabel: "Email",
     studioLabel: "Studio",
     socialLabel: "Social",

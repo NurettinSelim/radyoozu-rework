@@ -187,6 +187,7 @@ export const DEFAULT_COPY: Copy = {
     tagline:
       "Dinleyicilerimizden gelen her öneri, her şarkı isteği ve her yorum yayına dokunuyor. Bize yaz, stüdyoda konuşalım.",
     phoneLabel: "Telefon",
+    phoneNote: "Bu hat yalnızca canlı yayına katılmak içindir. Bize ulaşmak için:",
     emailLabel: "E-posta",
     studioLabel: "Stüdyo",
     socialLabel: "Sosyal",
