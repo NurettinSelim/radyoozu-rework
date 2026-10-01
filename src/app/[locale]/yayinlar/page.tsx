@@ -7,7 +7,7 @@ import { ScheduleGrid } from "@/components/schedule-grid";
 import { ScheduleList } from "@/components/schedule-list";
 import { getCopy } from "@/content/copy";
 import { getPrograms } from "@/content/programs";
-import { getScheduleWindow, withProgramDays } from "@/content/schedule-window";
+import { fitWindowToPrograms, getScheduleWindow } from "@/content/schedule-window";
 import type { Locale } from "@/i18n/routing";
 import { pageAlternates } from "@/lib/seo";
 
@@ -33,7 +33,7 @@ export default async function ProgramsPage({ params }: Props) {
     getTranslations("Programs"),
   ]);
   const c = copy.yayinlar;
-  const effectiveWindow = withProgramDays(scheduleWindow, programs, locale);
+  const effectiveWindow = fitWindowToPrograms(scheduleWindow, programs, locale);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6 md:py-24">
