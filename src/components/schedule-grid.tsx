@@ -10,7 +10,7 @@ import type { DayKey } from "@/content/schema";
 import type { Program } from "@/content/programs";
 import type { ScheduleWindow } from "@/content/schedule-window";
 
-const ROW_HEIGHT = 148;
+const ROW_HEIGHT = 172;
 
 const JS_DAY_TO_KEY: Record<number, DayKey> = {
   0: "Pazar",
@@ -197,7 +197,7 @@ export function ScheduleGrid({
             <article
               key={p.slug}
               className={cn(
-                "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/4 p-4 pb-5 transition duration-200",
+                "group relative z-10 m-1.5 flex flex-col overflow-hidden rounded-xl border border-white/10 bg-white/4 p-4 transition duration-200",
                 "hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/7 hover:shadow-xl hover:shadow-black/40",
                 isLive &&
                   "border-primary/60 ring-1 ring-primary/40 ring-offset-0",
@@ -228,13 +228,23 @@ export function ScheduleGrid({
                     </span>
                   )}
                 </div>
-                <h3 className="mt-1.5 text-[1.05rem] font-semibold leading-[1.15] tracking-tight text-balance text-foreground">
+                <h3 className="mt-1.5 line-clamp-2 text-[1.05rem] font-semibold leading-[1.15] tracking-tight text-balance text-foreground">
                   {p.title}
                 </h3>
-                <p className="mt-1 line-clamp-2 text-xs leading-snug text-foreground/65">
+                <p
+                  className={cn(
+                    "mt-1 text-xs leading-snug text-foreground/65",
+                    rowSpan === 1 ? "line-clamp-1" : "line-clamp-2",
+                  )}
+                >
                   {p.tagline}
                 </p>
-                <p className="mt-auto line-clamp-2 pt-2 text-[11px] leading-tight text-foreground/50">
+                <p
+                  className={cn(
+                    "mt-auto pt-2 text-[11px] leading-tight text-foreground/50",
+                    rowSpan === 1 ? "line-clamp-1" : "line-clamp-2",
+                  )}
+                >
                   {p.hosts.join(", ")}
                 </p>
                 {p.instagramHandle && (
