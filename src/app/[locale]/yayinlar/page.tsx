@@ -7,7 +7,7 @@ import { ScheduleGrid } from "@/components/schedule-grid";
 import { ScheduleList } from "@/components/schedule-list";
 import { getCopy } from "@/content/copy";
 import { getPrograms } from "@/content/programs";
-import { getScheduleWindow } from "@/content/schedule-window";
+import { getScheduleWindow, withProgramDays } from "@/content/schedule-window";
 import type { Locale } from "@/i18n/routing";
 import { pageAlternates } from "@/lib/seo";
 
@@ -33,6 +33,7 @@ export default async function ProgramsPage({ params }: Props) {
     getTranslations("Programs"),
   ]);
   const c = copy.yayinlar;
+  const effectiveWindow = withProgramDays(scheduleWindow, programs, locale);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6 md:py-24">
@@ -51,11 +52,11 @@ export default async function ProgramsPage({ params }: Props) {
       <div className="enter-rise enter-delay-3 mt-12">
         <ScheduleGrid
           programs={programs}
-          window={scheduleWindow}
+          window={effectiveWindow}
           liveLegend={c.liveLegend}
           replayLegend={c.replayLegend}
         />
-        <ScheduleList programs={programs} window={scheduleWindow} />
+        <ScheduleList programs={programs} window={effectiveWindow} />
         <div className="mt-3 flex justify-end">
           <Link
             href="/admin/programs"
