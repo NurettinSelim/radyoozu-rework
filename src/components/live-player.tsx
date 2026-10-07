@@ -15,6 +15,8 @@ export function LivePlayer() {
   const {
     isPlaying,
     isLoading,
+    isActive,
+    isReconnecting,
     error,
     muted,
     volume,
@@ -92,7 +94,7 @@ export function LivePlayer() {
           <h2 className="mt-1 line-clamp-2 text-lg font-semibold leading-tight text-balance sm:text-xl">
             {now?.title || fallbackTitle}
           </h2>
-          {!isOnline && nextUp && !isPlaying && !isLoading ? (
+          {!isOnline && nextUp && !isActive ? (
             <NextUpLine className="mt-0.5 truncate" />
           ) : (
             <p
@@ -101,28 +103,29 @@ export function LivePlayer() {
             >
               {isPlaying
                 ? t("nowPlaying")
-                : isLoading
-                  ? t("connecting")
-                  : t("pressPlay")}
+                : isReconnecting
+                  ? t("reconnecting")
+                  : isLoading
+                    ? t("connecting")
+                    : t("pressPlay")}
             </p>
           )}
         </div>
 
         <Button
           onClick={() => {
-            if (!isPlaying) trackEvent("radio_play", { source: "hero" });
+            if (!isActive) trackEvent("radio_play", { source: "hero" });
             toggle();
           }}
-          disabled={isLoading}
           size="icon-lg"
           className="size-14 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white sm:size-16"
-          aria-label={isPlaying ? t("pause") : t("play")}
+          aria-label={isActive ? t("pause") : t("play")}
         >
           <span className="relative flex size-6 items-center justify-center sm:size-7">
             <Pause
               className={cn(
                 "size-6 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)] sm:size-7",
-                isPlaying
+                isActive
                   ? "scale-100 opacity-100 blur-0"
                   : "scale-[0.25] opacity-0 blur-[4px]",
               )}
@@ -130,7 +133,7 @@ export function LivePlayer() {
             <Play
               className={cn(
                 "absolute size-6 translate-x-0.5 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)] sm:size-7",
-                isPlaying
+                isActive
                   ? "scale-[0.25] opacity-0 blur-[4px]"
                   : "scale-100 opacity-100 blur-0",
               )}
