@@ -24,6 +24,8 @@ export type NowPlaying = {
 
 const INITIAL_VOLUME = 1.0;
 const POLL_INTERVAL_MS = 20_000;
+const RETRY_DELAYS_MS = [1_000, 2_000, 4_000, 8_000, 15_000];
+const STALL_WATCHDOG_MS = 8_000;
 const REMINDERS_STORAGE_KEY = "radyoozu.reminders";
 const FIRED_STORAGE_KEY = "radyoozu.reminders.fired";
 const REMINDER_LEAD_MS = 10 * 60_000;
@@ -31,6 +33,13 @@ const REMINDER_LEAD_MS = 10 * 60_000;
 type Brand = { prefix: string; accent: string };
 
 type Stream = { url: string; apiBase: string };
+
+type PlaybackStatus =
+  | "idle"
+  | "paused"
+  | "connecting"
+  | "playing"
+  | "reconnecting";
 
 export type UpcomingProgram = {
   slug: string;
@@ -69,6 +78,8 @@ function getServerNotificationSupportSnapshot() {
 type LivePlayerContextValue = {
   isPlaying: boolean;
   isLoading: boolean;
+  isActive: boolean;
+  isReconnecting: boolean;
   error: string | null;
   muted: boolean;
   volume: number;
@@ -132,9 +143,14 @@ export function LivePlayerProvider({
 }: Props) {
   const t = useTranslations("Player");
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const isPlayingRef = useRef(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const statusRef = useRef<PlaybackStatus>("idle");
+  const intentRef = useRef<"play" | "stop">("stop");
+  const retryAttemptRef = useRef(0);
+  const retryTimerRef = useRef<number | undefined>(undefined);
+  const watchdogTimerRef = useRef<number | undefined>(undefined);
+  const connectGenerationRef = useRef(0);
+  const volumeRef = useRef(INITIAL_VOLUME);
+  const [status, setStatus] = useState<PlaybackStatus>("idle");
   const [error, setError] = useState<string | null>(null);
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(INITIAL_VOLUME);
@@ -359,7 +375,7 @@ export function LivePlayerProvider({
     };
 
     const shouldPoll = () =>
-      document.visibilityState === "visible" || isPlayingRef.current;
+      document.visibilityState === "visible" || intentRef.current === "play";
 
     const onVisibility = () => {
       if (shouldPoll()) start();
@@ -378,35 +394,247 @@ export function LivePlayerProvider({
 
   const setAudioRef = useCallback((el: HTMLAudioElement | null) => {
     audioRef.current = el;
-    if (el) el.volume = INITIAL_VOLUME;
+    if (el) el.volume = volumeRef.current;
   }, []);
 
-  const toggle = useCallback(async () => {
-    const el = audioRef.current;
-    if (!el) return;
-    setError(null);
-    if (isPlayingRef.current) {
+  const engine = useMemo(() => {
+    const setPlaybackStatus = (next: PlaybackStatus) => {
+      statusRef.current = next;
+      setStatus(next);
+    };
+
+    const clearTimers = () => {
+      clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = undefined;
+      clearTimeout(watchdogTimerRef.current);
+      watchdogTimerRef.current = undefined;
+    };
+
+    function teardown(message?: string) {
+      intentRef.current = "stop";
+      clearTimers();
+      const el = audioRef.current;
+      if (el) {
+        el.pause();
+        el.removeAttribute("src");
+        el.load();
+      }
+      setPlaybackStatus("idle");
+      if (message) setError(message);
+    }
+
+    function scheduleRetry() {
+      if (intentRef.current !== "play") return;
+      setPlaybackStatus("reconnecting");
+      if (retryTimerRef.current !== undefined) return;
+      // Offline: wait for the `online` event instead of burning attempts.
+      if (navigator.onLine === false) return;
+      retryAttemptRef.current += 1;
+      if (retryAttemptRef.current > RETRY_DELAYS_MS.length) {
+        teardown(t("errorDisconnected"));
+        return;
+      }
+      retryTimerRef.current = window.setTimeout(() => {
+        retryTimerRef.current = undefined;
+        void connect();
+      }, RETRY_DELAYS_MS[retryAttemptRef.current - 1]);
+    }
+
+    function handleFailure(fatal: boolean) {
+      if (intentRef.current !== "play") return;
+      // A failed first start (or a lost user gesture) cannot be fixed by
+      // retrying; surface it instead of spinning.
+      if (
+        fatal ||
+        (retryAttemptRef.current === 0 && statusRef.current === "connecting")
+      ) {
+        teardown(t("errorStart"));
+        return;
+      }
+      scheduleRetry();
+    }
+
+    // Every start is a fresh connection to the live edge. Resuming an
+    // attached live stream replays a stale buffer and splices new audio onto
+    // it, which is audible as clipped/garbled playback.
+    async function connect() {
+      const el = audioRef.current;
+      if (!el) return;
+      const generation = ++connectGenerationRef.current;
+      clearTimers();
       el.pause();
-      el.removeAttribute("src");
-      el.load();
-      isPlayingRef.current = false;
-      setIsPlaying(false);
-      return;
-    }
-    try {
-      setIsLoading(true);
       el.src = `${stream.url}?_=${Date.now()}`;
-      await el.play();
-      isPlayingRef.current = true;
-      setIsPlaying(true);
-    } catch {
-      setError(t("errorStart"));
-      isPlayingRef.current = false;
-      setIsPlaying(false);
-    } finally {
-      setIsLoading(false);
+      el.load();
+      try {
+        await el.play();
+      } catch (err) {
+        // Superseded by a newer connect; its own outcome drives state.
+        if (generation !== connectGenerationRef.current) return;
+        handleFailure(
+          err instanceof DOMException && err.name === "NotAllowedError",
+        );
+      }
     }
+
+    const play = () => {
+      intentRef.current = "play";
+      retryAttemptRef.current = 0;
+      setError(null);
+      setPlaybackStatus("connecting");
+      void connect();
+    };
+
+    // Keeps `src` attached so the OS Now Playing entry survives a pause.
+    const pause = () => {
+      intentRef.current = "stop";
+      clearTimers();
+      audioRef.current?.pause();
+      setPlaybackStatus("paused");
+    };
+
+    const toggle = () => {
+      if (intentRef.current === "play") pause();
+      else play();
+    };
+
+    const onStall = () => {
+      if (intentRef.current !== "play") return;
+      if (statusRef.current === "playing") setPlaybackStatus("reconnecting");
+      if (watchdogTimerRef.current !== undefined) return;
+      watchdogTimerRef.current = window.setTimeout(() => {
+        watchdogTimerRef.current = undefined;
+        scheduleRetry();
+      }, STALL_WATCHDOG_MS);
+    };
+
+    const audioHandlers = {
+      onPlaying: () => {
+        if (intentRef.current !== "play") return;
+        clearTimers();
+        retryAttemptRef.current = 0;
+        setError(null);
+        setPlaybackStatus("playing");
+      },
+      // Native `play`/`pause` events can come from our own calls or from
+      // external control (lock screen, headset keys, browser media controls).
+      // Ours always run with a matching intent; `paused` at dispatch time
+      // filters events made stale by a later call.
+      onPlay: (event: React.SyntheticEvent<HTMLAudioElement>) => {
+        if (intentRef.current === "play" || event.currentTarget.paused) return;
+        // External resume on a stale buffer: reconnect to the live edge.
+        play();
+      },
+      onPause: (event: React.SyntheticEvent<HTMLAudioElement>) => {
+        const el = event.currentTarget;
+        if (intentRef.current !== "play" || !el.paused) return;
+        // `ended` and media errors are followed by a native pause; their own
+        // handlers decide what happens next.
+        if (el.ended || el.error) return;
+        intentRef.current = "stop";
+        clearTimers();
+        setPlaybackStatus("paused");
+      },
+      onWaiting: onStall,
+      onStalled: onStall,
+      onError: (event: React.SyntheticEvent<HTMLAudioElement>) => {
+        // Detaching the source on teardown can fire `error`; ignore when no src is set.
+        if (!event.currentTarget.getAttribute("src")) return;
+        handleFailure(false);
+      },
+      onEnded: () => {
+        // A live stream only ends when the server closes it.
+        if (intentRef.current === "play") scheduleRetry();
+        else setPlaybackStatus("idle");
+      },
+    };
+
+    const onOnline = () => {
+      if (
+        intentRef.current !== "play" ||
+        statusRef.current !== "reconnecting"
+      ) {
+        return;
+      }
+      retryAttemptRef.current = 0;
+      void connect();
+    };
+
+    const onOffline = () => {
+      if (intentRef.current !== "play") return;
+      clearTimers();
+      setPlaybackStatus("reconnecting");
+    };
+
+    return { play, pause, toggle, audioHandlers, onOnline, onOffline };
   }, [stream.url, t]);
+
+  useEffect(() => {
+    window.addEventListener("online", engine.onOnline);
+    window.addEventListener("offline", engine.onOffline);
+    return () => {
+      window.removeEventListener("online", engine.onOnline);
+      window.removeEventListener("offline", engine.onOffline);
+    };
+  }, [engine]);
+
+  useEffect(() => {
+    const el = audioRef.current;
+    const retryTimer = retryTimerRef;
+    const watchdogTimer = watchdogTimerRef;
+    return () => {
+      // A detached <audio> keeps playing; release the stream on unmount.
+      intentRef.current = "stop";
+      clearTimeout(retryTimer.current);
+      clearTimeout(watchdogTimer.current);
+      if (el) {
+        el.pause();
+        el.removeAttribute("src");
+        el.load();
+      }
+    };
+  }, []);
+
+  const fallbackTitle = `${brand.prefix}${brand.accent}`.trim();
+
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return;
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: now?.title || fallbackTitle,
+      artist: now?.title ? fallbackTitle : "",
+      artwork: [{ src: now?.artworkUrl ?? "/apple-icon.png" }],
+    });
+  }, [now, fallbackTitle]);
+
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return;
+    const actions: [MediaSessionAction, () => void][] = [
+      ["play", engine.play],
+      ["pause", engine.pause],
+      ["stop", engine.pause],
+    ];
+    for (const [action, handler] of actions) {
+      try {
+        navigator.mediaSession.setActionHandler(action, handler);
+      } catch {
+        // Safari throws for unsupported actions.
+      }
+    }
+    return () => {
+      for (const [action] of actions) {
+        try {
+          navigator.mediaSession.setActionHandler(action, null);
+        } catch {
+          // Unsupported action; nothing was registered.
+        }
+      }
+    };
+  }, [engine]);
+
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return;
+    navigator.mediaSession.playbackState =
+      status === "playing" ? "playing" : status === "idle" ? "none" : "paused";
+  }, [status]);
 
   const toggleMuted = useCallback(() => {
     setMuted((m) => !m);
@@ -415,6 +643,7 @@ export function LivePlayerProvider({
   const changeVolume = useCallback((v: number) => {
     setMuted(v === 0);
     setVolume(v);
+    volumeRef.current = v;
     if (audioRef.current) audioRef.current.volume = v;
   }, []);
 
@@ -452,11 +681,14 @@ export function LivePlayerProvider({
     [reminders, t],
   );
 
-  const fallbackTitle = `${brand.prefix}${brand.accent}`.trim();
-
   const value: LivePlayerContextValue = {
-    isPlaying,
-    isLoading,
+    isPlaying: status === "playing",
+    isLoading: status === "connecting" || status === "reconnecting",
+    isActive:
+      status === "connecting" ||
+      status === "playing" ||
+      status === "reconnecting",
+    isReconnecting: status === "reconnecting",
     error,
     muted,
     volume,
@@ -468,7 +700,7 @@ export function LivePlayerProvider({
     notificationSupported,
     brand,
     fallbackTitle,
-    toggle,
+    toggle: engine.toggle,
     toggleMuted,
     changeVolume,
     toggleReminder,
@@ -481,18 +713,7 @@ export function LivePlayerProvider({
         ref={setAudioRef}
         preload="none"
         muted={muted}
-        onEnded={() => {
-          isPlayingRef.current = false;
-          setIsPlaying(false);
-        }}
-        onError={() => {
-          const el = audioRef.current;
-          // Detaching the source on stop can fire `error`; ignore when no src is set.
-          if (!el || !el.getAttribute("src")) return;
-          setError(t("errorDisconnected"));
-          isPlayingRef.current = false;
-          setIsPlaying(false);
-        }}
+        {...engine.audioHandlers}
       />
     </LivePlayerContext.Provider>
   );
