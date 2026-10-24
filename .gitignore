@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# never commit alternate lockfiles or content backups
+bun.lock
+/backup
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
