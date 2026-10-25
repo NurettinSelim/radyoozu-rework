@@ -4,15 +4,25 @@ import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:
 import { cache } from "react";
 import { get, put } from "@vercel/blob";
 
-// Persists the Radyo ÖzÜ Spotify refresh token. The token is a secret, so it
-// lives in a PRIVATE blob object (requires BLOB_READ_WRITE_TOKEN to read — the
-// public URL 404s for strangers) and is additionally AES-256-GCM encrypted with
-// a key derived from AUTH_SECRET, as a second layer.
+// Persists the Radyo ÖzÜ Spotify refresh token in a dedicated PRIVATE blob
+// store (radyoozu-secrets): objects there require authentication (OIDC from
+// the Vercel runtime — the store is connected to this project — or a
+// store-scoped token) so the value is never publicly downloadable. It is
+// additionally AES-256-GCM encrypted with a key derived from AUTH_SECRET as a
+// second layer.
 //
 // A SPOTIFY_REFRESH_TOKEN env var, if set, always wins (lets you pin a token
 // without the web flow).
 
-const BLOB_PATH = "content/spotify-auth.json";
+const SECRETS_STORE_ID = process.env.SPOTIFY_BLOB_STORE_ID;
+const BLOB_PATH = "spotify-auth.json";
+
+function requireSecretsStoreId(): string {
+  if (!SECRETS_STORE_ID) {
+    throw new Error("SPOTIFY_BLOB_STORE_ID is required to store the Spotify token blob");
+  }
+  return SECRETS_STORE_ID;
+}
 
 function key(): Buffer {
   const secret = process.env.AUTH_SECRET;
@@ -60,11 +70,16 @@ export const readRefreshToken = cache(async (): Promise<string | null> => {
   if (fromEnv) return fromEnv;
 
   try {
-    // Private read: requires BLOB_READ_WRITE_TOKEN. Missing credentials or
-    // object → null ("disconnected"), never a crash. useCache:false — CDN
-    // caching could serve a stale token after clearRefreshToken() overwrites
-    // the path (admin disconnect/reconnect must take effect immediately).
-    const res = await get(BLOB_PATH, { access: "private", useCache: false });
+    // Private read: authenticates via runtime OIDC for the connected store.
+    // Missing credentials or object → null ("disconnected"), never a crash.
+    // useCache:false — CDN caching could serve a stale token after
+    // clearRefreshToken() overwrites the path (admin disconnect/reconnect
+    // must take effect immediately).
+    const res = await get(BLOB_PATH, {
+      access: "private",
+      storeId: requireSecretsStoreId(),
+      useCache: false,
+    });
     if (!res || res.statusCode !== 200) return null;
     const text = await new Response(res.stream).text();
     const data: { token?: string } = JSON.parse(text);
@@ -76,10 +91,11 @@ export const readRefreshToken = cache(async (): Promise<string | null> => {
 });
 
 export async function writeRefreshToken(token: string): Promise<void> {
-  // Explicit private access: the object is readable only with the blob
-  // token, never via a public URL.
+  // Private store: objects are readable only with authenticated requests,
+  // never via a public URL.
   await put(BLOB_PATH, JSON.stringify({ token: encrypt(token) }), {
     access: "private",
+    storeId: requireSecretsStoreId(),
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
@@ -90,6 +106,7 @@ export async function writeRefreshToken(token: string): Promise<void> {
 export async function clearRefreshToken(): Promise<void> {
   await put(BLOB_PATH, JSON.stringify({ token: "" }), {
     access: "private",
+    storeId: requireSecretsStoreId(),
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
