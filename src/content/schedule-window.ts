@@ -42,25 +42,33 @@ const TR_DAY_SHORT: Record<DayKey, string> = {
   Pazar: "Paz",
 };
 
-// Display-only: days with at least one program always appear in the schedule,
-// even when not part of the admin-configured window.
-export function withProgramDays(
+// Display-only: every program is shown in full. Days with at least one program
+// are added and the hour range widens to cover all program hours, even when
+// outside the admin-configured window.
+export function fitWindowToPrograms(
   window: ScheduleWindow,
   programs: Program[],
   locale: Locale,
 ): ScheduleWindow {
+  const startHour = Math.min(
+    window.startHour,
+    ...programs.map((p) => p.startHour),
+  );
+  const endHour = Math.max(window.endHour, ...programs.map((p) => p.endHour));
   const configured = new Set(window.days.map((d) => d.key));
   const missing = DAY_KEYS.filter(
     (key) => !configured.has(key) && programs.some((p) => p.day === key),
   );
-  if (missing.length === 0) return window;
   const extra: DayConfig[] = missing.map((key) =>
     locale === "en"
       ? { key, ...EN_DAY_LABELS[key] }
       : { key, label: key, short: TR_DAY_SHORT[key] },
   );
-  const days = [...window.days, ...extra].sort(
-    (a, b) => DAY_KEYS.indexOf(a.key) - DAY_KEYS.indexOf(b.key),
-  );
-  return { ...window, days };
+  const days =
+    extra.length === 0
+      ? window.days
+      : [...window.days, ...extra].sort(
+          (a, b) => DAY_KEYS.indexOf(a.key) - DAY_KEYS.indexOf(b.key),
+        );
+  return { startHour, endHour, days };
 }
