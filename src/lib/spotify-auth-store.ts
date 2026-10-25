@@ -102,13 +102,20 @@ export const readRefreshToken = cache(async (): Promise<string | null> => {
 async function migrateLegacyToken(): Promise<string | null> {
   const base = process.env.BLOB_PUBLIC_BASE_URL;
   const legacyToken = process.env.BLOB_READ_WRITE_TOKEN;
+  console.log("[spotify-migrate] start", {
+    hasBase: !!base,
+    hasLegacyToken: !!legacyToken,
+    hasStoreId: !!SECRETS_STORE_ID,
+  });
   if (!base || !legacyToken || !SECRETS_STORE_ID) return null;
   try {
     const res = await fetch(`${base.replace(/\/$/, "")}/content/spotify-auth.json`);
+    console.log("[spotify-migrate] legacy fetch", res.status);
     if (!res.ok) return null;
     const legacy: { token?: string } = await res.json();
     if (!legacy.token) return null;
     const plain = decrypt(legacy.token);
+    console.log("[spotify-migrate] legacy decrypt", plain ? "ok" : "FAILED");
     if (!plain) return null;
     await put(BLOB_PATH, JSON.stringify({ token: legacy.token }), {
       access: "private",
@@ -117,9 +124,12 @@ async function migrateLegacyToken(): Promise<string | null> {
       addRandomSuffix: false,
       allowOverwrite: true,
     });
+    console.log("[spotify-migrate] put to secrets store ok");
     await del("content/spotify-auth.json", { token: legacyToken });
+    console.log("[spotify-migrate] legacy public object deleted");
     return plain;
-  } catch {
+  } catch (e) {
+    console.error("[spotify-migrate] error", e);
     return null;
   }
 }
