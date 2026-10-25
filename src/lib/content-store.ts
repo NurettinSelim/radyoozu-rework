@@ -72,6 +72,9 @@ export async function writeContent<K extends ContentKey>(
   const validated = SCHEMAS[key].parse(data);
   await put(BLOB_PATHS[key], JSON.stringify(validated, null, 2), {
     access: "public",
+    // Explicit: BLOB_READ_WRITE_TOKEN belongs to the (private) secrets store
+    // in production; the content store's token arrives under its own name.
+    token: process.env.CONTENT_BLOB_RW_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN,
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
