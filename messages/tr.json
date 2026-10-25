@@ -15,6 +15,7 @@
     "offair": "Yayın dışı",
     "nowPlaying": "Şimdi çalıyor",
     "connecting": "Bağlanıyor…",
+    "reconnecting": "Yeniden bağlanılıyor…",
     "pressPlay": "Dinlemek için oynat",
     "play": "Oynat",
     "pause": "Duraklat",

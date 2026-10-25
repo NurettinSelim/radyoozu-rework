@@ -17,6 +17,8 @@ export function MiniPlayer() {
   const {
     isPlaying,
     isLoading,
+    isActive,
+    isReconnecting,
     muted,
     volume,
     now,
@@ -86,11 +88,13 @@ export function MiniPlayer() {
               <span className="text-[10px] font-medium uppercase tracking-widest text-foreground/60">
                 {isPlaying
                   ? t("nowPlaying")
-                  : isLoading
-                    ? t("connecting")
-                    : isOnline
-                      ? t("live")
-                      : t("offair")}
+                  : isReconnecting
+                    ? t("reconnecting")
+                    : isLoading
+                      ? t("connecting")
+                      : isOnline
+                        ? t("live")
+                        : t("offair")}
               </span>
             </div>
             <p className="mt-0.5 truncate text-sm font-medium leading-tight">
@@ -132,19 +136,18 @@ export function MiniPlayer() {
 
           <Button
             onClick={() => {
-              if (!isPlaying) trackEvent("radio_play", { source: "mini" });
+              if (!isActive) trackEvent("radio_play", { source: "mini" });
               toggle();
             }}
-            disabled={isLoading}
             size="icon-lg"
             className="size-11 shrink-0 rounded-full bg-gradient-to-br from-[#bb205d] to-[#94205a] text-white"
-            aria-label={isPlaying ? t("pause") : t("play")}
+            aria-label={isActive ? t("pause") : t("play")}
           >
             <span className="relative flex size-5 items-center justify-center">
               <Pause
                 className={cn(
                   "size-5 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
-                  isPlaying
+                  isActive
                     ? "scale-100 opacity-100 blur-0"
                     : "scale-[0.25] opacity-0 blur-[4px]",
                 )}
@@ -152,7 +155,7 @@ export function MiniPlayer() {
               <Play
                 className={cn(
                   "absolute size-5 translate-x-0.5 transition-[opacity,filter,scale] duration-300 ease-[cubic-bezier(0.2,0,0,1)]",
-                  isPlaying
+                  isActive
                     ? "scale-[0.25] opacity-0 blur-[4px]"
                     : "scale-100 opacity-100 blur-0",
                 )}

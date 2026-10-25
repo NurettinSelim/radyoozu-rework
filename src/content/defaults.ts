@@ -86,6 +86,19 @@ export const DEFAULT_PROGRAMS: Program[] = [
     accentTo: "#bb205d",
   },
   {
+    slug: "yedek-kulubesi",
+    title: "Yedek Kulübesi",
+    tagline: "Kampüsün spor gündemi, kulübeden canlı.",
+    description:
+      "Futboldan basketbola haftanın maçları, transfer dedikoduları ve ÖzÜ takımlarından haberler. Isınma bitti, yedekler oyunda.",
+    day: "Perşembe",
+    startHour: 18,
+    endHour: 19,
+    hosts: ["Ege Dönmez"],
+    accentFrom: "#1f2152",
+    accentTo: "#bb205d",
+  },
+  {
     slug: "developer-log",
     title: "Developer Log",
     tagline: "Teknoloji tutkunlarını bir araya getiren en yeni yayın.",
@@ -187,6 +200,7 @@ export const DEFAULT_COPY: Copy = {
     tagline:
       "Dinleyicilerimizden gelen her öneri, her şarkı isteği ve her yorum yayına dokunuyor. Bize yaz, stüdyoda konuşalım.",
     phoneLabel: "Telefon",
+    phoneNote: "Bu hat yalnızca canlı yayına katılmak içindir. Bize ulaşmak için:",
     emailLabel: "E-posta",
     studioLabel: "Stüdyo",
     socialLabel: "Sosyal",

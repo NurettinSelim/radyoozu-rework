@@ -71,6 +71,17 @@ export default async function ContactPage({ params }: Props) {
                   >
                     {site.phone}
                   </TrackedLink>
+                  <p className="mt-1.5 max-w-sm text-sm text-pretty text-foreground/60">
+                    {c.phoneNote}{" "}
+                    <TrackedLink
+                      href={`mailto:${site.email}`}
+                      event="contact_click"
+                      params={{ method: "email" }}
+                      className="text-foreground/80 underline underline-offset-4 transition-[color] duration-150 ease-out hover:text-primary"
+                    >
+                      {site.email}
+                    </TrackedLink>
+                  </p>
                 </dd>
               </div>
             </div>

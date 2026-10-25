@@ -34,6 +34,7 @@ export const EN_COPY: Copy = {
     tagline:
       "Every suggestion, song request, and comment from our listeners shapes the show. Write to us — let's talk in the studio.",
     phoneLabel: "Phone",
+    phoneNote: "This line is only for joining the live broadcast. To reach us:",
     emailLabel: "Email",
     studioLabel: "Studio",
     socialLabel: "Social",
@@ -117,6 +118,11 @@ export const EN_PROGRAM_TRANSLATIONS: Record<
     tagline: "The conversation you'll get hooked on.",
     description:
       "A long-form Wednesday conversation spanning current events, pop culture, campus life, and absurd ideas.",
+  },
+  "yedek-kulubesi": {
+    tagline: "Campus sports talk, live from the bench.",
+    description:
+      "The week's matches from football to basketball, transfer gossip, and news from ÖzÜ teams. Warm-up's over — the subs are in.",
   },
   "developer-log": {
     tagline: "The newest show bringing tech enthusiasts together.",
