@@ -7,7 +7,7 @@ import {
   callbackUri,
   exchangeCodeForRefreshToken,
 } from "@/lib/spotify-oauth";
-import { SPOTIFY_AUTH_TAG, writeRefreshToken } from "@/lib/spotify-auth-store";
+import { writeRefreshToken } from "@/lib/spotify-auth-store";
 
 function back(req: NextRequest, params: string) {
   return NextResponse.redirect(new URL(`/admin/spotify?${params}`, req.url));
@@ -34,7 +34,6 @@ export async function GET(req: NextRequest) {
   if (!refreshToken) return back(req, "error=token");
 
   await writeRefreshToken(refreshToken);
-  revalidateTag(SPOTIFY_AUTH_TAG, "max");
   revalidateTag("spotify-playlists", "max");
 
   const res = back(req, "connected=1");

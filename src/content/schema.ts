@@ -62,8 +62,24 @@ export const scheduleWindowSchema = z
   });
 export type ScheduleWindow = z.infer<typeof scheduleWindowSchema>;
 
+// Blocks scheme-injection hrefs ("javascript:", "data:", protocol-relative
+// "//evil.com"). Allows internal paths ("/…"), in-page anchors ("#…") and
+// absolute http(s) URLs. React sanitizes at render; this closes it at the
+// schema boundary so a tampered blob fails validation and falls back to
+// defaults instead of reaching any render sink.
+const safeHref = z
+  .string()
+  .min(1)
+  .refine(
+    (href) =>
+      (href.startsWith("/") && !href.startsWith("//")) ||
+      href.startsWith("#") ||
+      /^https?:\/\//i.test(href),
+    "Bağlantı / veya # ile başlamalı ya da http(s) URL olmalı",
+  );
+
 export const navItemSchema = z.object({
-  href: z.string().min(1),
+  href: safeHref,
   label: z.string().min(1),
 });
 export type NavItem = z.infer<typeof navItemSchema>;
@@ -82,16 +98,17 @@ export const siteSchema = z.object({
   email: z.email("Geçerli bir e-posta girin").default("radyoozu@ozu.edu.tr"),
   instagramHandle: z.string().min(1),
   stream: z.object({
-    url: z.url(),
+    // Protocol-pinned: z.url() alone accepts any scheme incl. "javascript:".
+    url: z.url({ protocol: /^https?$/ }),
     stationId: z.string().min(1),
-    apiBase: z.url(),
-    logo: z.url(),
+    apiBase: z.url({ protocol: /^https?$/ }),
+    logo: z.url({ protocol: /^https?$/ }),
   }),
   socials: z.object({
-    spotify: z.url(),
-    twitter: z.url(),
-    instagram: z.url(),
-    youtube: z.url(),
+    spotify: z.url({ protocol: /^https?$/ }),
+    twitter: z.url({ protocol: /^https?$/ }),
+    instagram: z.url({ protocol: /^https?$/ }),
+    youtube: z.url({ protocol: /^https?$/ }),
   }),
   nav: z.array(navItemSchema).min(1),
 });
@@ -124,6 +141,7 @@ export const copySchema = z.object({
     headline: z.string().min(1),
     tagline: z.string().min(1),
     phoneLabel: z.string().min(1),
+    phoneNote: z.string().min(1).default("Bu hat yalnızca canlı yayına katılmak içindir. Bize ulaşmak için:"),
     emailLabel: z.string().min(1).default("E-posta"),
     studioLabel: z.string().min(1),
     socialLabel: z.string().min(1),
