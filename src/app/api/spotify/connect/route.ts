@@ -1,12 +1,12 @@
 import { randomBytes } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { auth } from "@/auth";
+import { auth, isAdminSession } from "@/auth";
 import { SPOTIFY_SCOPE, SPOTIFY_STATE_COOKIE, callbackUri } from "@/lib/spotify-oauth";
 
 export async function GET(req: NextRequest) {
   const session = await auth();
-  if (!session?.user?.isAdmin) {
+  if (!isAdminSession(session)) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 

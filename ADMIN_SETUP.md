@@ -40,7 +40,7 @@ Set these on Vercel (Production + Preview), and in a local `.env.local`:
 
 | Variable | Value | Notes |
 |---|---|---|
-| `AUTH_SECRET` | `openssl rand -base64 32` | Random 32-byte secret. Rotate yearly. |
+| `AUTH_SECRET` | `openssl rand -base64 32` | Random 32-byte secret. Rotate yearly, and immediately if it ever appears in logs, PRs, or chat. |
 | `AUTH_GOOGLE_ID` | from step 1 | Google OAuth client ID |
 | `AUTH_GOOGLE_SECRET` | from step 1 | Google OAuth client secret |
 | `AUTH_GOOGLE_HD` | `ozyegin.edu.tr` | Optional. Limits Google account picker to OzU emails. |

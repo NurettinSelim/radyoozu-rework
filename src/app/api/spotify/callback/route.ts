@@ -1,7 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { auth } from "@/auth";
+import { auth, isAdminSession } from "@/auth";
 import {
   SPOTIFY_STATE_COOKIE,
   callbackUri,
@@ -15,7 +15,7 @@ function back(req: NextRequest, params: string) {
 
 export async function GET(req: NextRequest) {
   const session = await auth();
-  if (!session?.user?.isAdmin) {
+  if (!isAdminSession(session)) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 

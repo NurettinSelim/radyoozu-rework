@@ -3,13 +3,13 @@
 import { updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
+import { auth, isAdminSession } from "@/auth";
 import { readContent, writeContent } from "@/lib/content-store";
 import { programSchema, type Program } from "@/content/schema";
 
 async function requireAdmin() {
   const session = await auth();
-  if (!session?.user?.isAdmin) throw new Error("Yetkisiz erişim");
+  if (!isAdminSession(session)) throw new Error("Yetkisiz erişim");
 }
 
 type ProgramFormInput = Omit<Program, "hosts"> & { hostsText: string };

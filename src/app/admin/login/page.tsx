@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { Button } from "@/components/ui/button";
-import { signIn, auth } from "@/auth";
+import { signIn, auth, isAdminSession } from "@/auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export default async function AdminLoginPage() {
   const session = await auth();
-  if (session?.user?.isAdmin) redirect("/admin");
+  if (isAdminSession(session)) redirect("/admin");
 
   return (
     <div className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col justify-center px-4 py-16 md:px-6">

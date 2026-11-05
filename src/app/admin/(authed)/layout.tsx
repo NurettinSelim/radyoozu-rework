@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { CalendarDays, Clock, FileText, LayoutGrid, Music, Radio } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { auth, signOut } from "@/auth";
+import { auth, isAdminSession, signOut } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Yönetim Paneli",
@@ -26,7 +26,7 @@ export default async function AdminAuthedLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session?.user?.isAdmin) redirect("/admin/login");
+  if (!isAdminSession(session)) redirect("/admin/login");
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6 md:py-12">

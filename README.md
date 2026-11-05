@@ -46,6 +46,8 @@ minimal `.env.local`. The `/admin` panel needs real credentials — see
 All required variables are listed and documented in [`.env.example`](.env.example).
 Full setup instructions (Google OAuth, Blob store, seeding) are in [ADMIN_SETUP.md](ADMIN_SETUP.md).
 
+Generate `AUTH_SECRET` with `openssl rand -base64 32`, and rotate it immediately if it ever appears in logs, PRs, or chat.
+
 ## Commands
 
 | Command | Description |
