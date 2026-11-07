@@ -1,6 +1,9 @@
 name: Dependabot auto-merge
 
-on: pull_request
+# pull_request_target: Dependabot-triggered pull_request runs get a read-only
+# GITHUB_TOKEN and no secrets, so auto-merge would 403. This workflow never
+# checks out or executes PR code, so the privileged context is safe.
+on: pull_request_target
 
 permissions:
   contents: write
@@ -16,10 +19,10 @@ jobs:
         uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Enable auto-merge (patch/minor, or critical security fix)
+      - name: Enable auto-merge (patch/minor only; fail closed on unknown)
         if: >-
-          steps.metadata.outputs.update-type != 'version-update:semver-major' ||
-          (steps.metadata.outputs.ghsa-id != '' && steps.metadata.outputs.cvss >= 9)
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
