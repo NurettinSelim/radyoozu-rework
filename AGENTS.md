@@ -83,7 +83,7 @@ For local configuration, copy `.env.example` to `.env.local`, or run `vercel lin
 
 ## Testing & QA
 
-No automated test framework, test files, coverage requirement, or GitHub Actions workflow is configured. Do not claim `npm test` coverage.
+No automated test framework, test files, or coverage requirement is configured; do not claim `npm test` coverage. CI (`.github/workflows/ci.yml`) runs `lint` and `build` on every PR, and `lint-and-build` is a required check on `main`. Dependabot PRs auto-merge when patch/minor (or a critical CVSS ≥ 9 security fix) once CI passes (`.github/workflows/dependabot-auto-merge.yml`).
 
 Before a PR:
 
