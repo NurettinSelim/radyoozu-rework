@@ -137,7 +137,7 @@ export const EN_PROGRAM_TRANSLATIONS: Record<
   kaleydoskop: {
     tagline: "Let's rewrite everyone's story from the start.",
     description:
-      "Saturday night's story show. Come rewrite everyone's story from the start, together with Elif Göksü Doğan!",
+      "Tuesday night's story show. Come rewrite everyone's story from the start, together with Elif Göksü Doğan!",
   },
 };
 
