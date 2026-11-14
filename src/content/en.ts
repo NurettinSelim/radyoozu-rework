@@ -134,6 +134,11 @@ export const EN_PROGRAM_TRANSLATIONS: Record<
     description:
       "A surprise topic every week, with warm hosting. Put your ear to the wall — Yan Komşu has started.",
   },
+  kaleydoskop: {
+    tagline: "Let's rewrite everyone's story from the start.",
+    description:
+      "Saturday night's story show. Come rewrite everyone's story from the start, together with Elif Göksü Doğan!",
+  },
 };
 
 export const EN_DAY_LABELS: Record<DayKey, { label: string; short: string }> = {

@@ -124,6 +124,19 @@ export const DEFAULT_PROGRAMS: Program[] = [
     accentFrom: "#f4eaca",
     accentTo: "#94205a",
   },
+  {
+    slug: "kaleydoskop",
+    title: "Kaleydoskop",
+    tagline: "Herkesin hikayesini baştan yazalım.",
+    description:
+      "Cumartesi gecesinin hikaye yayını. Gel, Elif Göksü Doğan'la birlikte herkesin hikayesini baştan yazalım!",
+    day: "Cumartesi",
+    startHour: 22,
+    endHour: 23,
+    hosts: ["Elif Göksü Doğan"],
+    accentFrom: "#462155",
+    accentTo: "#f4eaca",
+  },
 ];
 
 export const DEFAULT_SITE: Site = {
