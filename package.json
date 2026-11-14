@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
-    "@hookform/resolvers": "^5.9.0",
+    "@hookform/resolvers": "^7.0.3",
     "@next/third-parties": "^16.4.5",
     "@vercel/blob": "^2.8.0",
     "class-variance-authority": "^0.7.1",
