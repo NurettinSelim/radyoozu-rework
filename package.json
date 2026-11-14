@@ -13,12 +13,12 @@
   "dependencies": {
     "@base-ui/react": "^1.7.0",
     "@hookform/resolvers": "^5.9.0",
-    "@next/third-parties": "^16.3.1",
+    "@next/third-parties": "^16.4.5",
     "@vercel/blob": "^2.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^1.66.0",
-    "next": "16.4.3",
+    "lucide-react": "^1.70.0",
+    "next": "16.4.5",
     "next-auth": "^5.0.0-beta.32",
     "next-intl": "^4.13.6",
     "next-themes": "^0.4.6",
@@ -32,12 +32,12 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^20.19.43",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.4.3",
+    "eslint-config-next": "16.4.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3"
   },
