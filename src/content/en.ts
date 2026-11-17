@@ -139,6 +139,11 @@ export const EN_PROGRAM_TRANSLATIONS: Record<
     description:
       "Tuesday night's story show. Come rewrite everyone's story from the start, together with Elif Göksü Doğan!",
   },
+  korv: {
+    tagline: "Alive on the inside, not on the outside.",
+    description:
+      "Tuesday afternoon's live conversation. Two hours of Körv with Simo Açar and Meriç Bıçakçıoğlu.",
+  },
 };
 
 export const EN_DAY_LABELS: Record<DayKey, { label: string; short: string }> = {

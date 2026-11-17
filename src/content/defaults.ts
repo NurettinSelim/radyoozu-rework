@@ -137,6 +137,19 @@ export const DEFAULT_PROGRAMS: Program[] = [
     accentFrom: "#462155",
     accentTo: "#f4eaca",
   },
+  {
+    slug: "korv",
+    title: "Körv",
+    tagline: "İçi canlı, kendisi değil.",
+    description:
+      "Salı öğleden sonralarının canlı sohbeti. Simo Açar ve Meriç Bıçakçıoğlu'yla iki saat boyunca Körv.",
+    day: "Salı",
+    startHour: 16,
+    endHour: 18,
+    hosts: ["Simo Açar", "Meriç Bıçakçıoğlu"],
+    accentFrom: "#bb205d",
+    accentTo: "#462155",
+  },
 ];
 
 export const DEFAULT_SITE: Site = {
