@@ -18,13 +18,13 @@ export const EN_COPY: Copy = {
     },
   },
   yayinlar: {
-    eyebrow: "2025 – 26 Season",
+    eyebrow: "2026 – 27 Season",
     headline: "Weekly Program Schedule",
     tagline:
       "A different voice in the studio every evening of the week. Check our Live page to tune in — the can't-miss hours are below.",
     metadataTitle: "Weekly Schedule",
     metadataDescription:
-      "Radyo ÖzÜ's weekly program schedule for the 2025-26 season.",
+      "Radyo ÖzÜ's weekly program schedule for the 2026-27 season.",
     liveLegend: "On air now",
     replayLegend: "Weekly replay",
   },

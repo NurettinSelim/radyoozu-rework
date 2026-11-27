@@ -210,13 +210,13 @@ export const DEFAULT_COPY: Copy = {
     },
   },
   yayinlar: {
-    eyebrow: "2025 – 26 Sezonu",
+    eyebrow: "2026 – 27 Sezonu",
     headline: "Haftalık Program Akışı",
     tagline:
       "Haftanın her akşamı stüdyoda farklı bir ses. Canlı dinlemek için Canlı Yayın sayfamıza göz at — aşağıda kaçırılmayacak saatler.",
     metadataTitle: "Haftalık Yayınlar",
     metadataDescription:
-      "Radyo ÖzÜ'nün 2025-26 sezonu haftalık yayın akışı.",
+      "Radyo ÖzÜ'nün 2026-27 sezonu haftalık yayın akışı.",
     liveLegend: "Şu an canlı",
     replayLegend: "Haftalık tekrar",
   },
