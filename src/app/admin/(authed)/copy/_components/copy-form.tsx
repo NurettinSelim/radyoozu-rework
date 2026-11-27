@@ -67,7 +67,7 @@ export function CopyForm({ initial }: { initial: Copy }) {
       </Section>
 
       <Section title="Yayın akışı sayfası (/yayinlar)">
-        <Field label="Üst etiket" error={errors.yayinlar?.eyebrow?.message} hint='Örn: "2025 – 26 Sezonu"'>
+        <Field label="Üst etiket" error={errors.yayinlar?.eyebrow?.message} hint='Örn: "2026 – 27 Sezonu"'>
           <Input {...form.register("yayinlar.eyebrow")} />
         </Field>
         <Field label="Başlık" error={errors.yayinlar?.headline?.message}>
